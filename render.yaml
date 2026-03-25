@@ -1,0 +1,69 @@
+services:
+  - type: web
+    name: o-mestre-api
+    runtime: python
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install .
+    preDeployCommand: alembic upgrade head
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - backend/**
+        - render.yaml
+    envVars:
+      - key: APP_NAME
+        value: O Mestre do Português API
+      - key: API_PREFIX
+        value: ""
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: o-mestre-db
+          property: connectionString
+      - key: CORS_ORIGINS
+        sync: false
+      - key: CLERK_JWKS_URL
+        sync: false
+      - key: CLERK_ISSUER
+        sync: false
+      - key: CLERK_AUDIENCE
+        value: backend
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_API_BASE_URL
+        value: https://api.clerk.com/v1
+      - key: REMINDER_GOAL
+        value: "50"
+      - key: REMINDER_JOB_SECRET
+        generateValue: true
+      - key: RESEND_API_KEY
+        sync: false
+      - key: REMINDER_FROM_EMAIL
+        sync: false
+      - key: TRANSLATION_PROVIDER
+        value: local
+      - key: LIBRETRANSLATE_URL
+        sync: false
+      - key: LIBRETRANSLATE_API_KEY
+        sync: false
+      - key: GOOGLE_SHEETS_ENABLED
+        value: "false"
+      - key: GOOGLE_SHEET_ID
+        sync: false
+      - key: GOOGLE_SHEET_NAME
+        value: Vocabulary
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false
+
+databases:
+  - name: o-mestre-db
+    plan: basic-256mb
+    databaseName: o_mestre_portugues
+    user: o_mestre_user
+

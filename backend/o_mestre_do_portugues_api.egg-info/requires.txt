@@ -1,0 +1,12 @@
+alembic>=1.15.2
+fastapi>=0.115.12
+google-auth>=2.38.0
+gspread>=6.2.0
+httpx>=0.28.1
+pydantic-settings>=2.8.1
+psycopg[binary]>=3.2.6
+PyJWT>=2.10.1
+python-dotenv>=1.0.1
+rapidfuzz>=3.13.0
+SQLAlchemy>=2.0.39
+uvicorn[standard]>=0.34.0

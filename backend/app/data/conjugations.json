@@ -1,0 +1,19 @@
+[
+  { "id": "conj-1", "fr": "je suis", "pt": "eu sou", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-2", "fr": "tu es", "pt": "tu és", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-3", "fr": "il était", "pt": "ele era", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-4", "fr": "nous avons", "pt": "nós temos", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-5", "fr": "vous faisiez", "pt": "vocês faziam", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-6", "fr": "ils peuvent", "pt": "eles podem", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-7", "fr": "eu vou", "pt": "je vais", "dir": 1, "source": "conjugaison" },
+  { "id": "conj-8", "fr": "nous allions", "pt": "nós íamos", "dir": 1, "source": "conjugaison" },
+  { "id": "conj-9", "fr": "il fallait", "pt": "era preciso", "dir": 1, "source": "conjugaison" },
+  { "id": "conj-10", "fr": "elles savent", "pt": "elas sabem", "dir": 1, "source": "conjugaison" },
+  { "id": "conj-11", "fr": "j'ai parlé", "pt": "eu falei", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-12", "fr": "tu comprendras", "pt": "tu compreenderás", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-13", "fr": "nous verrons", "pt": "nós veremos", "dir": 0, "source": "conjugaison" },
+  { "id": "conj-14", "fr": "il a dit", "pt": "ele disse", "dir": 1, "source": "conjugaison" },
+  { "id": "conj-15", "fr": "vous êtes arrivés", "pt": "vocês chegaram", "dir": 1, "source": "conjugaison" },
+  { "id": "conj-16", "fr": "ils vivaient", "pt": "eles viviam", "dir": 1, "source": "conjugaison" }
+]
+

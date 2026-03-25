@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: o-mestre-do-portugues-api
+Version: 0.1.0
+Summary: FastAPI backend for O Mestre do Português
+Requires-Python: >=3.11
+Requires-Dist: alembic>=1.15.2
+Requires-Dist: fastapi>=0.115.12
+Requires-Dist: google-auth>=2.38.0
+Requires-Dist: gspread>=6.2.0
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: pydantic-settings>=2.8.1
+Requires-Dist: psycopg[binary]>=3.2.6
+Requires-Dist: PyJWT>=2.10.1
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: rapidfuzz>=3.13.0
+Requires-Dist: SQLAlchemy>=2.0.39
+Requires-Dist: uvicorn[standard]>=0.34.0

@@ -1,0 +1,295 @@
+"use client";
+
+import { useAuth, useUser } from "@clerk/nextjs";
+import { startTransition, useEffect, useState } from "react";
+import { apiFetch } from "@/lib/api";
+import {
+  ProgressPayload,
+  QuizAnswerState,
+  QuizGenerationResponse,
+  UserProfile,
+} from "@/lib/types";
+import {
+  buildEmptyAnswers,
+  computeSummary,
+  evaluateAnswer,
+  flipQuizDirections,
+} from "@/lib/quiz";
+import { QuizRunner } from "@/components/QuizRunner";
+import { QuizSetup } from "@/components/QuizSetup";
+import { QuizSummary } from "@/components/QuizSummary";
+import { TranslatorPanel } from "@/components/TranslatorPanel";
+import { VocabularyAdminPanel } from "@/components/VocabularyAdminPanel";
+
+const defaultConfig = {
+  questionCount: 20,
+  conjugationPercentage: 10,
+};
+
+function getTemplate() {
+  return process.env.NEXT_PUBLIC_CLERK_TOKEN_TEMPLATE;
+}
+
+export function QuizStudio() {
+  const { getToken } = useAuth();
+  const { isSignedIn } = useUser();
+  const [questionCount, setQuestionCount] = useState(defaultConfig.questionCount);
+  const [conjugationPercentage, setConjugationPercentage] = useState(
+    defaultConfig.conjugationPercentage,
+  );
+  const [quiz, setQuiz] = useState<QuizGenerationResponse | null>(null);
+  const [answers, setAnswers] = useState<QuizAnswerState[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [draftAnswer, setDraftAnswer] = useState("");
+  const [loadingQuiz, setLoadingQuiz] = useState(false);
+  const [syncingProgress, setSyncingProgress] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(
+    "La progression sera synchronisée à la fin du quiz.",
+  );
+  const [syncedQuizId, setSyncedQuizId] = useState<string | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  const summary = computeSummary(answers);
+  const quizCompleted = answers.length > 0 && answers.every((item) => item.status !== "pending");
+
+  useEffect(() => {
+    const currentAnswer = answers[currentIndex];
+    setDraftAnswer(currentAnswer?.answer ?? "");
+  }, [answers, currentIndex]);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      setProfile(null);
+      return;
+    }
+
+    async function loadProfile() {
+      try {
+        const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
+        if (!token) {
+          return;
+        }
+        const data = await apiFetch<UserProfile>("/me", { token });
+        setProfile(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    void loadProfile();
+  }, [getToken, isSignedIn, syncedQuizId]);
+
+  useEffect(() => {
+    if (
+      !quizCompleted ||
+      !isSignedIn ||
+      !quiz ||
+      syncingProgress ||
+      syncedQuizId === quiz.quiz_id
+    ) {
+      return;
+    }
+
+    const activeQuiz = quiz;
+
+    async function syncProgress() {
+      try {
+        const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
+        if (!token) {
+          return;
+        }
+
+        setSyncingProgress(true);
+        const payload: ProgressPayload = {
+          quiz_id: activeQuiz.quiz_id,
+          answered_questions: summary.answered,
+          correct_answers: summary.correct,
+          quizzes_completed: 1,
+        };
+
+        const data = await apiFetch<UserProfile>("/progress", {
+          method: "POST",
+          token,
+          body: JSON.stringify(payload),
+        });
+
+        setProfile(data);
+        setSyncMessage("Progression quotidienne synchronisée.");
+        setSyncedQuizId(activeQuiz.quiz_id);
+      } catch (error) {
+        setSyncMessage(
+          error instanceof Error
+            ? error.message
+            : "Synchronisation de progression impossible.",
+        );
+      } finally {
+        setSyncingProgress(false);
+      }
+    }
+
+    void syncProgress();
+  }, [
+    getToken,
+    isSignedIn,
+    quiz,
+    quizCompleted,
+    summary.answered,
+    summary.correct,
+    syncedQuizId,
+    syncingProgress,
+  ]);
+
+  async function generateQuiz() {
+    setLoadingQuiz(true);
+    setSyncMessage("La progression sera synchronisée à la fin du quiz.");
+
+    try {
+      const data = await apiFetch<QuizGenerationResponse>("/quiz/generate", {
+        method: "POST",
+        body: JSON.stringify({
+          question_count: questionCount,
+          conjugation_percentage: conjugationPercentage,
+        }),
+      });
+
+      startTransition(() => {
+        setQuiz(data);
+        setAnswers(buildEmptyAnswers(data.items));
+        setCurrentIndex(0);
+        setDraftAnswer("");
+        setSyncedQuizId(null);
+      });
+    } catch (error) {
+      setSyncMessage(error instanceof Error ? error.message : "Quiz indisponible.");
+    } finally {
+      setLoadingQuiz(false);
+    }
+  }
+
+  function updateAnswer(index: number, next: QuizAnswerState) {
+    setAnswers((current) =>
+      current.map((answer, answerIndex) => (answerIndex === index ? next : answer)),
+    );
+  }
+
+  function moveTo(index: number) {
+    if (!quiz) {
+      return;
+    }
+    setCurrentIndex(Math.max(0, Math.min(index, quiz.items.length - 1)));
+  }
+
+  function handleValidate() {
+    if (!quiz) {
+      return;
+    }
+
+    const evaluated = evaluateAnswer(quiz.items[currentIndex], draftAnswer);
+    updateAnswer(currentIndex, evaluated);
+
+    if (currentIndex < quiz.items.length - 1) {
+      setCurrentIndex((value) => value + 1);
+    }
+  }
+
+  function handleSkip() {
+    if (!quiz) {
+      return;
+    }
+
+    updateAnswer(currentIndex, {
+      answer: draftAnswer,
+      expected: quiz.items[currentIndex].dir === 0 ? quiz.items[currentIndex].pt : quiz.items[currentIndex].fr,
+      similarity: 0,
+      status: "skipped",
+    });
+
+    if (currentIndex < quiz.items.length - 1) {
+      setCurrentIndex((value) => value + 1);
+    }
+  }
+
+  function handleFlipDirections() {
+    if (!quiz) {
+      return;
+    }
+
+    const nextQuiz: QuizGenerationResponse = {
+      ...quiz,
+      quiz_id: `${quiz.quiz_id}-flip-${Date.now()}`,
+      generated_at: new Date().toISOString(),
+      items: flipQuizDirections(quiz.items),
+    };
+
+    setQuiz(nextQuiz);
+    setAnswers(buildEmptyAnswers(nextQuiz.items));
+    setCurrentIndex(0);
+    setDraftAnswer("");
+    setSyncedQuizId(null);
+    setSyncMessage("Quiz inversé. Nouvelle tentative prête.");
+  }
+
+  return (
+    <div className="grid gap-6">
+      <QuizSetup
+        questionCount={questionCount}
+        conjugationPercentage={conjugationPercentage}
+        loading={loadingQuiz}
+        onQuestionCountChange={setQuestionCount}
+        onConjugationPercentageChange={setConjugationPercentage}
+        onGenerate={() => void generateQuiz()}
+      />
+
+      {quiz && answers.length > 0 ? (
+        quizCompleted ? (
+          <QuizSummary
+            summary={summary}
+            quiz={quiz}
+            saving={syncingProgress}
+            syncMessage={syncMessage}
+            onFlipDirections={handleFlipDirections}
+            onNewQuiz={() => void generateQuiz()}
+          />
+        ) : (
+          <QuizRunner
+            items={quiz.items}
+            answers={answers}
+            currentIndex={currentIndex}
+            draftAnswer={draftAnswer}
+            summary={summary}
+            onDraftAnswerChange={setDraftAnswer}
+            onValidate={handleValidate}
+            onSkip={handleSkip}
+            onSelectQuestion={moveTo}
+            onPrevious={() => moveTo(currentIndex - 1)}
+            onNext={() => moveTo(currentIndex + 1)}
+          />
+        )
+      ) : (
+        <section className="glass-panel shell-border rounded-[2rem] p-8 shadow-soft">
+          <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.48)]">
+            Espace quiz
+          </p>
+          <h2 className="section-title mt-2 text-4xl font-semibold">
+            Aucun quiz actif pour le moment.
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-[rgba(22,50,41,0.68)]">
+            Lance une première série pour mélanger la conjugaison locale et le
+            vocabulaire persistant. Les résultats seront synchronisés avec ton profil
+            si tu es connecté.
+          </p>
+          {profile ? (
+            <div className="mt-6 inline-flex rounded-full bg-[rgba(185,119,63,0.14)] px-4 py-2 text-sm font-semibold text-[#9e6230]">
+              Aujourd’hui: {profile.today_progress.answered_questions}/{profile.goal} questions
+            </div>
+          ) : null}
+        </section>
+      )}
+
+      <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <TranslatorPanel />
+        <VocabularyAdminPanel />
+      </div>
+    </div>
+  );
+}
