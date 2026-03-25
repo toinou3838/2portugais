@@ -2,7 +2,7 @@ services:
   - type: web
     name: o-mestre-api
     runtime: python
-    plan: starter
+    plan: free
     rootDir: backend
     buildCommand: pip install .
     preDeployCommand: alembic upgrade head
