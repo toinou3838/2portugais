@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import Annotated
 
 from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -19,7 +20,9 @@ class Settings(BaseSettings):
     environment: str = "development"
     debug: bool = True
     database_url: str = Field(alias="DATABASE_URL")
-    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+    cors_origins: Annotated[list[str], NoDecode] = Field(
+        default_factory=lambda: ["http://localhost:3000"]
+    )
 
     clerk_jwks_url: str = Field(alias="CLERK_JWKS_URL")
     clerk_issuer: str = Field(alias="CLERK_ISSUER")
