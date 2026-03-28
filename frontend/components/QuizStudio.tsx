@@ -133,8 +133,8 @@ export function QuizStudio() {
         setSyncingProgress(true);
         const payload: ProgressPayload = {
           quiz_id: activeQuiz.quiz_id,
-          answered_questions: summary.answered,
-          correct_answers: summary.correct,
+          answered_questions: 0,
+          correct_answers: 0,
           quizzes_completed: 1,
         };
 
@@ -280,6 +280,10 @@ export function QuizStudio() {
     setSyncMessage("Quiz inversé. Nouvelle tentative prête.");
   }
 
+  const todayProgressLabel = profile
+    ? `Aujourd’hui ${profile.today_progress.answered_questions}/${profile.goal} questions`
+    : null;
+
   return (
     <div className="grid gap-6">
       <QuizSetup
@@ -290,6 +294,12 @@ export function QuizStudio() {
         onConjugationPercentageChange={setConjugationPercentage}
         onGenerate={() => void generateQuiz()}
       />
+
+      {todayProgressLabel ? (
+        <div className="inline-flex w-fit rounded-full bg-[rgba(185,119,63,0.14)] px-4 py-2 text-sm font-semibold text-[#9e6230]">
+          {todayProgressLabel}
+        </div>
+      ) : null}
 
       {quiz && answers.length > 0 ? (
         quizCompleted ? (
@@ -309,6 +319,7 @@ export function QuizStudio() {
             draftAnswer={draftAnswer}
             summary={summary}
             transientFeedback={transientFeedback}
+            todayProgressLabel={todayProgressLabel}
             onDraftAnswerChange={setDraftAnswer}
             onValidate={handleValidate}
             onSkip={handleSkip}
@@ -330,11 +341,6 @@ export function QuizStudio() {
             vocabulaire persistant. Les résultats seront synchronisés avec ton profil
             si tu es connecté.
           </p>
-          {profile ? (
-            <div className="mt-6 inline-flex rounded-full bg-[rgba(185,119,63,0.14)] px-4 py-2 text-sm font-semibold text-[#9e6230]">
-              Aujourd’hui: {profile.today_progress.answered_questions}/{profile.goal} questions
-            </div>
-          ) : null}
         </section>
       )}
 

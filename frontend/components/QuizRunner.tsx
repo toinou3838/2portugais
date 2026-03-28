@@ -12,6 +12,7 @@ type QuizRunnerProps = {
   draftAnswer: string;
   summary: QuizSummaryStats;
   transientFeedback: QuizFeedback | null;
+  todayProgressLabel?: string | null;
   onDraftAnswerChange: (value: string) => void;
   onValidate: () => void;
   onSkip: () => void;
@@ -53,6 +54,7 @@ export function QuizRunner({
   draftAnswer,
   summary,
   transientFeedback,
+  todayProgressLabel,
   onDraftAnswerChange,
   onValidate,
   onSkip,
@@ -64,9 +66,15 @@ export function QuizRunner({
   const answerState = answers[currentIndex];
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[1.5fr_0.8fr]">
+    <section className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_22rem]">
       <div className="glass-panel shell-border rounded-[2rem] p-6 shadow-card">
         <QuizProgress currentIndex={currentIndex} answers={answers} summary={summary} />
+
+        {todayProgressLabel ? (
+          <div className="mt-4 inline-flex rounded-full bg-[rgba(185,119,63,0.14)] px-4 py-2 text-sm font-semibold text-[#9e6230]">
+            {todayProgressLabel}
+          </div>
+        ) : null}
 
         {transientFeedback ? (
           <div
@@ -182,28 +190,32 @@ export function QuizRunner({
         </div>
       </div>
 
-      <aside className="glass-panel shell-border rounded-[2rem] p-6 shadow-soft">
+      <aside className="glass-panel shell-border flex max-h-[43rem] flex-col rounded-[2rem] p-6 shadow-soft lg:self-start">
         <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.46)]">
-          Navigation compacte
+          Navigation
         </p>
         <h3 className="section-title mt-2 text-3xl font-semibold">
           Reviens sur n’importe quelle question.
         </h3>
-        <div className="mt-6 grid grid-cols-6 gap-2 sm:grid-cols-8 lg:grid-cols-5">
-          {answers.map((answer, index) => (
-            <button
-              key={`${items[index].id}-${index}`}
-              type="button"
-              onClick={() => onSelectQuestion(index)}
-              className={`aspect-square rounded-xl border text-xs font-semibold transition ${
-                index === currentIndex
-                  ? "border-[#163229] bg-[#163229] text-white"
-                  : getStatusClasses(answer.status)
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+        <div className="mt-5 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/66 p-3">
+          <div className="max-h-[29.5rem] overflow-y-auto pr-1">
+            <div className="grid grid-cols-5 gap-2">
+              {answers.map((answer, index) => (
+                <button
+                  key={`${items[index].id}-${index}`}
+                  type="button"
+                  onClick={() => onSelectQuestion(index)}
+                  className={`aspect-square rounded-xl border text-xs font-semibold transition ${
+                    index === currentIndex
+                      ? "border-[#163229] bg-[#163229] text-white"
+                      : getStatusClasses(answer.status)
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </aside>
     </section>

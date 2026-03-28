@@ -120,7 +120,7 @@ export function VocabularyAdminPanel() {
     return (
       <section className="glass-panel shell-border rounded-[2rem] p-6 shadow-soft">
         <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.48)]">
-          Admin vocabulaire
+          Ajout de vocabulaire
         </p>
         <h2 className="section-title mt-2 text-3xl font-semibold">
           Panneau protégé.
@@ -146,15 +146,15 @@ export function VocabularyAdminPanel() {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-6 grid gap-6">
         <form
           onSubmit={(event) => {
             event.preventDefault();
             void saveEntry(false);
           }}
-          className="space-y-4 rounded-[1.6rem] bg-white/82 p-5"
+          className="space-y-5 rounded-[1.6rem] bg-white/82 p-5"
         >
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-end">
             <label className="space-y-2">
               <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
                 Français
@@ -167,7 +167,7 @@ export function VocabularyAdminPanel() {
                 className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
               />
             </label>
-            <label className="space-y-2">
+            <label className="space-y-2 lg:min-w-[15rem]">
               <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
                 Portugais
               </span>
@@ -179,24 +179,23 @@ export function VocabularyAdminPanel() {
                 className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
               />
             </label>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => void handleCheck()}
-              className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb]"
-            >
-              Vérifier la cohérence
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="inline-flex items-center gap-2 rounded-full bg-[#163229] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50"
-            >
-              <Plus className="h-4 w-4" />
-              Ajouter quand même
-            </button>
+            <div className="flex flex-col gap-3 lg:items-stretch">
+              <button
+                type="button"
+                onClick={() => void handleCheck()}
+                className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb]"
+              >
+                Vérifier la cohérence
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#163229] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50"
+              >
+                <Plus className="h-4 w-4" />
+                Ajouter quand même
+              </button>
+            </div>
           </div>
 
           {checkResult ? (
@@ -236,32 +235,35 @@ export function VocabularyAdminPanel() {
           ) : null}
         </form>
 
-        <div className="space-y-4">
-          <div className="rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-white/82 p-5">
+        <div className="rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-white/82 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm uppercase tracking-[0.18em] text-[rgba(22,50,41,0.48)]">
               Derniers ajouts
             </p>
-            <div className="mt-4 space-y-3">
-              {entries.length > 0 ? (
-                entries.map((entry) => (
-                  <div
-                    key={entry.id}
-                    className="rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] p-4"
-                  >
-                    <p className="font-semibold">
-                      {entry.fr} → {entry.pt}
-                    </p>
-                    <p className="mt-1 text-sm text-[rgba(22,50,41,0.58)]">
-                      direction initiale {entry.dir === 0 ? "fr → pt" : "pt → fr"}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm leading-6 text-[rgba(22,50,41,0.62)]">
-                  Aucun ajout sur cette session. Les nouvelles paires apparaîtront ici.
-                </p>
-              )}
-            </div>
+            <p className="text-sm text-[rgba(22,50,41,0.58)]">
+              Les 3 dernières paires enregistrées.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {entries.length > 0 ? (
+              entries.map((entry) => (
+                <div
+                  key={entry.id}
+                  className="rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] p-4"
+                >
+                  <p className="font-semibold">
+                    {entry.fr} → {entry.pt}
+                  </p>
+                  <p className="mt-2 text-sm text-[rgba(22,50,41,0.58)]">
+                    direction initiale {entry.dir === 0 ? "fr → pt" : "pt → fr"}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm leading-6 text-[rgba(22,50,41,0.62)] md:col-span-3">
+                Aucun ajout sur cette session. Les nouvelles paires apparaîtront ici.
+              </p>
+            )}
           </div>
         </div>
       </div>
