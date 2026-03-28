@@ -101,30 +101,29 @@ export function TranslatorPanel() {
         </button>
       </div>
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <label className="rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-white/82 p-5">
+      <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+        <label className="flex min-h-[31rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
           <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
             {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
           </p>
           <textarea
             value={text}
             onChange={(event) => setText(event.target.value)}
-            rows={5}
             placeholder={
               direction === "fr_to_pt"
                 ? "ex. prendre l'habitude"
                 : "ex. levar jeito"
             }
-            className="mt-4 w-full resize-none rounded-[1.4rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-4 outline-none focus:border-[rgba(22,50,41,0.18)]"
+            className="mt-4 min-h-0 flex-1 resize-none rounded-[1.4rem] border border-[rgba(22,50,41,0.08)] bg-transparent px-4 py-4 outline-none focus:border-[rgba(22,50,41,0.18)]"
           />
         </label>
 
-        <div className="rounded-[1.6rem] bg-[#163229] p-5 text-white">
+        <div className="flex min-h-[31rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-white/56">
             <Languages className="h-4 w-4" />
             Résultat live
           </div>
-          <div className="mt-6 min-h-40 rounded-[1.4rem] border border-white/10 bg-white/8 p-5">
+          <div className="mt-6 flex flex-1 flex-col rounded-[1.4rem] border border-white/10 bg-transparent p-5">
             <p className="text-sm text-white/52">
               {translation?.provider
                 ? `Source ${translation.provider}`
@@ -134,7 +133,7 @@ export function TranslatorPanel() {
               {translation?.translated_text ?? "la traduction apparaîtra ici"}
             </p>
             {translation ? (
-              <p className="mt-4 text-sm text-white/64">
+              <p className="mt-auto pt-4 text-sm text-white/64">
                 Confiance {Math.round(translation.confidence * 100)}% ·{" "}
                 {translation.found ? "réponse issue d’un service distant" : "suggestion faible"}
               </p>

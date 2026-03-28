@@ -281,7 +281,7 @@ export function QuizStudio() {
   }
 
   const todayProgressLabel = profile
-    ? `Aujourd’hui ${profile.today_progress.answered_questions}/${profile.goal} questions`
+    ? `Aujourd’hui : ${profile.today_progress.answered_questions}/${profile.goal} questions`
     : null;
 
   return (

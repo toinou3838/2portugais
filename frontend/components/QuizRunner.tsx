@@ -190,15 +190,15 @@ export function QuizRunner({
         </div>
       </div>
 
-      <aside className="glass-panel shell-border flex max-h-[43rem] flex-col rounded-[2rem] p-6 shadow-soft lg:self-start">
+      <aside className="glass-panel shell-border flex max-h-[47.5rem] flex-col rounded-[2rem] p-6 shadow-soft lg:self-start">
         <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.46)]">
           Navigation
         </p>
         <h3 className="section-title mt-2 text-3xl font-semibold">
           Reviens sur n’importe quelle question.
         </h3>
-        <div className="mt-5 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/66 p-3">
-          <div className="max-h-[29.5rem] overflow-y-auto pr-1">
+        <div className="mt-5 flex-1 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/66 p-3">
+          <div className="h-full max-h-[34rem] overflow-y-auto pr-1">
             <div className="grid grid-cols-5 gap-2">
               {answers.map((answer, index) => (
                 <button
