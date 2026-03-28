@@ -102,7 +102,7 @@ export function TranslatorPanel() {
       </div>
 
       <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <label className="flex min-h-[31rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
+        <label className="flex min-h-[24rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
           <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
             {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
           </p>
@@ -118,7 +118,7 @@ export function TranslatorPanel() {
           />
         </label>
 
-        <div className="flex min-h-[31rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
+        <div className="flex min-h-[24rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-white/56">
             <Languages className="h-4 w-4" />
             Résultat live

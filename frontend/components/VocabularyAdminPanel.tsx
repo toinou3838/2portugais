@@ -154,7 +154,7 @@ export function VocabularyAdminPanel() {
           }}
           className="space-y-5 rounded-[1.6rem] bg-white/82 p-5"
         >
-          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_18rem] xl:items-end">
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_14rem] xl:items-end">
             <label className="space-y-2">
               <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
                 Français
@@ -179,18 +179,18 @@ export function VocabularyAdminPanel() {
                 className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
               />
             </label>
-            <div className="flex flex-col gap-3 xl:items-stretch">
+            <div className="flex flex-col gap-2.5 xl:items-stretch">
               <button
                 type="button"
                 onClick={() => void handleCheck()}
-                className="w-full rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb]"
+                className="w-full rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb]"
               >
                 Vérifier la cohérence
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#163229] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#163229] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50"
               >
                 <Plus className="h-4 w-4" />
                 Ajouter quand même
