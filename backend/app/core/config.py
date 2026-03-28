@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     translation_provider: str = Field(default="local", alias="TRANSLATION_PROVIDER")
     libretranslate_url: str | None = Field(default=None, alias="LIBRETRANSLATE_URL")
     libretranslate_api_key: str | None = Field(default=None, alias="LIBRETRANSLATE_API_KEY")
+    mymemory_contact_email: str | None = Field(default=None, alias="MYMEMORY_CONTACT_EMAIL")
 
     google_sheets_enabled: bool = Field(default=False, alias="GOOGLE_SHEETS_ENABLED")
     google_sheet_id: str | None = Field(default=None, alias="GOOGLE_SHEET_ID")

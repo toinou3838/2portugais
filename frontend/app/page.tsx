@@ -41,11 +41,8 @@ export default function HomePage() {
           <ProfileButton />
         </header>
 
-        <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <section className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
           <div className="glass-panel-strong shell-border animate-float-in rounded-[2.2rem] p-6 shadow-card sm:p-8">
-            <p className="mb-4 inline-flex rounded-full bg-[rgba(185,119,63,0.14)] px-4 py-2 text-sm font-semibold text-[#9e6230]">
-              Quiz premium, auth Clerk native, backend FastAPI séparé
-            </p>
             <div className="max-w-3xl">
               <h2 className="section-title text-5xl font-semibold leading-none sm:text-6xl">
                 Le nouveau cockpit pour réviser vocabulaire et conjugaison.
@@ -74,20 +71,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid gap-4">
-            <div className="shell-border rounded-[2rem] bg-[#163229] p-6 text-white shadow-card">
-              <p className="text-sm uppercase tracking-[0.2em] text-white/60">
-                Expérience
-              </p>
-              <h3 className="section-title mt-2 text-4xl font-semibold">
-                Auth propre, design sobre, rythme quotidien.
-              </h3>
-              <p className="mt-4 text-sm leading-6 text-white/76">
-                Clerk gère Google et email, ton backend valide les tokens, et le
-                profil applicatif se construit automatiquement à la première session.
-              </p>
-            </div>
-            <div className="shell-border rounded-[2rem] bg-[rgba(255,250,242,0.82)] p-6 shadow-soft">
+          <div className="shell-border rounded-[2rem] bg-[rgba(255,250,242,0.82)] p-6 shadow-soft">
               <p className="text-sm uppercase tracking-[0.2em] text-[rgba(22,50,41,0.52)]">
                 Objectif quotidien
               </p>
@@ -100,7 +84,6 @@ export default function HomePage() {
               <div className="mt-5 h-3 overflow-hidden rounded-full bg-[rgba(22,50,41,0.08)]">
                 <div className="h-full w-3/5 rounded-full bg-gradient-to-r from-[#b9773f] to-[#163229]" />
               </div>
-            </div>
           </div>
         </section>
 
@@ -109,4 +92,3 @@ export default function HomePage() {
     </main>
   );
 }
-

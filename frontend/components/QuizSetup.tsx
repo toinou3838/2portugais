@@ -51,7 +51,7 @@ export function QuizSetup({
           <input
             type="range"
             min={5}
-            max={50}
+            max={200}
             step={5}
             value={questionCount}
             onChange={(event) => onQuestionCountChange(Number(event.target.value))}
@@ -92,4 +92,3 @@ export function QuizSetup({
     </section>
   );
 }
-

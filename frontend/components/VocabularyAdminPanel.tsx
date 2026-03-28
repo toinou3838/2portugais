@@ -49,7 +49,7 @@ export function VocabularyAdminPanel() {
         if (!token) {
           return;
         }
-        const data = await apiFetch<VocabularyEntry[]>("/vocabulary?limit=6", {
+        const data = await apiFetch<VocabularyEntry[]>("/vocabulary?limit=3", {
           token,
         });
         setEntries(data);
@@ -102,10 +102,13 @@ export function VocabularyAdminPanel() {
           force_add: recommendation || !checkResult?.is_consistent,
         }),
       });
-      setEntries((current) => [entry, ...current].slice(0, 6));
+      setEntries((current) => [entry, ...current].slice(0, 3));
       setForm(initialState);
-      setCheckResult(null);
-      setMessage("Le mot a été ajouté à la base persistante.");
+      setMessage(
+        recommendation
+          ? "La recommandation distante a été ajoutée à la base."
+          : "Le mot a été ajouté à la base persistante.",
+      );
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Ajout impossible.");
     } finally {
@@ -200,59 +203,44 @@ export function VocabularyAdminPanel() {
             </button>
           </div>
 
+          {checkResult ? (
+            <div className="rounded-[1.3rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] p-4">
+              <div className="flex items-start gap-3">
+                {checkResult.is_consistent ? (
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 text-[#1f6e38]" />
+                ) : (
+                  <AlertTriangle className="mt-0.5 h-5 w-5 text-[#a16207]" />
+                )}
+                <div className="space-y-2 text-sm">
+                  <p className="font-semibold text-[#163229]">
+                    {checkResult.is_consistent
+                      ? "La paire est cohérente avec la traduction distante."
+                      : "La paire ne correspond pas exactement à la suggestion distante."}
+                  </p>
+                  <p className="text-[rgba(22,50,41,0.68)]">
+                    {checkResult.warning ??
+                      `Vérifié via ${checkResult.provider}.`}
+                  </p>
+                  {checkResult.recommendation ? (
+                    <button
+                      type="button"
+                      onClick={() => void saveEntry(true)}
+                      className="rounded-full bg-[#163229] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#21453a]"
+                    >
+                      Ajouter la recommandation
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           {message ? (
             <p className="text-sm text-[rgba(22,50,41,0.64)]">{message}</p>
           ) : null}
         </form>
 
         <div className="space-y-4">
-          <div className="rounded-[1.6rem] bg-[#163229] p-5 text-white">
-            <p className="text-sm uppercase tracking-[0.18em] text-white/56">
-              Contrôle automatique
-            </p>
-            {checkResult ? (
-              <div className="mt-4 space-y-4">
-                <div className="flex items-start gap-3">
-                  {checkResult.is_consistent ? (
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-[#b8d0b9]" />
-                  ) : (
-                    <AlertTriangle className="mt-0.5 h-5 w-5 text-[#f0bc9f]" />
-                  )}
-                  <div>
-                    <p className="font-semibold">
-                      {checkResult.is_consistent
-                        ? "La paire semble cohérente."
-                        : "La paire est potentiellement incohérente."}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-white/70">
-                      {checkResult.warning ?? "Aucune alerte détectée."}
-                    </p>
-                  </div>
-                </div>
-                {checkResult.recommendation ? (
-                  <div className="rounded-[1.2rem] border border-white/10 bg-white/8 p-4">
-                    <p className="text-sm text-white/56">Recommandation</p>
-                    <p className="mt-2 font-semibold">
-                      {checkResult.recommendation.fr} → {checkResult.recommendation.pt}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => void saveEntry(true)}
-                      className="mt-4 rounded-full bg-[#f7efe2] px-4 py-2 text-sm font-semibold text-[#163229] transition hover:bg-white"
-                    >
-                      Ajouter la recommandation
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            ) : (
-              <p className="mt-4 text-sm leading-6 text-white/70">
-                Lance une vérification pour comparer la paire saisie avec les services
-                de traduction encapsulés et le vocabulaire existant.
-              </p>
-            )}
-          </div>
-
           <div className="rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-white/82 p-5">
             <p className="text-sm uppercase tracking-[0.18em] text-[rgba(22,50,41,0.48)]">
               Derniers ajouts

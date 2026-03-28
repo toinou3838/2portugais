@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 
 class QuizGenerateIn(BaseModel):
-    question_count: int = Field(default=20, ge=5, le=100)
+    question_count: int = Field(default=20, ge=5, le=200)
     conjugation_percentage: int = Field(default=10, ge=0, le=100)
 
 
@@ -26,4 +26,3 @@ class QuizGenerateOut(BaseModel):
     actual_question_count: int
     source_breakdown: dict[str, int]
     items: list[QuizItemOut]
-

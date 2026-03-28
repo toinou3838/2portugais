@@ -76,40 +76,74 @@ def _local_translate(db: Session, text: str, direction: str) -> TranslationResul
 
 
 def _remote_translate(text: str, direction: str) -> TranslationResult | None:
-    if settings.translation_provider != "libretranslate" or not settings.libretranslate_url:
-        return None
+    source_lang = "fr" if direction == "fr_to_pt" else "pt"
+    target_lang = "pt" if direction == "fr_to_pt" else "fr"
 
-    response = httpx.post(
-        settings.libretranslate_url.rstrip("/") + "/translate",
+    if settings.translation_provider == "libretranslate" and settings.libretranslate_url:
+        response = httpx.post(
+            settings.libretranslate_url.rstrip("/") + "/translate",
+            timeout=10.0,
+            json={
+                "q": text,
+                "source": source_lang,
+                "target": target_lang,
+                "api_key": settings.libretranslate_api_key,
+            },
+        )
+        response.raise_for_status()
+        payload = response.json()
+        translated = str(payload.get("translatedText", "")).strip().lower()
+        if not translated:
+            return None
+        return TranslationResult(
+            translated_text=translated,
+            provider="libretranslate",
+            confidence=0.92,
+            found=True,
+        )
+
+    params = {
+        "q": text,
+        "langpair": f"{source_lang}|{target_lang}",
+    }
+    if settings.mymemory_contact_email:
+        params["de"] = settings.mymemory_contact_email
+
+    response = httpx.get(
+        "https://api.mymemory.translated.net/get",
+        params=params,
         timeout=10.0,
-        json={
-            "q": text,
-            "source": "fr" if direction == "fr_to_pt" else "pt",
-            "target": "pt" if direction == "fr_to_pt" else "fr",
-            "api_key": settings.libretranslate_api_key,
-        },
     )
     response.raise_for_status()
     payload = response.json()
-    translated = str(payload.get("translatedText", "")).strip().lower()
+    response_data = payload.get("responseData") or {}
+    translated = str(response_data.get("translatedText", "")).strip().lower()
     if not translated:
         return None
+
+    quality = payload.get("responseStatus")
+    confidence = 0.86 if quality == 200 else 0.72
     return TranslationResult(
         translated_text=translated,
-        provider="libretranslate",
-        confidence=0.92,
+        provider="mymemory",
+        confidence=confidence,
         found=True,
     )
 
 
 def translate_text(db: Session, text: str, direction: str) -> TranslationResult:
     local_result = _local_translate(db, text, direction)
+
+    if settings.translation_provider != "local":
+        try:
+            remote_result = _remote_translate(text, direction)
+            if remote_result:
+                return remote_result
+        except httpx.HTTPError:
+            pass
+
     if local_result.found:
         return local_result
-
-    remote_result = _remote_translate(text, direction)
-    if remote_result:
-        return remote_result
 
     return local_result
 
@@ -144,4 +178,3 @@ def check_vocabulary_consistency(db: Session, fr: str, pt: str) -> dict[str, obj
         "recommendation": recommendation,
         "provider": suggested.provider,
     }
-

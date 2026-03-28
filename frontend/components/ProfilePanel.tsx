@@ -77,14 +77,14 @@ export function ProfilePanel({
         <button
           type="button"
           onClick={() => onToggleReminder(!(profile?.reminder_opt_in ?? false))}
-          className={`relative h-8 w-14 rounded-full transition ${
+          className={`relative flex h-8 w-14 items-center rounded-full p-1 transition ${
             profile?.reminder_opt_in ? "bg-[#163229]" : "bg-[rgba(22,50,41,0.18)]"
           }`}
           aria-pressed={profile?.reminder_opt_in ?? false}
         >
           <span
-            className={`absolute top-1 h-6 w-6 rounded-full bg-white transition ${
-              profile?.reminder_opt_in ? "left-7" : "left-1"
+            className={`block h-6 w-6 rounded-full bg-white transition-transform ${
+              profile?.reminder_opt_in ? "translate-x-6" : "translate-x-0"
             }`}
           />
         </button>
@@ -107,4 +107,3 @@ export function ProfilePanel({
     </div>
   );
 }
-

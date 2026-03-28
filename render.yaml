@@ -46,10 +46,12 @@ services:
       - key: REMINDER_FROM_EMAIL
         sync: false
       - key: TRANSLATION_PROVIDER
-        value: local
+        value: mymemory
       - key: LIBRETRANSLATE_URL
         sync: false
       - key: LIBRETRANSLATE_API_KEY
+        sync: false
+      - key: MYMEMORY_CONTACT_EMAIL
         sync: false
       - key: GOOGLE_SHEETS_ENABLED
         value: "false"

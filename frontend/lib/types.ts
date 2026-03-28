@@ -32,6 +32,13 @@ export type QuizAnswerState = {
   similarity: number;
 };
 
+export type QuizFeedback = {
+  questionIndex: number;
+  answer: string;
+  expected: string;
+  status: Exclude<AnswerStatus, "pending">;
+};
+
 export type QuizSummaryStats = {
   total: number;
   correct: number;
@@ -96,4 +103,3 @@ export type VocabularyEntry = {
   source: "vocab";
   created_at: string;
 };
-

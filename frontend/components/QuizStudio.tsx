@@ -6,6 +6,7 @@ import { apiFetch } from "@/lib/api";
 import {
   ProgressPayload,
   QuizAnswerState,
+  QuizFeedback,
   QuizGenerationResponse,
   UserProfile,
 } from "@/lib/types";
@@ -48,6 +49,7 @@ export function QuizStudio() {
   );
   const [syncedQuizId, setSyncedQuizId] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [transientFeedback, setTransientFeedback] = useState<QuizFeedback | null>(null);
 
   const summary = computeSummary(answers);
   const quizCompleted = answers.length > 0 && answers.every((item) => item.status !== "pending");
@@ -158,6 +160,7 @@ export function QuizStudio() {
         setCurrentIndex(0);
         setDraftAnswer("");
         setSyncedQuizId(null);
+        setTransientFeedback(null);
       });
     } catch (error) {
       setSyncMessage(error instanceof Error ? error.message : "Quiz indisponible.");
@@ -176,6 +179,7 @@ export function QuizStudio() {
     if (!quiz) {
       return;
     }
+    setTransientFeedback(null);
     setCurrentIndex(Math.max(0, Math.min(index, quiz.items.length - 1)));
   }
 
@@ -185,10 +189,18 @@ export function QuizStudio() {
     }
 
     const evaluated = evaluateAnswer(quiz.items[currentIndex], draftAnswer);
+    const feedbackStatus = evaluated.status === "correct" ? "correct" : "incorrect";
     updateAnswer(currentIndex, evaluated);
+    setTransientFeedback({
+      questionIndex: currentIndex,
+      answer: draftAnswer,
+      expected: evaluated.expected,
+      status: feedbackStatus,
+    });
 
     if (currentIndex < quiz.items.length - 1) {
       setCurrentIndex((value) => value + 1);
+      setDraftAnswer("");
     }
   }
 
@@ -197,15 +209,23 @@ export function QuizStudio() {
       return;
     }
 
-    updateAnswer(currentIndex, {
+    const skippedState: QuizAnswerState = {
       answer: draftAnswer,
       expected: quiz.items[currentIndex].dir === 0 ? quiz.items[currentIndex].pt : quiz.items[currentIndex].fr,
       similarity: 0,
+      status: "skipped",
+    };
+    updateAnswer(currentIndex, skippedState);
+    setTransientFeedback({
+      questionIndex: currentIndex,
+      answer: draftAnswer,
+      expected: skippedState.expected,
       status: "skipped",
     });
 
     if (currentIndex < quiz.items.length - 1) {
       setCurrentIndex((value) => value + 1);
+      setDraftAnswer("");
     }
   }
 
@@ -226,6 +246,7 @@ export function QuizStudio() {
     setCurrentIndex(0);
     setDraftAnswer("");
     setSyncedQuizId(null);
+    setTransientFeedback(null);
     setSyncMessage("Quiz inversé. Nouvelle tentative prête.");
   }
 
@@ -257,6 +278,7 @@ export function QuizStudio() {
             currentIndex={currentIndex}
             draftAnswer={draftAnswer}
             summary={summary}
+            transientFeedback={transientFeedback}
             onDraftAnswerChange={setDraftAnswer}
             onValidate={handleValidate}
             onSkip={handleSkip}

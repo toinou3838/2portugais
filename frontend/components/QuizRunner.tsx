@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, CircleDashed, Flame, SkipForward } from "lucide-react";
-import { QuizAnswerState, QuizItem, QuizSummaryStats } from "@/lib/types";
+import { QuizAnswerState, QuizFeedback, QuizItem, QuizSummaryStats } from "@/lib/types";
 import { getDirectionLabel, getPromptLabel, getPromptValue, getSourceBadge } from "@/lib/utils";
 import { QuizProgress } from "@/components/QuizProgress";
 
@@ -11,6 +11,7 @@ type QuizRunnerProps = {
   currentIndex: number;
   draftAnswer: string;
   summary: QuizSummaryStats;
+  transientFeedback: QuizFeedback | null;
   onDraftAnswerChange: (value: string) => void;
   onValidate: () => void;
   onSkip: () => void;
@@ -22,13 +23,13 @@ type QuizRunnerProps = {
 function getStatusClasses(status: QuizAnswerState["status"]): string {
   switch (status) {
     case "correct":
-      return "bg-[rgba(93,122,103,0.16)] text-[#375544] border-[rgba(93,122,103,0.24)]";
+      return "bg-[rgba(52,168,83,0.14)] text-[#1f6e38] border-[rgba(52,168,83,0.26)]";
     case "incorrect":
-      return "bg-[rgba(200,109,79,0.12)] text-[#a8583f] border-[rgba(200,109,79,0.22)]";
+      return "bg-[rgba(220,38,38,0.11)] text-[#b42318] border-[rgba(220,38,38,0.22)]";
     case "skipped":
-      return "bg-[rgba(185,119,63,0.14)] text-[#9e6230] border-[rgba(185,119,63,0.2)]";
+      return "bg-[rgba(245,158,11,0.16)] text-[#a16207] border-[rgba(245,158,11,0.24)]";
     default:
-      return "bg-[rgba(22,50,41,0.06)] text-[rgba(22,50,41,0.6)] border-[rgba(22,50,41,0.12)]";
+      return "bg-[rgba(107,114,128,0.10)] text-[#4b5563] border-[rgba(107,114,128,0.18)]";
   }
 }
 
@@ -51,6 +52,7 @@ export function QuizRunner({
   currentIndex,
   draftAnswer,
   summary,
+  transientFeedback,
   onDraftAnswerChange,
   onValidate,
   onSkip,
@@ -65,6 +67,22 @@ export function QuizRunner({
     <section className="grid gap-6 lg:grid-cols-[1.5fr_0.8fr]">
       <div className="glass-panel shell-border rounded-[2rem] p-6 shadow-card">
         <QuizProgress currentIndex={currentIndex} answers={answers} summary={summary} />
+
+        {transientFeedback ? (
+          <div
+            className={`mt-6 rounded-[1.6rem] border px-5 py-4 ${getStatusClasses(
+              transientFeedback.status,
+            )}`}
+          >
+            <p className="text-sm font-semibold">
+              Tu as répondu : {transientFeedback.answer || "aucune réponse"}
+            </p>
+            <p className="mt-1 text-sm">
+              {transientFeedback.status === "correct" ? "C’est correct." : "Ce n’est pas correct."}{" "}
+              Réponse attendue : {transientFeedback.expected}
+            </p>
+          </div>
+        ) : null}
 
         <div className="mt-6 rounded-[1.8rem] bg-[#163229] p-6 text-white">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -83,33 +101,39 @@ export function QuizRunner({
             {getPromptValue(item)}
           </h2>
 
-          <label className="mt-8 block">
-            <span className="sr-only">Réponse</span>
-            <input
-              value={draftAnswer}
-              onChange={(event) => onDraftAnswerChange(event.target.value)}
-              placeholder="Tape ta réponse..."
-              className="w-full rounded-[1.4rem] border border-white/12 bg-white/10 px-5 py-4 text-lg text-white outline-none placeholder:text-white/44 focus:border-white/28"
-            />
-          </label>
+          <form
+            className="mt-8"
+            onSubmit={(event) => {
+              event.preventDefault();
+              onValidate();
+            }}
+          >
+            <label className="block">
+              <span className="sr-only">Réponse</span>
+              <input
+                value={draftAnswer}
+                onChange={(event) => onDraftAnswerChange(event.target.value)}
+                placeholder="Tape ta réponse..."
+                className="w-full rounded-[1.4rem] border border-white/12 bg-white/10 px-5 py-4 text-lg text-white outline-none placeholder:text-white/44 focus:border-white/28"
+              />
+            </label>
 
-          <div className="mt-5 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={onValidate}
-              disabled={!draftAnswer.trim()}
-              className="rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Valider
-            </button>
-            <button
-              type="button"
-              onClick={onSkip}
-              className="rounded-full border border-white/12 bg-white/8 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/14"
-            >
-              Passer
-            </button>
-          </div>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <button
+                type="submit"
+                className="rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white"
+              >
+                Valider
+              </button>
+              <button
+                type="button"
+                onClick={onSkip}
+                className="rounded-full border border-white/12 bg-white/8 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/14"
+              >
+                Passer
+              </button>
+            </div>
+          </form>
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto]">
@@ -165,13 +189,13 @@ export function QuizRunner({
         <h3 className="section-title mt-2 text-3xl font-semibold">
           Reviens sur n’importe quelle question.
         </h3>
-        <div className="mt-6 grid grid-cols-5 gap-2 sm:grid-cols-6 lg:grid-cols-4">
+        <div className="mt-6 grid grid-cols-6 gap-2 sm:grid-cols-8 lg:grid-cols-5">
           {answers.map((answer, index) => (
             <button
               key={`${items[index].id}-${index}`}
               type="button"
               onClick={() => onSelectQuestion(index)}
-              className={`aspect-square rounded-2xl border text-sm font-semibold transition ${
+              className={`aspect-square rounded-xl border text-xs font-semibold transition ${
                 index === currentIndex
                   ? "border-[#163229] bg-[#163229] text-white"
                   : getStatusClasses(answer.status)
@@ -185,4 +209,3 @@ export function QuizRunner({
     </section>
   );
 }
-

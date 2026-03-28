@@ -136,7 +136,7 @@ export function TranslatorPanel() {
             {translation ? (
               <p className="mt-4 text-sm text-white/64">
                 Confiance {Math.round(translation.confidence * 100)}% ·{" "}
-                {translation.found ? "correspondance trouvée" : "suggestion faible"}
+                {translation.found ? "réponse issue d’un service distant" : "suggestion faible"}
               </p>
             ) : null}
           </div>
@@ -163,4 +163,3 @@ export function TranslatorPanel() {
     </section>
   );
 }
-
