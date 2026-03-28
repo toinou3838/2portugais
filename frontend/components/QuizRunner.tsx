@@ -66,8 +66,8 @@ export function QuizRunner({
   const answerState = answers[currentIndex];
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_22rem] lg:items-stretch">
-      <div className="glass-panel shell-border h-full rounded-[2rem] p-6 shadow-card">
+    <section className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_22rem]">
+      <div className="glass-panel shell-border rounded-[2rem] p-6 shadow-card">
         <QuizProgress currentIndex={currentIndex} answers={answers} summary={summary} />
 
         {todayProgressLabel ? (
@@ -190,15 +190,15 @@ export function QuizRunner({
         </div>
       </div>
 
-      <aside className="glass-panel shell-border flex h-full min-h-0 flex-col rounded-[2rem] p-6 shadow-soft">
+      <aside className="glass-panel shell-border flex max-h-[45rem] flex-col rounded-[2rem] p-6 shadow-soft lg:self-start">
         <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.46)]">
           Navigation
         </p>
         <h3 className="section-title mt-2 text-3xl font-semibold">
           Reviens sur n’importe quelle question.
         </h3>
-        <div className="mt-5 min-h-0 flex-1 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/66 p-3">
-          <div className="h-full overflow-y-auto pr-1">
+        <div className="mt-5 flex-1 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/66 p-3">
+          <div className="max-h-[32rem] overflow-y-auto pr-1">
             <div className="grid grid-cols-5 gap-2">
               {answers.map((answer, index) => (
                 <button
