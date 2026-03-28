@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth, useUser } from "@clerk/nextjs";
-import { AlertTriangle, CheckCircle2, DatabaseZap, Plus } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { VocabularyCheckResponse, VocabularyEntry } from "@/lib/types";
@@ -138,15 +138,11 @@ export function VocabularyAdminPanel() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.48)]">
-            Admin vocabulaire
+            Ajout de vocabulaire
           </p>
           <h2 className="section-title mt-2 text-3xl font-semibold">
             Ajoute une paire avec contrôle de cohérence.
           </h2>
-        </div>
-        <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(185,119,63,0.14)] px-4 py-2 text-sm font-semibold text-[#9e6230]">
-          <DatabaseZap className="h-4 w-4" />
-          Postgres comme source principale
         </div>
       </div>
 

@@ -81,6 +81,35 @@ export function QuizStudio() {
     void loadProfile();
   }, [getToken, isSignedIn, syncedQuizId]);
 
+  function publishProfile(data: UserProfile) {
+    setProfile(data);
+    window.dispatchEvent(new CustomEvent("profile-updated", { detail: data }));
+  }
+
+  async function syncAnsweredProgress(correctIncrement: number) {
+    if (!isSignedIn) {
+      return;
+    }
+
+    const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
+    if (!token) {
+      return;
+    }
+
+    const data = await apiFetch<UserProfile>("/progress", {
+      method: "POST",
+      token,
+      body: JSON.stringify({
+        quiz_id: quiz?.quiz_id ?? `live-${Date.now()}`,
+        answered_questions: 1,
+        correct_answers: correctIncrement,
+        quizzes_completed: 0,
+      }),
+    });
+
+    publishProfile(data);
+  }
+
   useEffect(() => {
     if (
       !quizCompleted ||
@@ -115,7 +144,7 @@ export function QuizStudio() {
           body: JSON.stringify(payload),
         });
 
-        setProfile(data);
+        publishProfile(data);
         setSyncMessage("Progression quotidienne synchronisée.");
         setSyncedQuizId(activeQuiz.quiz_id);
       } catch (error) {
@@ -197,6 +226,7 @@ export function QuizStudio() {
       expected: evaluated.expected,
       status: feedbackStatus,
     });
+    void syncAnsweredProgress(feedbackStatus === "correct" ? 1 : 0);
 
     if (currentIndex < quiz.items.length - 1) {
       setCurrentIndex((value) => value + 1);

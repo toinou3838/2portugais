@@ -77,15 +77,15 @@ export function ProfilePanel({
         <button
           type="button"
           onClick={() => onToggleReminder(!(profile?.reminder_opt_in ?? false))}
-          className={`relative flex h-8 w-14 items-center rounded-full p-1 transition ${
-            profile?.reminder_opt_in ? "bg-[#163229]" : "bg-[rgba(22,50,41,0.18)]"
+          className={`flex h-8 w-14 items-center rounded-full p-1 transition ${
+            profile?.reminder_opt_in
+              ? "justify-end bg-[#163229]"
+              : "justify-start bg-[rgba(22,50,41,0.18)]"
           }`}
           aria-pressed={profile?.reminder_opt_in ?? false}
         >
           <span
-            className={`block h-6 w-6 rounded-full bg-white transition-transform ${
-              profile?.reminder_opt_in ? "translate-x-6" : "translate-x-0"
-            }`}
+            className="block h-6 w-6 rounded-full bg-white"
           />
         </button>
       </label>

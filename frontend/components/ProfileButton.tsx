@@ -57,6 +57,19 @@ export function ProfileButton() {
     void loadProfile();
   }, [getToken, isSignedIn]);
 
+  useEffect(() => {
+    function handleProfileUpdated(event: Event) {
+      const customEvent = event as CustomEvent<UserProfile>;
+      if (customEvent.detail) {
+        setProfile(customEvent.detail);
+      }
+    }
+
+    window.addEventListener("profile-updated", handleProfileUpdated as EventListener);
+    return () =>
+      window.removeEventListener("profile-updated", handleProfileUpdated as EventListener);
+  }, []);
+
   async function handleToggleReminder(value: boolean) {
     const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
     if (!token) {
@@ -79,6 +92,7 @@ export function ProfileButton() {
         body: JSON.stringify({ reminder_opt_in: value }),
       });
       setProfile(data);
+      window.dispatchEvent(new CustomEvent("profile-updated", { detail: data }));
     } catch (error) {
       console.error(error);
     }
@@ -128,4 +142,3 @@ export function ProfileButton() {
     </div>
   );
 }
-
