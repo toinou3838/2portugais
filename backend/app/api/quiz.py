@@ -9,7 +9,7 @@ from app.db.session import get_db
 from app.schemas.quiz import QuizGenerateIn, QuizGenerateOut
 from app.schemas.translation import TranslationIn, TranslationOut
 from app.services.quiz import generate_quiz
-from app.services.translation import translate_text
+from app.services.translation import translate_text_strict
 
 router = APIRouter(tags=["quiz"])
 
@@ -25,9 +25,8 @@ def create_quiz(
 @router.post("/translate", response_model=TranslationOut)
 def translate(
     payload: TranslationIn,
-    db: Annotated[Session, Depends(get_db)],
 ) -> TranslationOut:
-    result = translate_text(db, payload.text, payload.direction)
+    result = translate_text_strict(payload.text, payload.direction)
     return TranslationOut(
         original_text=payload.text,
         translated_text=result.translated_text,
@@ -36,4 +35,3 @@ def translate(
         confidence=result.confidence,
         found=result.found,
     )
-

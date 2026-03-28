@@ -46,7 +46,11 @@ services:
       - key: REMINDER_FROM_EMAIL
         sync: false
       - key: TRANSLATION_PROVIDER
-        value: mymemory
+        value: deepl
+      - key: DEEPL_API_KEY
+        sync: false
+      - key: DEEPL_API_URL
+        value: https://api-free.deepl.com
       - key: LIBRETRANSLATE_URL
         sync: false
       - key: LIBRETRANSLATE_API_KEY

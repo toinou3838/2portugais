@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     reminder_from_email: str | None = Field(default=None, alias="REMINDER_FROM_EMAIL")
 
     translation_provider: str = Field(default="local", alias="TRANSLATION_PROVIDER")
+    deepl_api_key: str | None = Field(default=None, alias="DEEPL_API_KEY")
+    deepl_api_url: str = Field(default="https://api-free.deepl.com", alias="DEEPL_API_URL")
     libretranslate_url: str | None = Field(default=None, alias="LIBRETRANSLATE_URL")
     libretranslate_api_key: str | None = Field(default=None, alias="LIBRETRANSLATE_API_KEY")
     mymemory_contact_email: str | None = Field(default=None, alias="MYMEMORY_CONTACT_EMAIL")

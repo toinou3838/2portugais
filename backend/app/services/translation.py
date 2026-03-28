@@ -6,6 +6,7 @@ import httpx
 from rapidfuzz import fuzz
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from fastapi import HTTPException, status
 
 from app.core.config import settings
 from app.models.vocabulary_entry import VocabularyEntry
@@ -79,6 +80,36 @@ def _remote_translate(text: str, direction: str) -> TranslationResult | None:
     source_lang = "fr" if direction == "fr_to_pt" else "pt"
     target_lang = "pt" if direction == "fr_to_pt" else "fr"
 
+    if settings.translation_provider == "deepl" and settings.deepl_api_key:
+        deepl_target = "PT-PT" if target_lang == "pt" else "FR"
+        response = httpx.post(
+            settings.deepl_api_url.rstrip("/") + "/v2/translate",
+            timeout=10.0,
+            headers={
+                "Authorization": f"DeepL-Auth-Key {settings.deepl_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "text": [text],
+                "source_lang": source_lang.upper(),
+                "target_lang": deepl_target,
+            },
+        )
+        response.raise_for_status()
+        payload = response.json()
+        translations = payload.get("translations") or []
+        if not translations:
+            return None
+        translated = str(translations[0].get("text", "")).strip().lower()
+        if not translated:
+            return None
+        return TranslationResult(
+            translated_text=translated,
+            provider="deepl",
+            confidence=0.97,
+            found=True,
+        )
+
     if settings.translation_provider == "libretranslate" and settings.libretranslate_url:
         response = httpx.post(
             settings.libretranslate_url.rstrip("/") + "/translate",
@@ -146,6 +177,35 @@ def translate_text(db: Session, text: str, direction: str) -> TranslationResult:
         return local_result
 
     return local_result
+
+
+def translate_text_strict(text: str, direction: str) -> TranslationResult:
+    if settings.translation_provider != "deepl":
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="DeepL is required for live translation. Set TRANSLATION_PROVIDER=deepl.",
+        )
+    if not settings.deepl_api_key:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="DEEPL_API_KEY is missing on the backend.",
+        )
+
+    try:
+        result = _remote_translate(text, direction)
+    except httpx.HTTPError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="DeepL request failed.",
+        ) from exc
+
+    if not result or result.provider != "deepl":
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="DeepL did not return a usable translation.",
+        )
+
+    return result
 
 
 def check_vocabulary_consistency(db: Session, fr: str, pt: str) -> dict[str, object]:
