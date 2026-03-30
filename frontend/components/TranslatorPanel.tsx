@@ -198,47 +198,47 @@ export function TranslatorPanel() {
           </div>
 
           <div className="mt-5 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => setPendingDifficultyPicker((current) => !current)}
-              disabled={!translation?.translated_text || !isSignedIn || adding}
-              className="inline-flex items-center gap-2 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <Plus className="h-4 w-4" />
-              Ajouter la paire
-            </button>
+            <div className="relative inline-block">
+              <button
+                type="button"
+                onClick={() => setPendingDifficultyPicker((current) => !current)}
+                disabled={!translation?.translated_text || !isSignedIn || adding}
+                className="inline-flex items-center gap-2 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Plus className="h-4 w-4" />
+                Ajouter la paire
+              </button>
+              {pendingDifficultyPicker ? (
+                <div className="absolute left-0 top-[calc(100%+0.55rem)] z-20 min-w-[13rem] rounded-[1.1rem] border border-white/10 bg-[#214238] p-2 shadow-soft">
+                  <select
+                    value={pendingDifficulty}
+                    onChange={(event) => {
+                      const nextValue = event.target.value;
+                      setPendingDifficulty(nextValue);
+                      if (!nextValue) {
+                        return;
+                      }
+                      const level = Number(nextValue) as DifficultyLevel;
+                      void handleAddPair(level);
+                    }}
+                    className="w-full rounded-[0.9rem] border border-white/10 bg-[#f7efe2] px-4 py-2.5 text-sm font-semibold text-[#163229] outline-none"
+                  >
+                    <option value="" disabled>
+                      Difficulté
+                    </option>
+                    <option value={1}>Facile</option>
+                    <option value={2}>Intermédiaire</option>
+                    <option value={3}>Difficile</option>
+                  </select>
+                </div>
+              ) : null}
+            </div>
             {!isSignedIn ? (
               <p className="text-sm text-white/68">
                 Connecte-toi pour enregistrer la paire en base.
               </p>
             ) : null}
           </div>
-          {pendingDifficultyPicker ? (
-            <div className="mt-3 rounded-[1.1rem] border border-white/10 bg-white/8 p-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <select
-                  value={pendingDifficulty}
-                  onChange={(event) => {
-                    const nextValue = event.target.value;
-                    setPendingDifficulty(nextValue);
-                    if (!nextValue) {
-                      return;
-                    }
-                    const level = Number(nextValue) as DifficultyLevel;
-                    void handleAddPair(level);
-                  }}
-                  className="rounded-full border border-white/10 bg-[#f7efe2] px-4 py-2 text-sm font-semibold text-[#163229] outline-none"
-                >
-                  <option value="" disabled>
-                    Choisir la difficulté
-                  </option>
-                  <option value={1}>Facile</option>
-                  <option value={2}>Intermédiaire</option>
-                  <option value={3}>Difficile</option>
-                </select>
-              </div>
-            </div>
-          ) : null}
           {message ? <p className="mt-4 text-sm text-white/72">{message}</p> : null}
         </div>
       </div>
