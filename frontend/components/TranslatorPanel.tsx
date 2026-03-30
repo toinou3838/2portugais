@@ -22,7 +22,6 @@ export function TranslatorPanel() {
   const [message, setMessage] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [pendingDifficultyPicker, setPendingDifficultyPicker] = useState(false);
-  const [pendingDifficulty, setPendingDifficulty] = useState<string>("");
   const queryKey = useMemo(() => `${direction}::${text.trim().toLowerCase()}`, [direction, text]);
   const [lastRequestedKey, setLastRequestedKey] = useState("");
 
@@ -82,7 +81,6 @@ export function TranslatorPanel() {
     setAdding(true);
     setMessage(null);
     setPendingDifficultyPicker(false);
-    setPendingDifficulty("");
 
     try {
       const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
@@ -158,7 +156,6 @@ export function TranslatorPanel() {
             onChange={(event) => {
               setText(event.target.value);
               setPendingDifficultyPicker(false);
-              setPendingDifficulty("");
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -209,27 +206,19 @@ export function TranslatorPanel() {
                 Ajouter la paire
               </button>
               {pendingDifficultyPicker ? (
-                <div className="absolute left-0 top-[calc(100%+0.55rem)] z-20 min-w-[13rem] rounded-[1.1rem] border border-white/10 bg-[#214238] p-2 shadow-soft">
-                  <select
-                    value={pendingDifficulty}
-                    onChange={(event) => {
-                      const nextValue = event.target.value;
-                      setPendingDifficulty(nextValue);
-                      if (!nextValue) {
-                        return;
-                      }
-                      const level = Number(nextValue) as DifficultyLevel;
-                      void handleAddPair(level);
-                    }}
-                    className="w-full rounded-[0.9rem] border border-white/10 bg-[#f7efe2] px-4 py-2.5 text-sm font-semibold text-[#163229] outline-none"
-                  >
-                    <option value="" disabled>
-                      Difficulté
-                    </option>
-                    <option value={1}>Facile</option>
-                    <option value={2}>Intermédiaire</option>
-                    <option value={3}>Difficile</option>
-                  </select>
+                <div className="absolute left-0 top-[calc(100%+0.55rem)] z-20 min-w-[14rem] rounded-[1.1rem] border border-white/10 bg-[#214238] p-2 shadow-soft">
+                  <div className="flex flex-col gap-1">
+                    {[1, 2, 3].map((level) => (
+                      <button
+                        key={level}
+                        type="button"
+                        onClick={() => void handleAddPair(level as DifficultyLevel)}
+                        className="w-full rounded-[0.9rem] bg-[#f7efe2] px-4 py-2.5 text-left text-sm font-semibold text-[#163229] transition hover:bg-white"
+                      >
+                        {getDifficultyLabel(level as DifficultyLevel)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               ) : null}
             </div>
