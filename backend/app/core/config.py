@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from datetime import time
 from typing import Annotated
 
 from pydantic import Field, field_validator
@@ -31,7 +32,7 @@ class Settings(BaseSettings):
     clerk_api_base_url: str = Field(default="https://api.clerk.com/v1", alias="CLERK_API_BASE_URL")
 
     reminder_goal: int = Field(default=50, alias="REMINDER_GOAL")
-    reminder_send_hour: int = Field(default=21, alias="REMINDER_SEND_HOUR")
+    reminder_send_time: time = Field(default=time(hour=21, minute=0), alias="REMINDER_SEND_TIME")
     reminder_timezone: str = Field(default="Europe/Paris", alias="REMINDER_TIMEZONE")
     reminder_auto_run_enabled: bool = Field(default=True, alias="REMINDER_AUTO_RUN_ENABLED")
     reminder_job_secret: str | None = Field(default=None, alias="REMINDER_JOB_SECRET")
@@ -84,12 +85,16 @@ class Settings(BaseSettings):
             return False
         return value
 
-    @field_validator("reminder_send_hour")
+    @field_validator("reminder_send_time", mode="before")
     @classmethod
-    def validate_reminder_hour(cls, value: int) -> int:
-        if 0 <= value <= 23:
+    def validate_reminder_time(cls, value: time | str) -> time:
+        if isinstance(value, time):
             return value
-        raise ValueError("REMINDER_SEND_HOUR must be between 0 and 23")
+        try:
+            parsed = time.fromisoformat(value.strip())
+        except ValueError as exc:
+            raise ValueError("REMINDER_SEND_TIME must use HH:MM format") from exc
+        return parsed
 
 
 @lru_cache(maxsize=1)

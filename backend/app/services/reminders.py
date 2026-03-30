@@ -42,7 +42,8 @@ def _send_resend_email(user: User, answered: int) -> None:
 
 def _is_reminder_window_open() -> bool:
     now_local = datetime.now(ZoneInfo(settings.reminder_timezone))
-    return settings.reminder_send_hour <= now_local.hour <= 23
+    current_clock = now_local.time().replace(second=0, microsecond=0)
+    return settings.reminder_send_time <= current_clock
 
 
 def _current_attempt_key() -> str:
@@ -72,7 +73,7 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
             "sent": 0,
             "dry_run": 0,
             "window_open": False,
-            "scheduled_hour": settings.reminder_send_hour,
+            "scheduled_hour": settings.reminder_send_time.strftime("%H:%M"),
             "timezone": settings.reminder_timezone,
             "timestamp": timestamp,
         }
@@ -103,7 +104,7 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
         "sent": sent,
         "dry_run": dry_run,
         "window_open": True,
-        "scheduled_hour": settings.reminder_send_hour,
+        "scheduled_hour": settings.reminder_send_time.strftime("%H:%M"),
         "timezone": settings.reminder_timezone,
         "timestamp": timestamp,
     }

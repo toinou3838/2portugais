@@ -46,6 +46,6 @@ class ReminderJobOut(BaseModel):
     sent: int
     dry_run: int
     window_open: bool
-    scheduled_hour: int
+    scheduled_hour: str
     timezone: str
     timestamp: datetime
