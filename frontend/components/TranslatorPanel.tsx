@@ -2,7 +2,7 @@
 
 import { useAuth, useUser } from "@clerk/nextjs";
 import { ArrowRightLeft, Languages, Plus } from "lucide-react";
-import { useDeferredValue, useEffect, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { DifficultyLevel, TranslationDirection, TranslationResponse } from "@/lib/types";
 import { getDifficultyLabel } from "@/lib/utils";
@@ -17,42 +17,70 @@ export function TranslatorPanel() {
   const [direction, setDirection] = useState<TranslationDirection>("fr_to_pt");
   const [text, setText] = useState("");
   const [translation, setTranslation] = useState<TranslationResponse | null>(null);
-  const [difficulty, setDifficulty] = useState<DifficultyLevel>(2);
+  const [translating, setTranslating] = useState(false);
   const [adding, setAdding] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const deferredText = useDeferredValue(text);
+  const [isFocused, setIsFocused] = useState(false);
+  const [pendingDifficultyPicker, setPendingDifficultyPicker] = useState(false);
+  const queryKey = useMemo(() => `${direction}::${text.trim().toLowerCase()}`, [direction, text]);
+  const [lastRequestedKey, setLastRequestedKey] = useState("");
 
   useEffect(() => {
-    if (!deferredText.trim()) {
+    if (!text.trim()) {
+      setTranslation(null);
+      setLastRequestedKey("");
+      return;
+    }
+  }, [text]);
+
+  const requestTranslation = useCallback(async () => {
+    const trimmed = text.trim();
+    if (!trimmed) {
       setTranslation(null);
       return;
     }
 
-    const timeout = window.setTimeout(async () => {
-      try {
-        const data = await apiFetch<TranslationResponse>("/translate", {
-          method: "POST",
-          body: JSON.stringify({
-            text: deferredText,
-            direction,
-          }),
-        });
-        setTranslation(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }, 200);
+    setTranslating(true);
+    setMessage(null);
+
+    try {
+      const data = await apiFetch<TranslationResponse>("/translate", {
+        method: "POST",
+        body: JSON.stringify({
+          text: trimmed,
+          direction,
+        }),
+      });
+      setTranslation(data);
+      setLastRequestedKey(queryKey);
+    } catch (error) {
+      setTranslation(null);
+      setMessage(error instanceof Error ? error.message : "Traduction impossible.");
+    } finally {
+      setTranslating(false);
+    }
+  }, [direction, queryKey, text]);
+
+  useEffect(() => {
+    if (!isFocused || !text.trim() || queryKey === lastRequestedKey) {
+      return undefined;
+    }
+
+    const timeout = window.setTimeout(() => {
+      void requestTranslation();
+    }, 2000);
 
     return () => window.clearTimeout(timeout);
-  }, [deferredText, direction]);
+  }, [isFocused, lastRequestedKey, queryKey, text, direction, requestTranslation]);
 
-  async function handleAddPair() {
+  async function handleAddPair(difficulty: DifficultyLevel) {
     if (!isSignedIn || !translation?.translated_text || !text.trim()) {
       return;
     }
 
     setAdding(true);
     setMessage(null);
+    setPendingDifficultyPicker(false);
 
     try {
       const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
@@ -78,11 +106,18 @@ export function TranslatorPanel() {
         token,
         body: JSON.stringify(payload),
       });
-      setMessage("La paire a été ajoutée à la base de vocabulaire.");
+      setMessage(`La paire a été ajoutée en niveau ${getDifficultyLabel(difficulty).toLowerCase()}.`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Ajout impossible.");
     } finally {
       setAdding(false);
+    }
+  }
+
+  function handleTextareaKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      void requestTranslation();
     }
   }
 
@@ -112,24 +147,19 @@ export function TranslatorPanel() {
       </div>
 
       <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <label className="flex h-[22rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
-              {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
-            </p>
-            <select
-              value={difficulty}
-              onChange={(event) => setDifficulty(Number(event.target.value) as DifficultyLevel)}
-              className="rounded-full border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-3 py-1.5 text-sm font-semibold text-[#163229] outline-none"
-            >
-              <option value={1}>Facile</option>
-              <option value={2}>Intermédiaire</option>
-              <option value={3}>Difficile</option>
-            </select>
-          </div>
+        <label className="flex h-[23rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
+          <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
+            {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
+          </p>
           <textarea
             value={text}
-            onChange={(event) => setText(event.target.value)}
+            onChange={(event) => {
+              setText(event.target.value);
+              setPendingDifficultyPicker(false);
+            }}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onKeyDown={handleTextareaKeyDown}
             placeholder={
               direction === "fr_to_pt"
                 ? "ex. prendre l'habitude"
@@ -139,7 +169,7 @@ export function TranslatorPanel() {
           />
         </label>
 
-        <div className="flex h-[22rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
+        <div className="flex h-[23rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-white/56">
             <Languages className="h-4 w-4" />
             Résultat live
@@ -148,7 +178,9 @@ export function TranslatorPanel() {
             <p className="text-sm text-white/52">
               {translation?.provider
                 ? `Source ${translation.provider}`
-                : "Aucune requête tant que le champ est vide"}
+                : translating
+                  ? "Traduction en cours..."
+                  : "Entrée pour traduire ou appuie sur Entrée"}
             </p>
             <p className="section-title mt-4 text-3xl font-semibold">
               {translation?.translated_text ?? "la traduction apparaîtra ici"}
@@ -164,22 +196,38 @@ export function TranslatorPanel() {
           <div className="mt-5 flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={handleAddPair}
+              onClick={() => setPendingDifficultyPicker((current) => !current)}
               disabled={!translation?.translated_text || !isSignedIn || adding}
               className="inline-flex items-center gap-2 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               <Plus className="h-4 w-4" />
               Ajouter la paire
             </button>
-            <span className="rounded-full bg-white/10 px-3 py-2 text-sm font-semibold text-white/84">
-              {getDifficultyLabel(difficulty)}
-            </span>
             {!isSignedIn ? (
               <p className="text-sm text-white/68">
                 Connecte-toi pour enregistrer la paire en base.
               </p>
             ) : null}
           </div>
+          {pendingDifficultyPicker ? (
+            <div className="mt-3 rounded-[1.1rem] border border-white/10 bg-white/8 p-3">
+              <p className="text-sm font-semibold text-white/82">
+                Choisis une difficulté pour enregistrer la paire
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[1, 2, 3].map((level) => (
+                  <button
+                    key={level}
+                    type="button"
+                    onClick={() => void handleAddPair(level as DifficultyLevel)}
+                    className="rounded-full bg-[#f7efe2] px-4 py-2 text-sm font-semibold text-[#163229] transition hover:bg-white"
+                  >
+                    {getDifficultyLabel(level as DifficultyLevel)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
           {message ? <p className="mt-4 text-sm text-white/72">{message}</p> : null}
         </div>
       </div>

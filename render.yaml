@@ -52,7 +52,13 @@ services:
       - key: REMINDER_FROM_EMAIL
         sync: false
       - key: TRANSLATION_PROVIDER
-        value: deepl
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_API_BASE_URL
+        value: https://api.openai.com/v1
       - key: DEEPL_API_KEY
         sync: false
       - key: DEEPL_API_URL

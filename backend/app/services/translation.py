@@ -80,6 +80,66 @@ def _remote_translate(text: str, direction: str) -> TranslationResult | None:
     source_lang = "fr" if direction == "fr_to_pt" else "pt"
     target_lang = "pt" if direction == "fr_to_pt" else "fr"
 
+    if settings.translation_provider == "openai" and settings.openai_api_key:
+        target_label = "portugais brésilien naturel" if direction == "fr_to_pt" else "français naturel"
+        response = httpx.post(
+            settings.openai_api_base_url.rstrip("/") + "/responses",
+            timeout=15.0,
+            headers={
+                "Authorization": f"Bearer {settings.openai_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": settings.openai_model,
+                "input": [
+                    {
+                        "role": "developer",
+                        "content": [
+                            {
+                                "type": "input_text",
+                                "text": (
+                                    "Tu es un traducteur strict. Réponds uniquement avec la "
+                                    "traduction finale, sans explication, sans guillemets, "
+                                    "sans variantes, sans ponctuation ajoutée."
+                                ),
+                            }
+                        ],
+                    },
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "input_text",
+                                "text": f"Traduis en {target_label} : {text}",
+                            }
+                        ],
+                    },
+                ],
+                "max_output_tokens": 80,
+            },
+        )
+        response.raise_for_status()
+        payload = response.json()
+        translated = str(payload.get("output_text", "")).strip().lower()
+        if not translated:
+            output = payload.get("output") or []
+            for item in output:
+                for content in item.get("content", []):
+                    if content.get("type") == "output_text":
+                        translated = str(content.get("text", "")).strip().lower()
+                        if translated:
+                            break
+                if translated:
+                    break
+        if not translated:
+            return None
+        return TranslationResult(
+            translated_text=translated,
+            provider="openai",
+            confidence=0.95,
+            found=True,
+        )
+
     if settings.translation_provider == "deepl" and settings.deepl_api_key:
         deepl_target = "PT-PT" if target_lang == "pt" else "FR"
         response = httpx.post(
@@ -180,15 +240,15 @@ def translate_text(db: Session, text: str, direction: str) -> TranslationResult:
 
 
 def translate_text_strict(text: str, direction: str) -> TranslationResult:
-    if settings.translation_provider != "deepl":
+    if settings.translation_provider != "openai":
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="DeepL is required for live translation. Set TRANSLATION_PROVIDER=deepl.",
+            detail="OpenAI is required for live translation. Set TRANSLATION_PROVIDER=openai.",
         )
-    if not settings.deepl_api_key:
+    if not settings.openai_api_key:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="DEEPL_API_KEY is missing on the backend.",
+            detail="OPENAI_API_KEY is missing on the backend.",
         )
 
     try:
@@ -196,13 +256,13 @@ def translate_text_strict(text: str, direction: str) -> TranslationResult:
     except httpx.HTTPError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="DeepL request failed.",
+            detail="OpenAI request failed.",
         ) from exc
 
-    if not result or result.provider != "deepl":
+    if not result or result.provider != "openai":
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="DeepL did not return a usable translation.",
+            detail="OpenAI did not return a usable translation.",
         )
 
     return result

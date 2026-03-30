@@ -5,6 +5,7 @@ import { AlertTriangle, CheckCircle2, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { DifficultyLevel, VocabularyCheckResponse, VocabularyEntry } from "@/lib/types";
+import { getDifficultyLabel } from "@/lib/utils";
 
 function getTemplate() {
   return process.env.NEXT_PUBLIC_CLERK_TOKEN_TEMPLATE;
@@ -13,14 +14,14 @@ function getTemplate() {
 type FormState = {
   fr: string;
   pt: string;
-  difficulty: DifficultyLevel;
 };
 
 const initialState: FormState = {
   fr: "",
   pt: "",
-  difficulty: 2,
 };
+
+type AddMode = "manual" | "recommendation" | null;
 
 export function VocabularyAdminPanel() {
   const { getToken } = useAuth();
@@ -30,6 +31,7 @@ export function VocabularyAdminPanel() {
   const [entries, setEntries] = useState<VocabularyEntry[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pendingAddMode, setPendingAddMode] = useState<AddMode>(null);
 
   async function requireToken() {
     const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
@@ -85,9 +87,10 @@ export function VocabularyAdminPanel() {
     }
   }
 
-  async function saveEntry(recommendation = false) {
+  async function saveEntry(difficulty: DifficultyLevel, recommendation = false) {
     setSaving(true);
     setMessage(null);
+    setPendingAddMode(null);
 
     try {
       const token = await requireToken();
@@ -101,15 +104,16 @@ export function VocabularyAdminPanel() {
         body: JSON.stringify({
           fr: payload.fr,
           pt: payload.pt,
-          difficulty: form.difficulty,
+          difficulty,
           force_add: recommendation || !checkResult?.is_consistent,
         }),
       });
       setEntries((current) => [entry, ...current].slice(0, 3));
       setForm(initialState);
+      setCheckResult(null);
       setMessage(
         recommendation
-          ? "La recommandation distante a été ajoutée à la base."
+          ? `La recommandation distante a été ajoutée en niveau ${getDifficultyLabel(difficulty).toLowerCase()}.`
           : "Le mot a été ajouté à la base persistante.",
       );
     } catch (error) {
@@ -153,72 +157,82 @@ export function VocabularyAdminPanel() {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            void saveEntry(false);
+            setPendingAddMode("manual");
           }}
           className="space-y-5 rounded-[1.6rem] bg-white/82 p-5"
         >
-          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_12rem_14rem] xl:items-end">
-            <label className="space-y-2">
-              <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
-                Français
-              </span>
-              <input
-                value={form.fr}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, fr: event.target.value }))
-                }
-                className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
-              />
-            </label>
-            <label className="space-y-2">
-              <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
-                Portugais
-              </span>
-              <input
-                value={form.pt}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, pt: event.target.value }))
-                }
-                className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
-              />
-            </label>
-            <label className="space-y-2">
-              <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
-                Difficulté
-              </span>
-              <select
-                value={form.difficulty}
-                onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    difficulty: Number(event.target.value) as DifficultyLevel,
-                  }))
-                }
-                className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
-              >
-                <option value={1}>Facile</option>
-                <option value={2}>Intermédiaire</option>
-                <option value={3}>Difficile</option>
-              </select>
-            </label>
-            <div className="flex flex-col gap-2.5 xl:items-stretch">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_11.5rem]">
+            <div className="space-y-4">
+              <label className="block space-y-2">
+                <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
+                  Français
+                </span>
+                <input
+                  value={form.fr}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, fr: event.target.value }))
+                  }
+                  className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
+                />
+              </label>
+              <label className="block space-y-2">
+                <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
+                  Portugais
+                </span>
+                <input
+                  value={form.pt}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, pt: event.target.value }))
+                  }
+                  className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
+                />
+              </label>
+            </div>
+            <div className="flex flex-col justify-end gap-2.5 lg:items-end">
               <button
                 type="button"
                 onClick={() => void handleCheck()}
-                className="w-full rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb]"
+                className="w-full rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-3 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb] lg:w-[11.5rem]"
               >
                 Vérifier la cohérence
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#163229] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#163229] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50 lg:w-[11.5rem]"
               >
                 <Plus className="h-4 w-4" />
                 Ajouter quand même
               </button>
             </div>
           </div>
+
+          {pendingAddMode ? (
+            <div className="rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] p-3">
+              <p className="text-sm font-semibold text-[#163229]">
+                Choisis une difficulté pour valider l’ajout
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[1, 2, 3].map((level) => (
+                  <button
+                    key={level}
+                    type="button"
+                    onClick={() => void saveEntry(level as DifficultyLevel, pendingAddMode === "recommendation")}
+                    className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-4 py-2 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb]"
+                  >
+                    {getDifficultyLabel(level as DifficultyLevel)}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setPendingAddMode(null)}
+                  className="rounded-full px-3 py-2 text-sm font-semibold text-[rgba(22,50,41,0.56)]"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          ) : null}
 
           {checkResult ? (
             <div className="rounded-[1.3rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] p-4">
@@ -241,7 +255,7 @@ export function VocabularyAdminPanel() {
                   {checkResult.recommendation ? (
                     <button
                       type="button"
-                      onClick={() => void saveEntry(true)}
+                      onClick={() => setPendingAddMode("recommendation")}
                       className="rounded-full bg-[#163229] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#21453a]"
                     >
                       Ajouter la recommandation

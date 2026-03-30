@@ -38,7 +38,10 @@ class Settings(BaseSettings):
     resend_api_key: str | None = Field(default=None, alias="RESEND_API_KEY")
     reminder_from_email: str | None = Field(default=None, alias="REMINDER_FROM_EMAIL")
 
-    translation_provider: str = Field(default="local", alias="TRANSLATION_PROVIDER")
+    translation_provider: str = Field(default="openai", alias="TRANSLATION_PROVIDER")
+    openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
+    openai_model: str = Field(default="gpt-4o-mini", alias="OPENAI_MODEL")
+    openai_api_base_url: str = Field(default="https://api.openai.com/v1", alias="OPENAI_API_BASE_URL")
     deepl_api_key: str | None = Field(default=None, alias="DEEPL_API_KEY")
     deepl_api_url: str = Field(default="https://api-free.deepl.com", alias="DEEPL_API_URL")
     libretranslate_url: str | None = Field(default=None, alias="LIBRETRANSLATE_URL")
