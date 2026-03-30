@@ -22,6 +22,7 @@ export function TranslatorPanel() {
   const [message, setMessage] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [pendingDifficultyPicker, setPendingDifficultyPicker] = useState(false);
+  const [pendingDifficulty, setPendingDifficulty] = useState<string>("");
   const queryKey = useMemo(() => `${direction}::${text.trim().toLowerCase()}`, [direction, text]);
   const [lastRequestedKey, setLastRequestedKey] = useState("");
 
@@ -81,6 +82,7 @@ export function TranslatorPanel() {
     setAdding(true);
     setMessage(null);
     setPendingDifficultyPicker(false);
+    setPendingDifficulty("");
 
     try {
       const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
@@ -156,6 +158,7 @@ export function TranslatorPanel() {
             onChange={(event) => {
               setText(event.target.value);
               setPendingDifficultyPicker(false);
+              setPendingDifficulty("");
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -174,7 +177,7 @@ export function TranslatorPanel() {
             <Languages className="h-4 w-4" />
             Résultat live
           </div>
-          <div className="mt-6 flex flex-1 flex-col rounded-[1.4rem] border border-white/10 bg-transparent p-5">
+          <div className="mt-6 flex min-h-0 flex-[0.82] flex-col rounded-[1.4rem] border border-white/10 bg-transparent p-5">
             <p className="text-sm text-white/52">
               {translation?.provider
                 ? `Source ${translation.provider}`
@@ -212,29 +215,27 @@ export function TranslatorPanel() {
           </div>
           {pendingDifficultyPicker ? (
             <div className="mt-3 rounded-[1.1rem] border border-white/10 bg-white/8 p-3">
-              <p className="text-sm font-semibold text-white/82">
-                Choisis une difficulté pour enregistrer la paire
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <select
-                  defaultValue={2}
+                  value={pendingDifficulty}
                   onChange={(event) => {
-                    const level = Number(event.target.value) as DifficultyLevel;
+                    const nextValue = event.target.value;
+                    setPendingDifficulty(nextValue);
+                    if (!nextValue) {
+                      return;
+                    }
+                    const level = Number(nextValue) as DifficultyLevel;
                     void handleAddPair(level);
                   }}
                   className="rounded-full border border-white/10 bg-[#f7efe2] px-4 py-2 text-sm font-semibold text-[#163229] outline-none"
                 >
+                  <option value="" disabled>
+                    Choisir la difficulté
+                  </option>
                   <option value={1}>Facile</option>
                   <option value={2}>Intermédiaire</option>
                   <option value={3}>Difficile</option>
                 </select>
-                <button
-                  type="button"
-                  onClick={() => setPendingDifficultyPicker(false)}
-                  className="rounded-full px-3 py-2 text-sm font-semibold text-white/70"
-                >
-                  Annuler
-                </button>
               </div>
             </div>
           ) : null}
