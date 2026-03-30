@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth, useUser } from "@clerk/nextjs";
-import { ArrowRightLeft, ChevronDown, ChevronUp, Languages, Plus } from "lucide-react";
+import { ArrowRightLeft, ChevronDown, Languages, Plus } from "lucide-react";
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { DifficultyLevel, TranslationDirection, TranslationResponse } from "@/lib/types";
@@ -22,6 +22,7 @@ export function TranslatorPanel() {
   const [message, setMessage] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [pendingDifficultyPicker, setPendingDifficultyPicker] = useState(false);
+  const [pendingDifficulty, setPendingDifficulty] = useState("");
   const queryKey = useMemo(() => `${direction}::${text.trim().toLowerCase()}`, [direction, text]);
   const [lastRequestedKey, setLastRequestedKey] = useState("");
 
@@ -81,6 +82,7 @@ export function TranslatorPanel() {
     setAdding(true);
     setMessage(null);
     setPendingDifficultyPicker(false);
+    setPendingDifficulty("");
 
     try {
       const token = await getToken(getTemplate() ? { template: getTemplate() } : undefined);
@@ -156,6 +158,7 @@ export function TranslatorPanel() {
             onChange={(event) => {
               setText(event.target.value);
               setPendingDifficultyPicker(false);
+              setPendingDifficulty("");
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -196,38 +199,46 @@ export function TranslatorPanel() {
 
           <div className="mt-5 flex flex-wrap gap-3">
             <div className="relative inline-block">
-              <button
-                type="button"
-                onClick={() => setPendingDifficultyPicker((current) => !current)}
-                disabled={!translation?.translated_text || !isSignedIn || adding}
-                className="inline-flex min-w-[18rem] items-center justify-between gap-3 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <span className="inline-flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  Ajouter la paire
-                </span>
-                {pendingDifficultyPicker ? (
-                  <ChevronUp className="h-4 w-4" />
-                ) : (
-                  <ChevronDown className="h-4 w-4" />
-                )}
-              </button>
               {pendingDifficultyPicker ? (
-                <div className="absolute left-0 top-[calc(100%+0.45rem)] z-20 w-full overflow-hidden rounded-[1.1rem] border border-white/10 bg-[#214238] shadow-soft">
-                  <div className="p-1.5">
-                    {[1, 2, 3].map((level) => (
-                      <button
-                        key={level}
-                        type="button"
-                        onClick={() => void handleAddPair(level as DifficultyLevel)}
-                        className="w-full rounded-[0.9rem] px-4 py-3 text-left text-sm font-semibold text-white transition hover:bg-white/10"
-                      >
-                        {getDifficultyLabel(level as DifficultyLevel)}
-                      </button>
-                    ))}
-                  </div>
+                <div className="relative min-w-[18rem]">
+                  <select
+                    autoFocus
+                    value={pendingDifficulty}
+                    onBlur={() => setPendingDifficultyPicker(false)}
+                    onChange={(event) => {
+                      const nextValue = event.target.value;
+                      setPendingDifficulty(nextValue);
+                      if (!nextValue) {
+                        return;
+                      }
+                      const level = Number(nextValue) as DifficultyLevel;
+                      void handleAddPair(level);
+                    }}
+                    className="w-full appearance-none rounded-full border border-white/10 bg-[#f7efe2] px-5 py-3 pr-11 text-sm font-semibold text-[#163229] outline-none"
+                  >
+                    <option value="" disabled>
+                      Difficulté
+                    </option>
+                    <option value={1}>Facile</option>
+                    <option value={2}>Intermédiaire</option>
+                    <option value={3}>Difficile</option>
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#163229]" />
                 </div>
-              ) : null}
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setPendingDifficultyPicker(true)}
+                  disabled={!translation?.translated_text || !isSignedIn || adding}
+                  className="inline-flex min-w-[18rem] items-center justify-between gap-3 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Ajouter la paire
+                  </span>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              )}
             </div>
             {!isSignedIn ? (
               <p className="text-sm text-white/68">
