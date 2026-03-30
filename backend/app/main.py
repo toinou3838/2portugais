@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 from contextlib import asynccontextmanager
+import logging
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +12,8 @@ from app.core.config import settings
 from app.db.session import SessionLocal
 from app.services.quiz import ensure_default_vocabulary
 from app.services.reminders import run_automatic_reminders_once
+
+logger = logging.getLogger("app.reminders")
 
 
 @asynccontextmanager
@@ -43,6 +46,7 @@ async def automatic_reminder_middleware(request: Request, call_next):
         return response
 
     if settings.reminder_auto_run_enabled:
+        logger.info("Scheduling automatic reminder check after request path=%s", request.url.path)
         asyncio.create_task(asyncio.to_thread(run_automatic_reminders_once))
 
     return response
