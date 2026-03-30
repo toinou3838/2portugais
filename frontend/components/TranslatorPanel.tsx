@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth, useUser } from "@clerk/nextjs";
-import { ArrowRightLeft, ChevronDown, Languages, Plus } from "lucide-react";
+import { ArrowRightLeft, ChevronDown, Languages } from "lucide-react";
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { DifficultyLevel, TranslationDirection, TranslationResponse } from "@/lib/types";
@@ -21,7 +21,6 @@ export function TranslatorPanel() {
   const [adding, setAdding] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
-  const [pendingDifficultyPicker, setPendingDifficultyPicker] = useState(false);
   const [pendingDifficulty, setPendingDifficulty] = useState("");
   const queryKey = useMemo(() => `${direction}::${text.trim().toLowerCase()}`, [direction, text]);
   const [lastRequestedKey, setLastRequestedKey] = useState("");
@@ -81,7 +80,6 @@ export function TranslatorPanel() {
 
     setAdding(true);
     setMessage(null);
-    setPendingDifficultyPicker(false);
     setPendingDifficulty("");
 
     try {
@@ -157,7 +155,6 @@ export function TranslatorPanel() {
             value={text}
             onChange={(event) => {
               setText(event.target.value);
-              setPendingDifficultyPicker(false);
               setPendingDifficulty("");
             }}
             onFocus={() => setIsFocused(true)}
@@ -199,46 +196,28 @@ export function TranslatorPanel() {
 
           <div className="mt-5 flex flex-wrap gap-3">
             <div className="relative inline-block">
-              {pendingDifficultyPicker ? (
-                <div className="relative min-w-[18rem]">
-                  <select
-                    autoFocus
-                    value={pendingDifficulty}
-                    onBlur={() => setPendingDifficultyPicker(false)}
-                    onChange={(event) => {
-                      const nextValue = event.target.value;
-                      setPendingDifficulty(nextValue);
-                      if (!nextValue) {
-                        return;
-                      }
-                      const level = Number(nextValue) as DifficultyLevel;
-                      void handleAddPair(level);
-                    }}
-                    className="w-full appearance-none rounded-full border border-white/10 bg-[#f7efe2] px-5 py-3 pr-11 text-sm font-semibold text-[#163229] outline-none"
-                  >
-                    <option value="" disabled>
-                      Difficul
-                    </option>
-                    <option value={1}>Facile</option>
-                    <option value={2}>Intermédiaire</option>
-                    <option value={3}>Difficile</option>
-                  </select>
-                  <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#163229]" />
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setPendingDifficultyPicker(true)}
-                  disabled={!translation?.translated_text || !isSignedIn || adding}
-                  className="inline-flex min-w-[18rem] items-center justify-between gap-3 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <Plus className="h-4 w-4" />
-                    Ajouter la paire
-                  </span>
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-              )}
+              <select
+                value={pendingDifficulty}
+                disabled={!translation?.translated_text || !isSignedIn || adding}
+                onChange={(event) => {
+                  const nextValue = event.target.value;
+                  setPendingDifficulty(nextValue);
+                  if (!nextValue) {
+                    return;
+                  }
+                  const level = Number(nextValue) as DifficultyLevel;
+                  void handleAddPair(level);
+                }}
+                className="min-w-[18rem] appearance-none rounded-full border border-white/10 bg-[#f7efe2] px-5 py-3 pr-11 text-sm font-semibold text-[#163229] outline-none disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <option value="" disabled>
+                  Difficulté
+                </option>
+                <option value={1}>Facile</option>
+                <option value={2}>Intermédiaire</option>
+                <option value={3}>Difficile</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#163229]" />
             </div>
             {!isSignedIn ? (
               <p className="text-sm text-white/68">
