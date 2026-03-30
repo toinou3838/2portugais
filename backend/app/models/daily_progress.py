@@ -23,7 +23,7 @@ class DailyProgress(TimestampMixin, Base):
     correct_answers: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     quizzes_completed: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     goal_reached: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    goal_reached_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     reminder_sent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     user: Mapped["User"] = relationship(back_populates="daily_progress_entries")
-

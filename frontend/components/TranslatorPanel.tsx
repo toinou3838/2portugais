@@ -4,7 +4,8 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { ArrowRightLeft, Languages, Plus } from "lucide-react";
 import { useDeferredValue, useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { TranslationDirection, TranslationResponse } from "@/lib/types";
+import { DifficultyLevel, TranslationDirection, TranslationResponse } from "@/lib/types";
+import { getDifficultyLabel } from "@/lib/utils";
 
 function getTemplate() {
   return process.env.NEXT_PUBLIC_CLERK_TOKEN_TEMPLATE;
@@ -16,6 +17,7 @@ export function TranslatorPanel() {
   const [direction, setDirection] = useState<TranslationDirection>("fr_to_pt");
   const [text, setText] = useState("");
   const [translation, setTranslation] = useState<TranslationResponse | null>(null);
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>(2);
   const [adding, setAdding] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const deferredText = useDeferredValue(text);
@@ -60,8 +62,16 @@ export function TranslatorPanel() {
 
       const payload =
         direction === "fr_to_pt"
-          ? { fr: text.trim().toLowerCase(), pt: translation.translated_text }
-          : { fr: translation.translated_text, pt: text.trim().toLowerCase() };
+          ? {
+              fr: text.trim().toLowerCase(),
+              pt: translation.translated_text,
+              difficulty,
+            }
+          : {
+              fr: translation.translated_text,
+              pt: text.trim().toLowerCase(),
+              difficulty,
+            };
 
       await apiFetch("/vocabulary", {
         method: "POST",
@@ -103,9 +113,20 @@ export function TranslatorPanel() {
 
       <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-[1.05fr_0.95fr]">
         <label className="flex h-[22rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
-          <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
-            {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
+              {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
+            </p>
+            <select
+              value={difficulty}
+              onChange={(event) => setDifficulty(Number(event.target.value) as DifficultyLevel)}
+              className="rounded-full border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-3 py-1.5 text-sm font-semibold text-[#163229] outline-none"
+            >
+              <option value={1}>Facile</option>
+              <option value={2}>Intermédiaire</option>
+              <option value={3}>Difficile</option>
+            </select>
+          </div>
           <textarea
             value={text}
             onChange={(event) => setText(event.target.value)}
@@ -150,6 +171,9 @@ export function TranslatorPanel() {
               <Plus className="h-4 w-4" />
               Ajouter la paire
             </button>
+            <span className="rounded-full bg-white/10 px-3 py-2 text-sm font-semibold text-white/84">
+              {getDifficultyLabel(difficulty)}
+            </span>
             {!isSignedIn ? (
               <p className="text-sm text-white/68">
                 Connecte-toi pour enregistrer la paire en base.

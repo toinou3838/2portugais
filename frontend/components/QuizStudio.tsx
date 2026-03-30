@@ -4,6 +4,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { startTransition, useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import {
+  DifficultyLevel,
   ProgressPayload,
   QuizAnswerState,
   QuizFeedback,
@@ -25,6 +26,7 @@ import { VocabularyAdminPanel } from "@/components/VocabularyAdminPanel";
 const defaultConfig = {
   questionCount: 20,
   conjugationPercentage: 10,
+  difficulty: 2 as DifficultyLevel,
 };
 
 function getTemplate() {
@@ -38,6 +40,7 @@ export function QuizStudio() {
   const [conjugationPercentage, setConjugationPercentage] = useState(
     defaultConfig.conjugationPercentage,
   );
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>(defaultConfig.difficulty);
   const [quiz, setQuiz] = useState<QuizGenerationResponse | null>(null);
   const [answers, setAnswers] = useState<QuizAnswerState[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -180,6 +183,7 @@ export function QuizStudio() {
         body: JSON.stringify({
           question_count: questionCount,
           conjugation_percentage: conjugationPercentage,
+          difficulty,
         }),
       });
 
@@ -289,9 +293,11 @@ export function QuizStudio() {
       <QuizSetup
         questionCount={questionCount}
         conjugationPercentage={conjugationPercentage}
+        difficulty={difficulty}
         loading={loadingQuiz}
         onQuestionCountChange={setQuestionCount}
         onConjugationPercentageChange={setConjugationPercentage}
+        onDifficultyChange={setDifficulty}
         onGenerate={() => void generateQuiz()}
       />
 

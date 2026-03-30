@@ -77,6 +77,7 @@ def create_vocabulary_entry(
         fr=normalized_fr,
         pt=normalized_pt,
         dir=random.choice([0, 1]),
+        difficulty=payload.difficulty,
         source="vocab",
         created_by_user_id=auth_user.user.id,
     )

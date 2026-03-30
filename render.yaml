@@ -39,6 +39,12 @@ services:
         value: https://api.clerk.com/v1
       - key: REMINDER_GOAL
         value: "50"
+      - key: REMINDER_SEND_HOUR
+        value: "21"
+      - key: REMINDER_TIMEZONE
+        value: Europe/Paris
+      - key: REMINDER_AUTO_RUN_ENABLED
+        value: "true"
       - key: REMINDER_JOB_SECRET
         generateValue: true
       - key: RESEND_API_KEY

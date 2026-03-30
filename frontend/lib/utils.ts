@@ -1,4 +1,4 @@
-import { QuizItem } from "@/lib/types";
+import { DifficultyLevel, QuizItem } from "@/lib/types";
 
 export function getDirectionLabel(dir: QuizItem["dir"]): string {
   return dir === 0 ? "Français → Portugais" : "Portugais → Français";
@@ -24,3 +24,15 @@ export function formatPercent(value: number): string {
   return `${Math.round(value)}%`;
 }
 
+export function getDifficultyLabel(value: DifficultyLevel): string {
+  switch (value) {
+    case 1:
+      return "Facile";
+    case 2:
+      return "Intermédiaire";
+    case 3:
+      return "Difficile";
+    default:
+      return "Intermédiaire";
+  }
+}

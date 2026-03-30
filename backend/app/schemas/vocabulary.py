@@ -19,6 +19,7 @@ class VocabularyCheckOut(BaseModel):
 class VocabularyCreateIn(BaseModel):
     fr: str = Field(min_length=1, max_length=255)
     pt: str = Field(min_length=1, max_length=255)
+    difficulty: int = Field(default=2, ge=1, le=3)
     force_add: bool = False
 
 
@@ -29,6 +30,7 @@ class VocabularyEntryOut(BaseModel):
     fr: str
     pt: str
     dir: int
+    difficulty: int
     source: str
     created_at: datetime
 
@@ -37,4 +39,3 @@ class GoogleSheetsSyncOut(BaseModel):
     imported: int
     skipped: int
     enabled: bool
-

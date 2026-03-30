@@ -4,7 +4,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { AlertTriangle, CheckCircle2, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { VocabularyCheckResponse, VocabularyEntry } from "@/lib/types";
+import { DifficultyLevel, VocabularyCheckResponse, VocabularyEntry } from "@/lib/types";
 
 function getTemplate() {
   return process.env.NEXT_PUBLIC_CLERK_TOKEN_TEMPLATE;
@@ -13,11 +13,13 @@ function getTemplate() {
 type FormState = {
   fr: string;
   pt: string;
+  difficulty: DifficultyLevel;
 };
 
 const initialState: FormState = {
   fr: "",
   pt: "",
+  difficulty: 2,
 };
 
 export function VocabularyAdminPanel() {
@@ -99,6 +101,7 @@ export function VocabularyAdminPanel() {
         body: JSON.stringify({
           fr: payload.fr,
           pt: payload.pt,
+          difficulty: form.difficulty,
           force_add: recommendation || !checkResult?.is_consistent,
         }),
       });
@@ -154,7 +157,7 @@ export function VocabularyAdminPanel() {
           }}
           className="space-y-5 rounded-[1.6rem] bg-white/82 p-5"
         >
-          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_14rem] xl:items-end">
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_12rem_14rem] xl:items-end">
             <label className="space-y-2">
               <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
                 Français
@@ -178,6 +181,25 @@ export function VocabularyAdminPanel() {
                 }
                 className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
               />
+            </label>
+            <label className="space-y-2">
+              <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
+                Difficulté
+              </span>
+              <select
+                value={form.difficulty}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    difficulty: Number(event.target.value) as DifficultyLevel,
+                  }))
+                }
+                className="w-full rounded-[1.2rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
+              >
+                <option value={1}>Facile</option>
+                <option value={2}>Intermédiaire</option>
+                <option value={3}>Difficile</option>
+              </select>
             </label>
             <div className="flex flex-col gap-2.5 xl:items-stretch">
               <button

@@ -4,5879 +4,6719 @@
     "fr": "je parle",
     "pt": "eu falo",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-2",
     "fr": "il parle",
     "pt": "ele fala",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-3",
     "fr": "nous parlons",
     "pt": "nós falamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-4",
     "fr": "ils parlent",
     "pt": "eles falam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-5",
     "fr": "j'ai parlé",
     "pt": "eu falei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-6",
     "fr": "il a parlé",
     "pt": "ele falou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-7",
     "fr": "nous avons parlé",
     "pt": "nós falámos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-8",
     "fr": "ils ont parlé",
     "pt": "eles falaram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-9",
     "fr": "je parlerai",
     "pt": "eu falarei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-10",
     "fr": "il parlera",
     "pt": "ele falará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-11",
     "fr": "nous parlerons",
     "pt": "nós falaremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-12",
     "fr": "ils parleront",
     "pt": "eles falarão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-13",
     "fr": "je parlerais",
     "pt": "eu falaria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-14",
     "fr": "il parlerait",
     "pt": "ele falaria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-15",
     "fr": "nous parlerions",
     "pt": "nós falaríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-16",
     "fr": "ils parleraient",
     "pt": "eles falariam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-17",
     "fr": "je parlais",
     "pt": "eu falava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-18",
     "fr": "il parlait",
     "pt": "ele falava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-19",
     "fr": "nous parlions",
     "pt": "nós falávamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-20",
     "fr": "ils parlaient",
     "pt": "eles falavam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-21",
     "fr": "que je parle",
     "pt": "que eu fale",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-22",
     "fr": "qu'il parle",
     "pt": "que ele fale",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-23",
     "fr": "que nous parlions",
     "pt": "que nós falemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-24",
     "fr": "qu'ils parlent",
     "pt": "que eles falem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-25",
     "fr": "je mange",
     "pt": "eu como",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-26",
     "fr": "il mange",
     "pt": "ele come",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-27",
     "fr": "nous mangeons",
     "pt": "nós comemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-28",
     "fr": "ils mangent",
     "pt": "eles comem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-29",
     "fr": "j'ai mangé",
     "pt": "eu comi",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-30",
     "fr": "il a mangé",
     "pt": "ele comeu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-31",
     "fr": "nous avons mangé",
     "pt": "nós comemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-32",
     "fr": "ils ont mangé",
     "pt": "eles comeram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-33",
     "fr": "je mangerai",
     "pt": "eu comerei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-34",
     "fr": "il mangera",
     "pt": "ele comerá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-35",
     "fr": "nous mangerons",
     "pt": "nós comeremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-36",
     "fr": "ils mangeront",
     "pt": "eles comerão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-37",
     "fr": "je mangerais",
     "pt": "eu comeria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-38",
     "fr": "il mangerait",
     "pt": "ele comeria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-39",
     "fr": "nous mangerions",
     "pt": "nós comeríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-40",
     "fr": "ils mangeraient",
     "pt": "eles comeriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-41",
     "fr": "je mangeais",
     "pt": "eu comia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-42",
     "fr": "il mangeait",
     "pt": "ele comia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-43",
     "fr": "nous mangions",
     "pt": "nós comíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-44",
     "fr": "ils mangeaient",
     "pt": "eles comiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-45",
     "fr": "que je mange",
     "pt": "que eu coma",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-46",
     "fr": "qu'il mange",
     "pt": "que ele coma",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-47",
     "fr": "que nous mangions",
     "pt": "que nós comamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-48",
     "fr": "qu'ils mangent",
     "pt": "que eles comam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-49",
     "fr": "j'ouvre",
     "pt": "eu abro",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-50",
     "fr": "il ouvre",
     "pt": "ele abre",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-51",
     "fr": "nous ouvrons",
     "pt": "nós abrimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-52",
     "fr": "ils ouvrent",
     "pt": "eles abrem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-53",
     "fr": "j'ai ouvert",
     "pt": "eu abri",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-54",
     "fr": "il a ouvert",
     "pt": "ele abriu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-55",
     "fr": "nous avons ouvert",
     "pt": "nós abrimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-56",
     "fr": "ils ont ouvert",
     "pt": "eles abriram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-57",
     "fr": "j'ouvrirai",
     "pt": "eu abrirei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-58",
     "fr": "il ouvrira",
     "pt": "ele abrirá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-59",
     "fr": "nous ouvrirons",
     "pt": "nós abriremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-60",
     "fr": "ils ouvriront",
     "pt": "eles abrirão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-61",
     "fr": "j'ouvrirais",
     "pt": "eu abriria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-62",
     "fr": "il ouvrirait",
     "pt": "ele abriria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-63",
     "fr": "nous ouvririons",
     "pt": "nós abriríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-64",
     "fr": "ils ouvriraient",
     "pt": "eles abririam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-65",
     "fr": "j'ouvrais",
     "pt": "eu abria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-66",
     "fr": "il ouvrait",
     "pt": "ele abria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-67",
     "fr": "nous ouvrions",
     "pt": "nós abríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-68",
     "fr": "ils ouvraient",
     "pt": "eles abriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-69",
     "fr": "que j'ouvre",
     "pt": "que eu abra",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-70",
     "fr": "qu'il ouvre",
     "pt": "que ele abra",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-71",
     "fr": "que nous ouvrions",
     "pt": "que nós abramos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-72",
     "fr": "qu'ils ouvrent",
     "pt": "que eles abram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-73",
     "fr": "j'étudie",
     "pt": "eu estudo",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-74",
     "fr": "il étudie",
     "pt": "ele estuda",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-75",
     "fr": "nous étudions",
     "pt": "nós estudamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-76",
     "fr": "ils étudient",
     "pt": "eles estudam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-77",
     "fr": "j'ai étudié",
     "pt": "eu estudei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-78",
     "fr": "il a étudié",
     "pt": "ele estudou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-79",
     "fr": "nous avons étudié",
     "pt": "nós estud",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-80",
     "fr": "ils ont étudié",
     "pt": "eles estudaram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-81",
     "fr": "j'étudierai",
     "pt": "eu estudarei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-82",
     "fr": "il étudiera",
     "pt": "ele estudará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-83",
     "fr": "nous étudierons",
     "pt": "nós estudaremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-84",
     "fr": "ils étudieront",
     "pt": "eles estudarão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-85",
     "fr": "j'étudierais",
     "pt": "eu estudaria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-86",
     "fr": "il étudierait",
     "pt": "ele estudaria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-87",
     "fr": "nous étudierions",
     "pt": "nós estudaríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-88",
     "fr": "ils étudieraient",
     "pt": "eles estudariam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-89",
     "fr": "j'étudiais",
     "pt": "eu estudava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-90",
     "fr": "il étudiait",
     "pt": "ele estudava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-91",
     "fr": "nous étudiions",
     "pt": "nós estudávamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-92",
     "fr": "ils étudiaient",
     "pt": "eles estudavam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-93",
     "fr": "que j'étudie",
     "pt": "que eu estude",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-94",
     "fr": "qu'il étudie",
     "pt": "que ele estude",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-95",
     "fr": "que nous étudiions",
     "pt": "que nós estudemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-96",
     "fr": "qu'ils étudient",
     "pt": "que eles estudem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-97",
     "fr": "je bois",
     "pt": "eu bebo",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-98",
     "fr": "il boit",
     "pt": "ele bebe",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-99",
     "fr": "nous buvons",
     "pt": "nós bebemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-100",
     "fr": "ils boivent",
     "pt": "eles bebem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-101",
     "fr": "j'ai bu",
     "pt": "eu bebi",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-102",
     "fr": "il a bu",
     "pt": "ele bebeu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-103",
     "fr": "nous avons bu",
     "pt": "nós bebemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-104",
     "fr": "ils ont bu",
     "pt": "eles beberam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-105",
     "fr": "je boirai",
     "pt": "eu beberei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-106",
     "fr": "il boira",
     "pt": "ele beberá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-107",
     "fr": "nous boirons",
     "pt": "nós beberemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-108",
     "fr": "ils boiront",
     "pt": "eles beberão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-109",
     "fr": "je boirais",
     "pt": "eu beberia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-110",
     "fr": "il boirait",
     "pt": "ele beberia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-111",
     "fr": "nous boirions",
     "pt": "nós beberíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-112",
     "fr": "ils boiraient",
     "pt": "eles beberiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-113",
     "fr": "je buvais",
     "pt": "eu bebia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-114",
     "fr": "il buvait",
     "pt": "ele bebia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-115",
     "fr": "nous buvions",
     "pt": "nós bebíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-116",
     "fr": "ils buvaient",
     "pt": "eles bebiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-117",
     "fr": "que je boive",
     "pt": "que eu beba",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-118",
     "fr": "qu'il boive",
     "pt": "que ele beba",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-119",
     "fr": "que nous buvions",
     "pt": "que nós bebamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-120",
     "fr": "qu'ils boivent",
     "pt": "que eles bebam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-121",
     "fr": "je pars",
     "pt": "eu parto",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-122",
     "fr": "il part",
     "pt": "ele parte",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-123",
     "fr": "nous partons",
     "pt": "nós partimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-124",
     "fr": "ils partent",
     "pt": "eles partem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-125",
     "fr": "je suis partie",
     "pt": "eu parti",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-126",
     "fr": "il est parti",
     "pt": "ele partiu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-127",
     "fr": "nous sommes parties",
     "pt": "nós partimos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-128",
     "fr": "ils sont partis",
     "pt": "eles partiram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-129",
     "fr": "je partirai",
     "pt": "eu partirei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-130",
     "fr": "il partira",
     "pt": "ele partirá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-131",
     "fr": "nous partirons",
     "pt": "nós partiremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-132",
     "fr": "ils partiront",
     "pt": "eles partirão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-133",
     "fr": "je partirais",
     "pt": "eu partiria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-134",
     "fr": "il partirait",
     "pt": "ele partiria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-135",
     "fr": "nous partirions",
     "pt": "nós partiríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-136",
     "fr": "ils partiraient",
     "pt": "eles partiriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-137",
     "fr": "je partais",
     "pt": "eu partia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-138",
     "fr": "il partait",
     "pt": "ele partia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-139",
     "fr": "nous partions",
     "pt": "nós partíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-140",
     "fr": "ils partaient",
     "pt": "eles partiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-141",
     "fr": "que je parte",
     "pt": "que eu parta",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-142",
     "fr": "qu'il parte",
     "pt": "que ele parta",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-143",
     "fr": "que nous partions",
     "pt": "que nós partamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-144",
     "fr": "qu'ils partent",
     "pt": "que eles partam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-145",
     "fr": "je travaille",
     "pt": "eu trabalho",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-146",
     "fr": "il travaille",
     "pt": "ele trabalha",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-147",
     "fr": "nous travaillons",
     "pt": "nós trabalhamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-148",
     "fr": "ils travaillent",
     "pt": "eles trabalham",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-149",
     "fr": "j'ai travaillé",
     "pt": "eu trabalhei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-150",
     "fr": "il a travaillé",
     "pt": "ele trabalhou",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-151",
     "fr": "nous avons travaillé",
     "pt": "nós trabalh",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-152",
     "fr": "ils ont travaillé",
     "pt": "eles trabalharam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-153",
     "fr": "je travaillerai",
     "pt": "eu trabalharei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-154",
     "fr": "il travaillera",
     "pt": "ele trabalhará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-155",
     "fr": "nous travaillerons",
     "pt": "nós trabalharemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-156",
     "fr": "ils travailleront",
     "pt": "eles trabalharão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-157",
     "fr": "je travaillerais",
     "pt": "eu trabalharia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-158",
     "fr": "il travaillerait",
     "pt": "ele trabalharia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-159",
     "fr": "nous travaillerions",
     "pt": "nós trabalharíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-160",
     "fr": "ils travailleraient",
     "pt": "eles trabalhariam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-161",
     "fr": "je travaillais",
     "pt": "eu trabalhava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-162",
     "fr": "il travaillait",
     "pt": "ele trabalhava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-163",
     "fr": "nous travaillions",
     "pt": "nós trabalhávamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-164",
     "fr": "ils travaillaient",
     "pt": "eles trabalhavam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-165",
     "fr": "que je travaille",
     "pt": "que eu trabalhe",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-166",
     "fr": "qu'il travaille",
     "pt": "que ele trabalhe",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-167",
     "fr": "que nous travaillions",
     "pt": "que nós trabalhemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-168",
     "fr": "qu'ils travaillent",
     "pt": "que eles trabalhem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-169",
     "fr": "je vends",
     "pt": "eu vendo",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-170",
     "fr": "il vend",
     "pt": "ele vende",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-171",
     "fr": "nous vendons",
     "pt": "nós vendemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-172",
     "fr": "ils vendent",
     "pt": "eles vendem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-173",
     "fr": "j'ai vendu",
     "pt": "eu vendi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-174",
     "fr": "il a vendu",
     "pt": "ele vendeu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-175",
     "fr": "nous avons vendu",
     "pt": "nós vendemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-176",
     "fr": "ils ont vendu",
     "pt": "eles venderam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-177",
     "fr": "je vendrai",
     "pt": "eu venderei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-178",
     "fr": "il vendra",
     "pt": "ele venderá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-179",
     "fr": "nous vendrons",
     "pt": "nós venderemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-180",
     "fr": "ils vendront",
     "pt": "eles venderão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-181",
     "fr": "je vendrais",
     "pt": "eu venderia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-182",
     "fr": "il vendrait",
     "pt": "ele venderia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-183",
     "fr": "nous vendrions",
     "pt": "nós venderíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-184",
     "fr": "ils vendraient",
     "pt": "eles venderiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-185",
     "fr": "je vendais",
     "pt": "eu vendia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-186",
     "fr": "il vendait",
     "pt": "ele vendia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-187",
     "fr": "nous vendions",
     "pt": "nós vendíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-188",
     "fr": "ils vendaient",
     "pt": "eles vendiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-189",
     "fr": "que je vende",
     "pt": "que eu venda",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-190",
     "fr": "qu'il vende",
     "pt": "que ele venda",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-191",
     "fr": "que nous vendions",
     "pt": "que nós vendamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-192",
     "fr": "qu'ils vendent",
     "pt": "que eles vendam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-193",
     "fr": "je divise",
     "pt": "eu divido",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-194",
     "fr": "il divise",
     "pt": "ele divide",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-195",
     "fr": "nous divisons",
     "pt": "nós dividimos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-196",
     "fr": "ils divisent",
     "pt": "eles dividem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-197",
     "fr": "j'ai divisé",
     "pt": "eu dividi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-198",
     "fr": "il a divisé",
     "pt": "ele dividiu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-199",
     "fr": "nous avons divisé",
     "pt": "nós dividimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-200",
     "fr": "ils ont divisé",
     "pt": "eles dividiram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-201",
     "fr": "je diviserai",
     "pt": "eu dividirei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-202",
     "fr": "il divisera",
     "pt": "ele dividirá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-203",
     "fr": "nous diviserons",
     "pt": "nós dividiremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-204",
     "fr": "ils diviseront",
     "pt": "eles dividirão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-205",
     "fr": "je diviserais",
     "pt": "eu dividiria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-206",
     "fr": "il diviserait",
     "pt": "ele dividiria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-207",
     "fr": "nous diviserions",
     "pt": "nós dividiríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-208",
     "fr": "ils diviseraient",
     "pt": "eles dividiriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-209",
     "fr": "je divisais",
     "pt": "eu dividia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-210",
     "fr": "il divisait",
     "pt": "ele dividia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-211",
     "fr": "nous divisions",
     "pt": "nós dividíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-212",
     "fr": "ils divisaient",
     "pt": "eles dividiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-213",
     "fr": "que je divise",
     "pt": "que eu divida",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-214",
     "fr": "qu'il divise",
     "pt": "que ele divida",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-215",
     "fr": "que nous divisions",
     "pt": "que nós dividamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-216",
     "fr": "qu'ils divisent",
     "pt": "que eles dividam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-217",
     "fr": "j'aide",
     "pt": "eu ajudo",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-218",
     "fr": "il aide",
     "pt": "ele ajuda",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-219",
     "fr": "nous aidons",
     "pt": "nós ajudamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-220",
     "fr": "ils aident",
     "pt": "eles ajudam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-221",
     "fr": "j'ai aidé",
     "pt": "eu ajudei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-222",
     "fr": "il a aidé",
     "pt": "ele ajudou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-223",
     "fr": "nous avons aidé",
     "pt": "nós ajud",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-224",
     "fr": "ils ont aidé",
     "pt": "eles ajudaram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-225",
     "fr": "j'aiderai",
     "pt": "eu ajudarei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-226",
     "fr": "il aidera",
     "pt": "ele ajudará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-227",
     "fr": "nous aiderons",
     "pt": "nós ajudaremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-228",
     "fr": "ils aideront",
     "pt": "eles ajudarão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-229",
     "fr": "j'aiderais",
     "pt": "eu ajudaria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-230",
     "fr": "il aiderait",
     "pt": "ele ajudaria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-231",
     "fr": "nous aiderions",
     "pt": "nós ajudaríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-232",
     "fr": "ils aideraient",
     "pt": "eles ajudariam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-233",
     "fr": "j'aidais",
     "pt": "eu ajudava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-234",
     "fr": "il aidait",
     "pt": "ele ajudava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-235",
     "fr": "nous aidions",
     "pt": "nós ajudávamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-236",
     "fr": "ils aidaient",
     "pt": "eles ajudavam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-237",
     "fr": "que j'aide",
     "pt": "que eu ajude",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-238",
     "fr": "qu'il aide",
     "pt": "que ele ajude",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-239",
     "fr": "que nous aidions",
     "pt": "que nós ajudemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-240",
     "fr": "qu'ils aident",
     "pt": "que eles ajudem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-241",
     "fr": "je cours",
     "pt": "eu corro",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-242",
     "fr": "il court",
     "pt": "ele corre",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-243",
     "fr": "nous courons",
     "pt": "nós corremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-244",
     "fr": "ils courent",
     "pt": "eles correm",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-245",
     "fr": "j'ai couru",
     "pt": "eu corri",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-246",
     "fr": "il a couru",
     "pt": "ele correu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-247",
     "fr": "nous avons couru",
     "pt": "nós corremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-248",
     "fr": "ils ont couru",
     "pt": "eles correram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-249",
     "fr": "je courrai",
     "pt": "eu correrei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-250",
     "fr": "il courra",
     "pt": "ele correrá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-251",
     "fr": "nous courrons",
     "pt": "nós correremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-252",
     "fr": "ils courront",
     "pt": "eles correrão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-253",
     "fr": "je courrais",
     "pt": "eu correria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-254",
     "fr": "il courrait",
     "pt": "ele correria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-255",
     "fr": "nous courrions",
     "pt": "nós correríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-256",
     "fr": "ils courraient",
     "pt": "eles correriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-257",
     "fr": "je courais",
     "pt": "eu corria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-258",
     "fr": "il courait",
     "pt": "ele corria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-259",
     "fr": "nous courions",
     "pt": "nós corríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-260",
     "fr": "ils couraient",
     "pt": "eles corriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-261",
     "fr": "que je coure",
     "pt": "que eu corra",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-262",
     "fr": "qu'il coure",
     "pt": "que ele corra",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-263",
     "fr": "que nous courions",
     "pt": "que nós corramos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-264",
     "fr": "qu'ils courent",
     "pt": "que eles corram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-265",
     "fr": "je regarde",
     "pt": "eu assisto",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-266",
     "fr": "il regarde",
     "pt": "ele assiste",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-267",
     "fr": "nous regardons",
     "pt": "nós assistimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-268",
     "fr": "ils regardent",
     "pt": "eles assistem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-269",
     "fr": "j'ai regardé",
     "pt": "eu assisti",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-270",
     "fr": "il a regardé",
     "pt": "ele assistiu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-271",
     "fr": "nous avons regardé",
     "pt": "nós assistimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-272",
     "fr": "ils ont regardé",
     "pt": "eles assistiram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-273",
     "fr": "je regarderai",
     "pt": "eu assistirei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-274",
     "fr": "il regardera",
     "pt": "ele assistirá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-275",
     "fr": "nous regarderons",
     "pt": "nós assistiremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-276",
     "fr": "ils regarderont",
     "pt": "eles assistirão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-277",
     "fr": "je regarderais",
     "pt": "eu assistiria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-278",
     "fr": "il regarderait",
     "pt": "ele assistiria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-279",
     "fr": "nous regarderions",
     "pt": "nós assistiríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-280",
     "fr": "ils regarderaient",
     "pt": "eles assistiriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-281",
     "fr": "je regardais",
     "pt": "eu assistia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-282",
     "fr": "il regardait",
     "pt": "ele assistia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-283",
     "fr": "nous regardions",
     "pt": "nós assistíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-284",
     "fr": "ils regardaient",
     "pt": "eles assistiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-285",
     "fr": "que je regarde",
     "pt": "que eu assista",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-286",
     "fr": "qu'il regarde",
     "pt": "que ele assista",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-287",
     "fr": "que nous regardions",
     "pt": "que nós assistamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-288",
     "fr": "qu'ils regardent",
     "pt": "que eles assistam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-289",
     "fr": "j'achète",
     "pt": "eu compro",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-290",
     "fr": "il achète",
     "pt": "ele compra",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-291",
     "fr": "nous achetons",
     "pt": "nós compramos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-292",
     "fr": "ils achètent",
     "pt": "eles compram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-293",
     "fr": "j'ai acheté",
     "pt": "eu comprei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-294",
     "fr": "il a acheté",
     "pt": "ele comprou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-295",
     "fr": "nous avons acheté",
     "pt": "nós compr",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-296",
     "fr": "ils ont acheté",
     "pt": "eles compraram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-297",
     "fr": "j'achèterai",
     "pt": "eu comprarei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-298",
     "fr": "il achètera",
     "pt": "ele comprará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-299",
     "fr": "nous achèterons",
     "pt": "nós compraremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-300",
     "fr": "ils achèteront",
     "pt": "eles comprarão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-301",
     "fr": "j'achèterais",
     "pt": "eu compraria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-302",
     "fr": "il achèterait",
     "pt": "ele compraria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-303",
     "fr": "nous achèterions",
     "pt": "nós compraríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-304",
     "fr": "ils achèteraient",
     "pt": "eles comprariam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-305",
     "fr": "j'achetais",
     "pt": "eu comprava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-306",
     "fr": "il achetait",
     "pt": "ele comprava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-307",
     "fr": "nous achetions",
     "pt": "nós comprávamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-308",
     "fr": "ils achetaient",
     "pt": "eles compravam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-309",
     "fr": "que j'achète",
     "pt": "que eu compre",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-310",
     "fr": "qu'il achète",
     "pt": "que ele compre",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-311",
     "fr": "que nous achetions",
     "pt": "que nós compremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-312",
     "fr": "qu'ils achètent",
     "pt": "que eles comprem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-313",
     "fr": "j'écris",
     "pt": "eu escrevo",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-314",
     "fr": "il écrit",
     "pt": "ele escreve",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-315",
     "fr": "nous écrivons",
     "pt": "nós escrevemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-316",
     "fr": "ils écrivent",
     "pt": "eles escrevem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-317",
     "fr": "j'ai écrit",
     "pt": "eu escrevi",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-318",
     "fr": "il a écrit",
     "pt": "ele escreveu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-319",
     "fr": "nous avons écrit",
     "pt": "nós escrevemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-320",
     "fr": "ils ont écrit",
     "pt": "eles escreveram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-321",
     "fr": "j'écrirai",
     "pt": "eu escreverei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-322",
     "fr": "il écrira",
     "pt": "ele escreverá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-323",
     "fr": "nous écrirons",
     "pt": "nós escreveremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-324",
     "fr": "ils écriront",
     "pt": "eles escreverão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-325",
     "fr": "j'écrirais",
     "pt": "eu escreveria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-326",
     "fr": "il écrirait",
     "pt": "ele escreveria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-327",
     "fr": "nous écririons",
     "pt": "nós escreveríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-328",
     "fr": "ils écriraient",
     "pt": "eles escreveriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-329",
     "fr": "j'écrivais",
     "pt": "eu escrevia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-330",
     "fr": "il écrivait",
     "pt": "ele escrevia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-331",
     "fr": "nous écrivions",
     "pt": "nós escrevíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-332",
     "fr": "ils écrivaient",
     "pt": "eles escreviam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-333",
     "fr": "que j'écrive",
     "pt": "que eu escreva",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-334",
     "fr": "qu'il écrive",
     "pt": "que ele escreva",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-335",
     "fr": "que nous écrivions",
     "pt": "que nós escrevamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-336",
     "fr": "qu'ils écrivent",
     "pt": "que eles escrevam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-337",
     "fr": "je décide",
     "pt": "eu decido",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-338",
     "fr": "il décide",
     "pt": "ele decide",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-339",
     "fr": "nous décidons",
     "pt": "nós decidimos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-340",
     "fr": "ils décident",
     "pt": "eles decidem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-341",
     "fr": "j'ai décidé",
     "pt": "eu decidi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-342",
     "fr": "il a décidé",
     "pt": "ele decidiu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-343",
     "fr": "nous avons décidé",
     "pt": "nós decidimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-344",
     "fr": "ils ont décidé",
     "pt": "eles decidiram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-345",
     "fr": "je déciderai",
     "pt": "eu decidirei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-346",
     "fr": "il décidera",
     "pt": "ele decidirá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-347",
     "fr": "nous déciderons",
     "pt": "nós decidiremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-348",
     "fr": "ils décideront",
     "pt": "eles decidirão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-349",
     "fr": "je déciderais",
     "pt": "eu decidiria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-350",
     "fr": "il déciderait",
     "pt": "ele decidiria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-351",
     "fr": "nous déciderions",
     "pt": "nós decidiríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-352",
     "fr": "ils décideraient",
     "pt": "eles decidiriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-353",
     "fr": "je décidais",
     "pt": "eu decidia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-354",
     "fr": "il décidait",
     "pt": "ele decidia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-355",
     "fr": "nous décidions",
     "pt": "nós decidíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-356",
     "fr": "ils décidaient",
     "pt": "eles decidiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-357",
     "fr": "que je décide",
     "pt": "que eu decida",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-358",
     "fr": "qu'il décide",
     "pt": "que ele decida",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-359",
     "fr": "que nous décidions",
     "pt": "que nós decidamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-360",
     "fr": "qu'ils décident",
     "pt": "que eles decidam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-361",
     "fr": "je lave",
     "pt": "eu lavo",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-362",
     "fr": "il lave",
     "pt": "ele lava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-363",
     "fr": "nous lavons",
     "pt": "nós lavamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-364",
     "fr": "ils lavent",
     "pt": "eles lavam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-365",
     "fr": "j'ai lavé",
     "pt": "eu lavei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-366",
     "fr": "il a lavé",
     "pt": "ele lavou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-367",
     "fr": "nous avons lavé",
     "pt": "nós lavámos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-368",
     "fr": "ils ont lavé",
     "pt": "eles lavaram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-369",
     "fr": "je laverai",
     "pt": "eu lavarei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-370",
     "fr": "il lavera",
     "pt": "ele lavará",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-371",
     "fr": "nous laverons",
     "pt": "nós lavaremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-372",
     "fr": "ils laveront",
     "pt": "eles lavarão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-373",
     "fr": "je laverais",
     "pt": "eu lavaria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-374",
     "fr": "il laverait",
     "pt": "ele lavaria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-375",
     "fr": "nous laverions",
     "pt": "nós lavaríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-376",
     "fr": "ils laveraient",
     "pt": "eles lavariam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-377",
     "fr": "je lavais",
     "pt": "eu lavava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-378",
     "fr": "il lavait",
     "pt": "ele lavava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-379",
     "fr": "nous lavions",
     "pt": "nós lavávamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-380",
     "fr": "ils lavaient",
     "pt": "eles lavavam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-381",
     "fr": "que je lave",
     "pt": "que eu lave",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-382",
     "fr": "qu'il lave",
     "pt": "que ele lave",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-383",
     "fr": "que nous lavions",
     "pt": "que nós lavemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-384",
     "fr": "qu'ils lavent",
     "pt": "que eles lavem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-385",
     "fr": "j'apprends",
     "pt": "eu aprendo",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-386",
     "fr": "il apprend",
     "pt": "ele aprende",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-387",
     "fr": "nous apprenons",
     "pt": "nós aprendemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-388",
     "fr": "ils apprennent",
     "pt": "eles aprendem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-389",
     "fr": "j'ai appris",
     "pt": "eu aprendi",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-390",
     "fr": "il a appris",
     "pt": "ele aprendeu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-391",
     "fr": "nous avons appris",
     "pt": "nós aprendemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-392",
     "fr": "ils ont appris",
     "pt": "eles aprenderam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-393",
     "fr": "j'apprendrai",
     "pt": "eu aprenderei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-394",
     "fr": "il apprendra",
     "pt": "ele aprenderá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-395",
     "fr": "nous apprendrons",
     "pt": "nós aprenderemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-396",
     "fr": "ils apprendront",
     "pt": "eles aprenderão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-397",
     "fr": "j'apprendrais",
     "pt": "eu aprenderia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-398",
     "fr": "il apprendrait",
     "pt": "ele aprenderia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-399",
     "fr": "nous apprendrions",
     "pt": "nós aprenderíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-400",
     "fr": "ils apprendraient",
     "pt": "eles aprenderiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-401",
     "fr": "j'apprenais",
     "pt": "eu aprendia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-402",
     "fr": "il apprenait",
     "pt": "ele aprendia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-403",
     "fr": "nous apprenions",
     "pt": "nós aprendíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-404",
     "fr": "ils apprenaient",
     "pt": "eles aprendiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-405",
     "fr": "que j'apprenne",
     "pt": "que eu aprenda",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-406",
     "fr": "qu'il apprenne",
     "pt": "que ele aprenda",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-407",
     "fr": "que nous apprenions",
     "pt": "que nós aprendamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-408",
     "fr": "qu'ils apprennent",
     "pt": "que eles aprendam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-409",
     "fr": "j'unis",
     "pt": "eu uno",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-410",
     "fr": "il unit",
     "pt": "ele une",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-411",
     "fr": "nous unissons",
     "pt": "nós unimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-412",
     "fr": "ils unissent",
     "pt": "eles unem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-413",
     "fr": "j'ai uni",
     "pt": "eu uni",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-414",
     "fr": "il a uni",
     "pt": "ele uniu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-415",
     "fr": "nous avons uni",
     "pt": "nós unimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-416",
     "fr": "ils ont uni",
     "pt": "eles uniram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-417",
     "fr": "j'unirai",
     "pt": "eu unirei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-418",
     "fr": "il unira",
     "pt": "ele unirá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-419",
     "fr": "nous unirons",
     "pt": "nós uniremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-420",
     "fr": "ils uniront",
     "pt": "eles unirão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-421",
     "fr": "j'unirais",
     "pt": "eu uniria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-422",
     "fr": "il unirait",
     "pt": "ele uniria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-423",
     "fr": "nous unirions",
     "pt": "nós uniríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-424",
     "fr": "ils uniraient",
     "pt": "eles uniriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-425",
     "fr": "j'unissais",
     "pt": "eu unia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-426",
     "fr": "il unissait",
     "pt": "ele unia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-427",
     "fr": "nous unissions",
     "pt": "nós uníamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-428",
     "fr": "ils unissaient",
     "pt": "eles uniam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-429",
     "fr": "que j'unisse",
     "pt": "que eu una",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-430",
     "fr": "qu'il unisse",
     "pt": "que ele una",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-431",
     "fr": "que nous unissions",
     "pt": "que nós unamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-432",
     "fr": "qu'ils unissent",
     "pt": "que eles unam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-433",
     "fr": "je marche",
     "pt": "eu caminho",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-434",
     "fr": "il marche",
     "pt": "ele caminha",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-435",
     "fr": "nous marchons",
     "pt": "nós caminhamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-436",
     "fr": "ils marchent",
     "pt": "eles caminham",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-437",
     "fr": "j'ai marché",
     "pt": "eu caminhei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-438",
     "fr": "il a marché",
     "pt": "ele caminhou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-439",
     "fr": "nous avons marché",
     "pt": "nós caminh",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-440",
     "fr": "ils ont marché",
     "pt": "eles caminharam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-441",
     "fr": "je marcherai",
     "pt": "eu caminharei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-442",
     "fr": "il marchera",
     "pt": "ele caminhará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-443",
     "fr": "nous marcherons",
     "pt": "nós caminharemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-444",
     "fr": "ils marcheront",
     "pt": "eles caminharão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-445",
     "fr": "je marcherais",
     "pt": "eu caminharia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-446",
     "fr": "il marcherait",
     "pt": "ele caminharia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-447",
     "fr": "nous marcherions",
     "pt": "nós caminharíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-448",
     "fr": "ils marcheraient",
     "pt": "eles caminhariam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-449",
     "fr": "je marchais",
     "pt": "eu caminhava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-450",
     "fr": "il marchait",
     "pt": "ele caminhava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-451",
     "fr": "nous marchions",
     "pt": "nós caminhávamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-452",
     "fr": "ils marchaient",
     "pt": "eles caminhavam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-453",
     "fr": "que je marche",
     "pt": "que eu caminhe",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-454",
     "fr": "qu'il marche",
     "pt": "que ele caminhe",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-455",
     "fr": "que nous marchions",
     "pt": "que nós caminhemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-456",
     "fr": "qu'ils marchent",
     "pt": "que eles caminhem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-457",
     "fr": "je reçois",
     "pt": "eu recebo",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-458",
     "fr": "il reçoit",
     "pt": "ele recebe",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-459",
     "fr": "nous recevons",
     "pt": "nós recebemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-460",
     "fr": "ils reçoivent",
     "pt": "eles recebem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-461",
     "fr": "j'ai reçu",
     "pt": "eu recebi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-462",
     "fr": "il a reçu",
     "pt": "ele recebeu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-463",
     "fr": "nous avons reçu",
     "pt": "nós recebemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-464",
     "fr": "ils ont reçu",
     "pt": "eles receberam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-465",
     "fr": "je recevrai",
     "pt": "eu receberei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-466",
     "fr": "il recevra",
     "pt": "ele receberá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-467",
     "fr": "nous recevrons",
     "pt": "nós receberemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-468",
     "fr": "ils recevront",
     "pt": "eles receberão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-469",
     "fr": "je recevrais",
     "pt": "eu receberia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-470",
     "fr": "il recevrait",
     "pt": "ele receberia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-471",
     "fr": "nous recevrions",
     "pt": "nós receberíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-472",
     "fr": "ils recevraient",
     "pt": "eles receberiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-473",
     "fr": "je recevais",
     "pt": "eu recebia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-474",
     "fr": "il recevait",
     "pt": "ele recebia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-475",
     "fr": "nous recevions",
     "pt": "nós recebíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-476",
     "fr": "ils recevaient",
     "pt": "eles recebiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-477",
     "fr": "que je reçoive",
     "pt": "que eu receba",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-478",
     "fr": "qu'il reçoive",
     "pt": "que ele receba",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-479",
     "fr": "que nous recevions",
     "pt": "que nós recebamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-480",
     "fr": "qu'ils reçoivent",
     "pt": "que eles recebam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-481",
     "fr": "je suis",
     "pt": "eu sou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-482",
     "fr": "il est",
     "pt": "ele é",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-483",
     "fr": "nous sommes",
     "pt": "nós somos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-484",
     "fr": "ils sont",
     "pt": "eles são",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-485",
     "fr": "j'ai été",
     "pt": "eu fui",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-486",
     "fr": "il a été",
     "pt": "ele foi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-487",
     "fr": "nous avons été",
     "pt": "nós fomos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-488",
     "fr": "ils ont été",
     "pt": "eles foram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-489",
     "fr": "je serai",
     "pt": "eu serei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-490",
     "fr": "il sera",
     "pt": "ele será",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-491",
     "fr": "nous serons",
     "pt": "nós seremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-492",
     "fr": "ils seront",
     "pt": "eles serão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-493",
     "fr": "je serais",
     "pt": "eu seria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-494",
     "fr": "il serait",
     "pt": "ele seria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-495",
     "fr": "nous serions",
     "pt": "nós seríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-496",
     "fr": "ils seraient",
     "pt": "eles seriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-497",
     "fr": "j'étais",
     "pt": "eu era",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-498",
     "fr": "il était",
     "pt": "ele era",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-499",
     "fr": "nous étions",
     "pt": "nós éramos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-500",
     "fr": "ils étaient",
     "pt": "eles eram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-501",
     "fr": "que je sois",
     "pt": "que eu seja",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-502",
     "fr": "qu'il soit",
     "pt": "que ele seja",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-503",
     "fr": "que nous soyons",
     "pt": "que nós sejamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-504",
     "fr": "qu'ils soient",
     "pt": "que eles sejam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-505",
     "fr": "je suis",
     "pt": "eu estou",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-506",
     "fr": "il est",
     "pt": "ele está",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-507",
     "fr": "nous sommes",
     "pt": "nós estamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-508",
     "fr": "ils sont",
     "pt": "eles estão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-509",
     "fr": "j'ai été",
     "pt": "eu estive",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-510",
     "fr": "il a été",
     "pt": "ele esteve",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-511",
     "fr": "nous avons été",
     "pt": "nós estivemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-512",
     "fr": "ils ont été",
     "pt": "eles estiveram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-513",
     "fr": "je serai",
     "pt": "eu estarei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-514",
     "fr": "il sera",
     "pt": "ele estará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-515",
     "fr": "nous serons",
     "pt": "nós estaremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-516",
     "fr": "ils seront",
     "pt": "eles estarão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-517",
     "fr": "je serais",
     "pt": "eu estaria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-518",
     "fr": "il serait",
     "pt": "ele estaria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-519",
     "fr": "nous serions",
     "pt": "nós estaríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-520",
     "fr": "ils seraient",
     "pt": "eles estariam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-521",
     "fr": "j'étais",
     "pt": "eu estava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-522",
     "fr": "il était",
     "pt": "ele estava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-523",
     "fr": "nous étions",
     "pt": "nós estávamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-524",
     "fr": "ils étaient",
     "pt": "eles estavam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-525",
     "fr": "que je sois",
     "pt": "que eu esteja",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-526",
     "fr": "qu'il soit",
     "pt": "que ele esteja",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-527",
     "fr": "que nous soyons",
     "pt": "que nós estejamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-528",
     "fr": "qu'ils soient",
     "pt": "que eles estejam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-529",
     "fr": "j'ai",
     "pt": "eu tenho",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-530",
     "fr": "il a",
     "pt": "ele tem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-531",
     "fr": "nous avons",
     "pt": "nós temos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-532",
     "fr": "ils ont",
     "pt": "eles têm",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-533",
     "fr": "j'ai eu",
     "pt": "eu tive",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-534",
     "fr": "il a eu",
     "pt": "ele teve",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-535",
     "fr": "nous avons eu",
     "pt": "nós tivemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-536",
     "fr": "ils ont eu",
     "pt": "eles tiveram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-537",
     "fr": "j'aurai",
     "pt": "eu terei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-538",
     "fr": "il aura",
     "pt": "ele terá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-539",
     "fr": "nous aurons",
     "pt": "nós teremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-540",
     "fr": "ils auront",
     "pt": "eles terão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-541",
     "fr": "j'aurais",
     "pt": "eu teria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-542",
     "fr": "il aurait",
     "pt": "ele teria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-543",
     "fr": "nous aurions",
     "pt": "nós teríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-544",
     "fr": "ils auraient",
     "pt": "eles teriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-545",
     "fr": "j'avais",
     "pt": "eu tinha",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-546",
     "fr": "il avait",
     "pt": "ele tinha",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-547",
     "fr": "nous avions",
     "pt": "nós tínhamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-548",
     "fr": "ils avaient",
     "pt": "eles tinham",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-549",
     "fr": "que j'aie",
     "pt": "que eu tenha",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-550",
     "fr": "qu'il ait",
     "pt": "que ele tenha",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-551",
     "fr": "que nous ayons",
     "pt": "que nós tenhamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-552",
     "fr": "qu'ils aient",
     "pt": "que eles tenham",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-553",
     "fr": "je vais",
     "pt": "eu vou",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-554",
     "fr": "il va",
     "pt": "ele vai",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-555",
     "fr": "nous allons",
     "pt": "nós imos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-556",
     "fr": "ils vont",
     "pt": "eles vão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-557",
     "fr": "je suis allée",
     "pt": "eu fui",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-558",
     "fr": "il est allé",
     "pt": "ele foi",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-559",
     "fr": "nous sommes allées",
     "pt": "nós fomos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-560",
     "fr": "ils sont allés",
     "pt": "eles foram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-561",
     "fr": "j'irai",
     "pt": "eu irei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-562",
     "fr": "il ira",
     "pt": "ele irá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-563",
     "fr": "nous irons",
     "pt": "nós iremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-564",
     "fr": "ils iront",
     "pt": "eles irão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-565",
     "fr": "j'irais",
     "pt": "eu iria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-566",
     "fr": "il irait",
     "pt": "ele iria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-567",
     "fr": "nous irions",
     "pt": "nós iríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-568",
     "fr": "ils iraient",
     "pt": "eles iriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-569",
     "fr": "j'allais",
     "pt": "eu ia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-570",
     "fr": "il allait",
     "pt": "ele ia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-571",
     "fr": "nous allions",
     "pt": "nós íamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-572",
     "fr": "ils allaient",
     "pt": "eles iam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-573",
     "fr": "que j'aille",
     "pt": "que eu vá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-574",
     "fr": "qu'il aille",
     "pt": "que ele vá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-575",
     "fr": "que nous allions",
     "pt": "que nós vamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-576",
     "fr": "qu'ils aillent",
     "pt": "que eles vão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-577",
     "fr": "je lis",
     "pt": "eu leio",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-578",
     "fr": "il lit",
     "pt": "ele lê",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-579",
     "fr": "nous lisons",
     "pt": "nós lemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-580",
     "fr": "ils lisent",
     "pt": "eles lêem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-581",
     "fr": "j'ai lu",
     "pt": "eu li",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-582",
     "fr": "il a lu",
     "pt": "ele leu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-583",
     "fr": "nous avons lu",
     "pt": "nós lemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-584",
     "fr": "ils ont lu",
     "pt": "eles leram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-585",
     "fr": "je lirai",
     "pt": "eu lerei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-586",
     "fr": "il lira",
     "pt": "ele lerá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-587",
     "fr": "nous lirons",
     "pt": "nós leremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-588",
     "fr": "ils liront",
     "pt": "eles lerão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-589",
     "fr": "je lirais",
     "pt": "eu leria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-590",
     "fr": "il lirait",
     "pt": "ele leria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-591",
     "fr": "nous lirions",
     "pt": "nós leríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-592",
     "fr": "ils liraient",
     "pt": "eles leriam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-593",
     "fr": "je lisais",
     "pt": "eu lia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-594",
     "fr": "il lisait",
     "pt": "ele lia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-595",
     "fr": "nous lisions",
     "pt": "nós líamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-596",
     "fr": "ils lisaient",
     "pt": "eles liam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-597",
     "fr": "que je lise",
     "pt": "que eu leia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-598",
     "fr": "qu'il lise",
     "pt": "que ele leia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-599",
     "fr": "que nous lisions",
     "pt": "que nós leiamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-600",
     "fr": "qu'ils lisent",
     "pt": "que eles leiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-601",
     "fr": "je donne",
     "pt": "eu dou",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-602",
     "fr": "il donne",
     "pt": "ele dá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-603",
     "fr": "nous donnons",
     "pt": "nós damos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-604",
     "fr": "ils donnent",
     "pt": "eles dão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-605",
     "fr": "j'ai donné",
     "pt": "eu dei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-606",
     "fr": "il a donné",
     "pt": "ele deu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-607",
     "fr": "nous avons donné",
     "pt": "nós demos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-608",
     "fr": "ils ont donné",
     "pt": "eles deram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-609",
     "fr": "je donnerai",
     "pt": "eu darei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-610",
     "fr": "il donnera",
     "pt": "ele dará",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-611",
     "fr": "nous donnerons",
     "pt": "nós daremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-612",
     "fr": "ils donneront",
     "pt": "eles darão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-613",
     "fr": "je donnerais",
     "pt": "eu daria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-614",
     "fr": "il donnerait",
     "pt": "ele daria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-615",
     "fr": "nous donnerions",
     "pt": "nós daríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-616",
     "fr": "ils donneraient",
     "pt": "eles dariam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-617",
     "fr": "je donnais",
     "pt": "eu dava",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-618",
     "fr": "il donnait",
     "pt": "ele dava",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-619",
     "fr": "nous donnions",
     "pt": "nós dávamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-620",
     "fr": "ils donnaient",
     "pt": "eles davam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-621",
     "fr": "que je donne",
     "pt": "que eu dê",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-622",
     "fr": "qu'il donne",
     "pt": "que ele dê",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-623",
     "fr": "que nous donnions",
     "pt": "que nós demos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-624",
     "fr": "qu'ils donnent",
     "pt": "que eles dêem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-625",
     "fr": "je sors",
     "pt": "eu saio",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-626",
     "fr": "il sort",
     "pt": "ele sai",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-627",
     "fr": "nous sortons",
     "pt": "nós saímos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-628",
     "fr": "ils sortent",
     "pt": "eles saem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-629",
     "fr": "je suis sortie",
     "pt": "eu saí",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-630",
     "fr": "il est sorti",
     "pt": "ele saiu",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-631",
     "fr": "nous sommes sorties",
     "pt": "nós saímos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-632",
     "fr": "ils sont sortis",
     "pt": "eles saíram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-633",
     "fr": "je sortirai",
     "pt": "eu sairei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-634",
     "fr": "il sortira",
     "pt": "ele sairá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-635",
     "fr": "nous sortirons",
     "pt": "nós sairemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-636",
     "fr": "ils sortiront",
     "pt": "eles sairão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-637",
     "fr": "je sortirais",
     "pt": "eu sairia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-638",
     "fr": "il sortirait",
     "pt": "ele sairia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-639",
     "fr": "nous sortirions",
     "pt": "nós sairíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-640",
     "fr": "ils sortiraient",
     "pt": "eles sairiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-641",
     "fr": "je sortais",
     "pt": "eu saía",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-642",
     "fr": "il sortait",
     "pt": "ele saía",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-643",
     "fr": "nous sortions",
     "pt": "nós saíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-644",
     "fr": "ils sortaient",
     "pt": "eles saíam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-645",
     "fr": "que je sorte",
     "pt": "que eu saia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-646",
     "fr": "qu'il sorte",
     "pt": "que ele saia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-647",
     "fr": "que nous sortions",
     "pt": "que nós saiamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-648",
     "fr": "qu'ils sortent",
     "pt": "que eles saiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-649",
     "fr": "je fais",
     "pt": "eu faço",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-650",
     "fr": "il fait",
     "pt": "ele faz",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-651",
     "fr": "nous faisons",
     "pt": "nós fazemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-652",
     "fr": "ils font",
     "pt": "eles fazem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-653",
     "fr": "j'ai fait",
     "pt": "eu fiz",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-654",
     "fr": "il a fait",
     "pt": "ele fez",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-655",
     "fr": "nous avons fait",
     "pt": "nós fizemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-656",
     "fr": "ils ont fait",
     "pt": "eles fizeram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-657",
     "fr": "je ferai",
     "pt": "eu farei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-658",
     "fr": "il fera",
     "pt": "ele fará",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-659",
     "fr": "nous ferons",
     "pt": "nós faremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-660",
     "fr": "ils feront",
     "pt": "eles farão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-661",
     "fr": "je ferais",
     "pt": "eu faria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-662",
     "fr": "il ferait",
     "pt": "ele faria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-663",
     "fr": "nous ferions",
     "pt": "nós faríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-664",
     "fr": "ils feraient",
     "pt": "eles fariam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-665",
     "fr": "je faisais",
     "pt": "eu fazia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-666",
     "fr": "il faisait",
     "pt": "ele fazia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-667",
     "fr": "nous faisions",
     "pt": "nós fazíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-668",
     "fr": "ils faisaient",
     "pt": "eles faziam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-669",
     "fr": "que je fasse",
     "pt": "que eu faça",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-670",
     "fr": "qu'il fasse",
     "pt": "que ele faça",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-671",
     "fr": "que nous fassions",
     "pt": "que nós façamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-672",
     "fr": "qu'ils fassent",
     "pt": "que eles façam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-673",
     "fr": "je dis",
     "pt": "eu digo",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-674",
     "fr": "il dit",
     "pt": "ele diz",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-675",
     "fr": "nous disons",
     "pt": "nós dizemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-676",
     "fr": "ils disent",
     "pt": "eles dizem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-677",
     "fr": "j'ai dit",
     "pt": "eu disse",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-678",
     "fr": "il a dit",
     "pt": "ele disse",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-679",
     "fr": "nous avons dit",
     "pt": "nós dissemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-680",
     "fr": "ils ont dit",
     "pt": "eles disseram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-681",
     "fr": "je dirai",
     "pt": "eu direi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-682",
     "fr": "il dira",
     "pt": "ele dirá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-683",
     "fr": "nous dirons",
     "pt": "nós diremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-684",
     "fr": "ils diront",
     "pt": "eles dirão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-685",
     "fr": "je dirais",
     "pt": "eu diria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-686",
     "fr": "il dirait",
     "pt": "ele diria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-687",
     "fr": "nous dirions",
     "pt": "nós diríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-688",
     "fr": "ils diraient",
     "pt": "eles diriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-689",
     "fr": "je disais",
     "pt": "eu dizia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-690",
     "fr": "il disait",
     "pt": "ele dizia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-691",
     "fr": "nous disions",
     "pt": "nós dizíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-692",
     "fr": "ils disaient",
     "pt": "eles diziam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-693",
     "fr": "que je dise",
     "pt": "que eu diga",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-694",
     "fr": "qu'il dise",
     "pt": "que ele diga",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-695",
     "fr": "que nous disions",
     "pt": "que nós digamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-696",
     "fr": "qu'ils disent",
     "pt": "que eles digam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-697",
     "fr": "je peux",
     "pt": "eu posso",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-698",
     "fr": "il peut",
     "pt": "ele pode",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-699",
     "fr": "nous pouvons",
     "pt": "nós podemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-700",
     "fr": "ils peuvent",
     "pt": "eles podem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-701",
     "fr": "j'ai pu",
     "pt": "eu pude",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-702",
     "fr": "il a pu",
     "pt": "ele pôde",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-703",
     "fr": "nous avons pu",
     "pt": "nós pudemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-704",
     "fr": "ils ont pu",
     "pt": "eles puderam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-705",
     "fr": "je pourrai",
     "pt": "eu poderei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-706",
     "fr": "il pourra",
     "pt": "ele poderá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-707",
     "fr": "nous pourrons",
     "pt": "nós poderemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-708",
     "fr": "ils pourront",
     "pt": "eles poderão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-709",
     "fr": "je pourrais",
     "pt": "eu poderia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-710",
     "fr": "il pourrait",
     "pt": "ele poderia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-711",
     "fr": "nous pourrions",
     "pt": "nós poderíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-712",
     "fr": "ils pourraient",
     "pt": "eles poderiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-713",
     "fr": "je pouvais",
     "pt": "eu podia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-714",
     "fr": "il pouvait",
     "pt": "ele podia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-715",
     "fr": "nous pouvions",
     "pt": "nós podíamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-716",
     "fr": "ils pouvaient",
     "pt": "eles podiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-717",
     "fr": "que je puisse",
     "pt": "que eu possa",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-718",
     "fr": "qu'il puisse",
     "pt": "que ele possa",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-719",
     "fr": "que nous puissions",
     "pt": "que nós possamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-720",
     "fr": "qu'ils puissent",
     "pt": "que eles possam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-721",
     "fr": "je sais",
     "pt": "eu sei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-722",
     "fr": "il sait",
     "pt": "ele sabe",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-723",
     "fr": "nous savons",
     "pt": "nós sabemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-724",
     "fr": "ils savent",
     "pt": "eles sabem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-725",
     "fr": "j'ai su",
     "pt": "eu soube",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-726",
     "fr": "il a su",
     "pt": "ele soube",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-727",
     "fr": "nous avons su",
     "pt": "nós soubemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-728",
     "fr": "ils ont su",
     "pt": "eles souberam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-729",
     "fr": "je saurai",
     "pt": "eu saberei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-730",
     "fr": "il saura",
     "pt": "ele saberá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-731",
     "fr": "nous saurons",
     "pt": "nós saberemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-732",
     "fr": "ils sauront",
     "pt": "eles saberão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-733",
     "fr": "je saurais",
     "pt": "eu saberia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-734",
     "fr": "il saurait",
     "pt": "ele saberia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-735",
     "fr": "nous saurions",
     "pt": "nós saberíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-736",
     "fr": "ils sauraient",
     "pt": "eles saberiam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-737",
     "fr": "je savais",
     "pt": "eu sabia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-738",
     "fr": "il savait",
     "pt": "ele sabia",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-739",
     "fr": "nous savions",
     "pt": "nós sabíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-740",
     "fr": "ils savaient",
     "pt": "eles sabiam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-741",
     "fr": "que je sache",
     "pt": "que eu saiba",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-742",
     "fr": "qu'il sache",
     "pt": "que ele saiba",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-743",
     "fr": "que nous sachions",
     "pt": "que nós saibamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-744",
     "fr": "qu'ils sachent",
     "pt": "que eles saibam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-745",
     "fr": "j'apporte",
     "pt": "eu trago",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-746",
     "fr": "il apporte",
     "pt": "ele traz",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-747",
     "fr": "nous apportons",
     "pt": "nós trazemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-748",
     "fr": "ils apportent",
     "pt": "eles trazem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-749",
     "fr": "j'ai apporté",
     "pt": "eu trouxe",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-750",
     "fr": "il a apporté",
     "pt": "ele trouxe",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-751",
     "fr": "nous avons apporté",
     "pt": "nós trouxemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-752",
     "fr": "ils ont apporté",
     "pt": "eles trouxeram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-753",
     "fr": "j'apporterai",
     "pt": "eu trarei",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-754",
     "fr": "il apportera",
     "pt": "ele trará",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-755",
     "fr": "nous apporterons",
     "pt": "nós traremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-756",
     "fr": "ils apporteront",
     "pt": "eles trarão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-757",
     "fr": "j'apporterais",
     "pt": "eu traria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-758",
     "fr": "il apporterait",
     "pt": "ele traria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-759",
     "fr": "nous apporterions",
     "pt": "nós traríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-760",
     "fr": "ils apporteraient",
     "pt": "eles trariam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-761",
     "fr": "j'apportais",
     "pt": "eu trazia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-762",
     "fr": "il apportait",
     "pt": "ele trazia",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-763",
     "fr": "nous apportions",
     "pt": "nós trazíamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-764",
     "fr": "ils apportaient",
     "pt": "eles traziam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-765",
     "fr": "que j'apporte",
     "pt": "que eu traga",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-766",
     "fr": "qu'il apporte",
     "pt": "que ele traga",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-767",
     "fr": "que nous apportions",
     "pt": "que nós tragamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-768",
     "fr": "qu'ils apportent",
     "pt": "que eles tragam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-769",
     "fr": "je veux",
     "pt": "eu quero",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-770",
     "fr": "il veut",
     "pt": "ele quer",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-771",
     "fr": "nous voulons",
     "pt": "nós queremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-772",
     "fr": "ils veulent",
     "pt": "eles querem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-773",
     "fr": "j'ai voulu",
     "pt": "eu quis",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-774",
     "fr": "il a voulu",
     "pt": "ele quis",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-775",
     "fr": "nous avons voulu",
     "pt": "nós quisemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-776",
     "fr": "ils ont voulu",
     "pt": "eles quiseram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-777",
     "fr": "je voudrai",
     "pt": "eu quererei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-778",
     "fr": "il voudra",
     "pt": "ele quererá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-779",
     "fr": "nous voudrons",
     "pt": "nós quereremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-780",
     "fr": "ils voudront",
     "pt": "eles quererão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-781",
     "fr": "je voudrais",
     "pt": "eu quereria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-782",
     "fr": "il voudrait",
     "pt": "ele quereria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-783",
     "fr": "nous voudrions",
     "pt": "nós quereríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-784",
     "fr": "ils voudraient",
     "pt": "eles quereriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-785",
     "fr": "je voulais",
     "pt": "eu queria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-786",
     "fr": "il voulait",
     "pt": "ele queria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-787",
     "fr": "nous voulions",
     "pt": "nós queríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-788",
     "fr": "ils voulaient",
     "pt": "eles queriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-789",
     "fr": "que je veuille",
     "pt": "que eu queira",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-790",
     "fr": "qu'il veuille",
     "pt": "que ele queira",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-791",
     "fr": "que nous voulions",
     "pt": "que nós queiramos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-792",
     "fr": "qu'ils veuillent",
     "pt": "que eles queiram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-793",
     "fr": "je viens",
     "pt": "eu venho",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-794",
     "fr": "il vient",
     "pt": "ele vem",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-795",
     "fr": "nous venons",
     "pt": "nós vimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-796",
     "fr": "ils viennent",
     "pt": "eles vêm",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-797",
     "fr": "je suis venue",
     "pt": "eu vim",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-798",
     "fr": "il est venu",
     "pt": "ele veio",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-799",
     "fr": "nous sommes venues",
     "pt": "nós viemos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-800",
     "fr": "ils sont venus",
     "pt": "eles vieram",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-801",
     "fr": "je viendrai",
     "pt": "eu virei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-802",
     "fr": "il viendra",
     "pt": "ele virá",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-803",
     "fr": "nous viendrons",
     "pt": "nós viremos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-804",
     "fr": "ils viendront",
     "pt": "eles virão",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-805",
     "fr": "je viendrais",
     "pt": "eu viria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-806",
     "fr": "il viendrait",
     "pt": "ele viria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-807",
     "fr": "nous viendrions",
     "pt": "nós viríamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-808",
     "fr": "ils viendraient",
     "pt": "eles viriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-809",
     "fr": "je venais",
     "pt": "eu vinha",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-810",
     "fr": "il venait",
     "pt": "ele vinha",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-811",
     "fr": "nous venions",
     "pt": "nós vínhamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-812",
     "fr": "ils venaient",
     "pt": "eles vinham",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-813",
     "fr": "que je vienne",
     "pt": "que eu venha",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-814",
     "fr": "qu'il vienne",
     "pt": "que ele venha",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-815",
     "fr": "que nous venions",
     "pt": "que nós venhamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-816",
     "fr": "qu'ils viennent",
     "pt": "que eles venham",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-817",
     "fr": "je vois",
     "pt": "eu vejo",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-818",
     "fr": "il voit",
     "pt": "ele vê",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-819",
     "fr": "nous voyons",
     "pt": "nós vemos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-820",
     "fr": "ils voient",
     "pt": "eles vêem",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-821",
     "fr": "j'ai vu",
     "pt": "eu vi",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-822",
     "fr": "il a vu",
     "pt": "ele viu",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-823",
     "fr": "nous avons vu",
     "pt": "nós vimos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-824",
     "fr": "ils ont vu",
     "pt": "eles viram",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 1
   },
   {
     "id": "conj-825",
     "fr": "je verrai",
     "pt": "eu verei",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-826",
     "fr": "il verra",
     "pt": "ele verá",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-827",
     "fr": "nous verrons",
     "pt": "nós veremos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-828",
     "fr": "ils verront",
     "pt": "eles verão",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-829",
     "fr": "je verrais",
     "pt": "eu veria",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-830",
     "fr": "il verrait",
     "pt": "ele veria",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-831",
     "fr": "nous verrions",
     "pt": "nós veríamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-832",
     "fr": "ils verraient",
     "pt": "eles veriam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-833",
     "fr": "je voyais",
     "pt": "eu via",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-834",
     "fr": "il voyait",
     "pt": "ele via",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-835",
     "fr": "nous voyions",
     "pt": "nós víamos",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-836",
     "fr": "ils voyaient",
     "pt": "eles viam",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 2
   },
   {
     "id": "conj-837",
     "fr": "que je voie",
     "pt": "que eu veja",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-838",
     "fr": "qu'il voie",
     "pt": "que ele veja",
     "dir": 0,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-839",
     "fr": "que nous voyions",
     "pt": "que nós vejamos",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   },
   {
     "id": "conj-840",
     "fr": "qu'ils voient",
     "pt": "que eles vejam",
     "dir": 1,
-    "source": "conjugaison"
+    "source": "conjugaison",
+    "difficulty": 3
   }
 ]

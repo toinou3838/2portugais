@@ -1,20 +1,27 @@
 "use client";
 
+import { DifficultyLevel } from "@/lib/types";
+import { getDifficultyLabel } from "@/lib/utils";
+
 type QuizSetupProps = {
   questionCount: number;
   conjugationPercentage: number;
+  difficulty: DifficultyLevel;
   loading: boolean;
   onQuestionCountChange: (value: number) => void;
   onConjugationPercentageChange: (value: number) => void;
+  onDifficultyChange: (value: DifficultyLevel) => void;
   onGenerate: () => void;
 };
 
 export function QuizSetup({
   questionCount,
   conjugationPercentage,
+  difficulty,
   loading,
   onQuestionCountChange,
   onConjugationPercentageChange,
+  onDifficultyChange,
   onGenerate,
 }: QuizSetupProps) {
   return (
@@ -38,7 +45,7 @@ export function QuizSetup({
         </button>
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
+      <div className="mt-8 grid gap-5 lg:grid-cols-3">
         <label className="shell-border rounded-[1.6rem] bg-white/80 p-5">
           <div className="flex items-center justify-between gap-3">
             <span className="text-sm font-semibold text-[rgba(22,50,41,0.58)]">
@@ -87,6 +94,29 @@ export function QuizSetup({
             <span>tout vocab</span>
             <span>mixte</span>
           </div>
+        </label>
+
+        <label className="shell-border rounded-[1.6rem] bg-white/80 p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-sm font-semibold text-[rgba(22,50,41,0.58)]">
+              Difficulté visée
+            </span>
+            <span className="rounded-full bg-[rgba(22,50,41,0.08)] px-3 py-1 text-sm font-semibold">
+              {getDifficultyLabel(difficulty)}
+            </span>
+          </div>
+          <select
+            value={difficulty}
+            onChange={(event) => onDifficultyChange(Number(event.target.value) as DifficultyLevel)}
+            className="mt-6 w-full rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
+          >
+            <option value={1}>Facile</option>
+            <option value={2}>Intermédiaire</option>
+            <option value={3}>Difficile</option>
+          </select>
+          <p className="mt-4 text-xs uppercase tracking-[0.16em] text-[rgba(22,50,41,0.46)]">
+            Mélange pondéré selon le niveau choisi
+          </p>
         </label>
       </div>
     </section>

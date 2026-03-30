@@ -1,14 +1,18 @@
+export type DifficultyLevel = 1 | 2 | 3;
+
 export type QuizItem = {
   id: string;
   fr: string;
   pt: string;
   dir: 0 | 1;
+  difficulty: DifficultyLevel;
   source: "conjugaison" | "vocab";
 };
 
 export type QuizGenerationRequest = {
   question_count: number;
   conjugation_percentage: number;
+  difficulty: DifficultyLevel;
 };
 
 export type QuizGenerationResponse = {
@@ -100,6 +104,7 @@ export type VocabularyEntry = {
   fr: string;
   pt: string;
   dir: 0 | 1;
+  difficulty: DifficultyLevel;
   source: "vocab";
   created_at: string;
 };

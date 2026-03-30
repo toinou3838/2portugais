@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     clerk_api_base_url: str = Field(default="https://api.clerk.com/v1", alias="CLERK_API_BASE_URL")
 
     reminder_goal: int = Field(default=50, alias="REMINDER_GOAL")
+    reminder_send_hour: int = Field(default=21, alias="REMINDER_SEND_HOUR")
+    reminder_timezone: str = Field(default="Europe/Paris", alias="REMINDER_TIMEZONE")
+    reminder_auto_run_enabled: bool = Field(default=True, alias="REMINDER_AUTO_RUN_ENABLED")
     reminder_job_secret: str | None = Field(default=None, alias="REMINDER_JOB_SECRET")
     resend_api_key: str | None = Field(default=None, alias="RESEND_API_KEY")
     reminder_from_email: str | None = Field(default=None, alias="REMINDER_FROM_EMAIL")
@@ -74,6 +77,13 @@ class Settings(BaseSettings):
         if lowered in {"0", "false", "no", "off", "release", "production"}:
             return False
         return value
+
+    @field_validator("reminder_send_hour")
+    @classmethod
+    def validate_reminder_hour(cls, value: int) -> int:
+        if 0 <= value <= 23:
+            return value
+        raise ValueError("REMINDER_SEND_HOUR must be between 0 and 23")
 
 
 @lru_cache(maxsize=1)

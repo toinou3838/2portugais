@@ -14,12 +14,16 @@ if TYPE_CHECKING:
 
 class VocabularyEntry(Base):
     __tablename__ = "vocabulary_entries"
-    __table_args__ = (CheckConstraint("dir IN (0, 1)", name="ck_vocabulary_entries_dir"),)
+    __table_args__ = (
+        CheckConstraint("dir IN (0, 1)", name="ck_vocabulary_entries_dir"),
+        CheckConstraint("difficulty IN (1, 2, 3)", name="ck_vocabulary_entries_difficulty"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     fr: Mapped[str] = mapped_column(String(255), nullable=False)
     pt: Mapped[str] = mapped_column(String(255), nullable=False)
     dir: Mapped[int] = mapped_column(SmallInteger, nullable=False)
+    difficulty: Mapped[int] = mapped_column(SmallInteger, default=2, nullable=False)
     source: Mapped[str] = mapped_column(String(32), default="vocab", index=True)
     created_by_user_id: Mapped[int | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True
@@ -29,4 +33,3 @@ class VocabularyEntry(Base):
     )
 
     created_by_user: Mapped["User | None"] = relationship(back_populates="created_vocabulary_entries")
-

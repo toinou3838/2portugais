@@ -14,6 +14,11 @@ from app.models.vocabulary_entry import VocabularyEntry
 from app.schemas.quiz import QuizGenerateIn, QuizGenerateOut, QuizItemOut
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DIFFICULTY_PROFILES: dict[int, dict[int, float]] = {
+    1: {1: 0.80, 2: 0.15, 3: 0.05},
+    2: {1: 0.10, 2: 0.80, 3: 0.10},
+    3: {1: 0.05, 2: 0.10, 3: 0.85},
+}
 
 
 @lru_cache(maxsize=1)
@@ -39,6 +44,7 @@ def ensure_default_vocabulary(db: Session) -> None:
                 fr=str(item["fr"]),
                 pt=str(item["pt"]),
                 dir=int(item["dir"]),
+                difficulty=int(item.get("difficulty", 2)),
                 source="vocab",
                 created_by_user_id=None,
             )
@@ -54,6 +60,66 @@ def _sample(pool: list[dict[str, str | int]], count: int) -> list[dict[str, str 
     return random.sample(pool, count)
 
 
+def _allocate_counts(total: int, available: dict[int, int], weights: dict[int, float]) -> dict[int, int]:
+    if total <= 0:
+        return {1: 0, 2: 0, 3: 0}
+
+    raw_targets = {difficulty: total * weights[difficulty] for difficulty in (1, 2, 3)}
+    counts = {
+        difficulty: min(int(raw_targets[difficulty]), available.get(difficulty, 0))
+        for difficulty in (1, 2, 3)
+    }
+
+    remaining = total - sum(counts.values())
+    while remaining > 0:
+        candidates = [
+            difficulty
+            for difficulty in (1, 2, 3)
+            if counts[difficulty] < available.get(difficulty, 0)
+        ]
+        if not candidates:
+            break
+
+        difficulty = max(
+            candidates,
+            key=lambda current: (
+                raw_targets[current] - counts[current],
+                weights[current],
+                available.get(current, 0) - counts[current],
+            ),
+        )
+        counts[difficulty] += 1
+        remaining -= 1
+
+    return counts
+
+
+def _sample_by_difficulty(
+    pool: list[dict[str, str | int]],
+    total: int,
+    difficulty_profile: int,
+) -> list[dict[str, str | int]]:
+    if total <= 0:
+        return []
+
+    grouped = {
+        difficulty: [item for item in pool if int(item.get("difficulty", 2)) == difficulty]
+        for difficulty in (1, 2, 3)
+    }
+    counts = _allocate_counts(
+        total,
+        {difficulty: len(items) for difficulty, items in grouped.items()},
+        DIFFICULTY_PROFILES[difficulty_profile],
+    )
+
+    sampled: list[dict[str, str | int]] = []
+    for difficulty, items in grouped.items():
+        sampled.extend(_sample(items, counts[difficulty]))
+
+    random.shuffle(sampled)
+    return sampled
+
+
 def generate_quiz(db: Session, payload: QuizGenerateIn) -> QuizGenerateOut:
     ensure_default_vocabulary(db)
 
@@ -64,6 +130,7 @@ def generate_quiz(db: Session, payload: QuizGenerateIn) -> QuizGenerateOut:
             "fr": entry.fr,
             "pt": entry.pt,
             "dir": entry.dir,
+            "difficulty": entry.difficulty,
             "source": "vocab",
         }
         for entry in vocab_entries
@@ -90,8 +157,12 @@ def generate_quiz(db: Session, payload: QuizGenerateIn) -> QuizGenerateOut:
         conjugation_count += extra_conjugation
         remaining -= extra_conjugation
 
-    chosen_vocab = _sample(vocab_pool, vocab_count)
-    chosen_conjugation = _sample(conjugation_pool, conjugation_count)
+    chosen_vocab = _sample_by_difficulty(vocab_pool, vocab_count, payload.difficulty)
+    chosen_conjugation = _sample_by_difficulty(
+        conjugation_pool,
+        conjugation_count,
+        payload.difficulty,
+    )
 
     items = [*chosen_vocab, *chosen_conjugation]
     random.shuffle(items)

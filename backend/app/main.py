@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+import asyncio
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import settings
 from app.db.session import SessionLocal
 from app.services.quiz import ensure_default_vocabulary
+from app.services.reminders import run_automatic_reminders_once
 
 
 @asynccontextmanager
@@ -32,5 +34,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(api_router, prefix=settings.api_prefix)
 
+@app.middleware("http")
+async def automatic_reminder_middleware(request: Request, call_next):
+    response = await call_next(request)
+
+    if request.url.path in {"/health", "/jobs/reminders/send"}:
+        return response
+
+    if settings.reminder_auto_run_enabled:
+        asyncio.create_task(asyncio.to_thread(run_automatic_reminders_once))
+
+    return response
+
+app.include_router(api_router, prefix=settings.api_prefix)

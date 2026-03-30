@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from threading import Lock
+from zoneinfo import ZoneInfo
 
 import httpx
 from sqlalchemy import select
@@ -9,6 +11,9 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.models.user import User
 from app.services.progress import get_or_create_today_progress
+
+_attempt_lock = Lock()
+_last_attempt_key: str | None = None
 
 
 def _send_resend_email(user: User, answered: int) -> None:
@@ -35,7 +40,43 @@ def _send_resend_email(user: User, answered: int) -> None:
     ).raise_for_status()
 
 
+def _is_reminder_window_open() -> bool:
+    now_local = datetime.now(ZoneInfo(settings.reminder_timezone))
+    return settings.reminder_send_hour <= now_local.hour <= 23
+
+
+def _current_attempt_key() -> str:
+    now_local = datetime.now(ZoneInfo(settings.reminder_timezone))
+    return now_local.strftime("%Y-%m-%d-%H")
+
+
+def should_attempt_automatic_reminders() -> bool:
+    global _last_attempt_key
+
+    if not settings.reminder_auto_run_enabled or not _is_reminder_window_open():
+        return False
+
+    attempt_key = _current_attempt_key()
+    with _attempt_lock:
+        if _last_attempt_key == attempt_key:
+            return False
+        _last_attempt_key = attempt_key
+        return True
+
+
 def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
+    timestamp = datetime.now(timezone.utc)
+    if not _is_reminder_window_open():
+        return {
+            "processed": 0,
+            "sent": 0,
+            "dry_run": 0,
+            "window_open": False,
+            "scheduled_hour": settings.reminder_send_hour,
+            "timezone": settings.reminder_timezone,
+            "timestamp": timestamp,
+        }
+
     users = db.scalars(select(User).where(User.reminder_opt_in.is_(True))).all()
     processed = 0
     sent = 0
@@ -61,5 +102,18 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
         "processed": processed,
         "sent": sent,
         "dry_run": dry_run,
-        "timestamp": datetime.now(timezone.utc),
+        "window_open": True,
+        "scheduled_hour": settings.reminder_send_hour,
+        "timezone": settings.reminder_timezone,
+        "timestamp": timestamp,
     }
+
+
+def run_automatic_reminders_once() -> None:
+    from app.db.session import SessionLocal
+
+    if not should_attempt_automatic_reminders():
+        return
+
+    with SessionLocal() as session:
+        send_pending_reminders(session)
