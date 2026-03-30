@@ -211,7 +211,7 @@ export function TranslatorPanel() {
                 className="min-w-[18rem] appearance-none rounded-full border border-white/10 bg-[#f7efe2] px-5 py-3 pr-11 text-sm font-semibold text-[#163229] outline-none disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <option value="" disabled>
-                  Difficulté
+                  Choisis la difficulté pour ajouter la paire
                 </option>
                 <option value={1}>Facile</option>
                 <option value={2}>Intermédiaire</option>
