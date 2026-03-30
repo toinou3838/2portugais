@@ -161,7 +161,7 @@ export function VocabularyAdminPanel() {
           }}
           className="space-y-5 rounded-[1.6rem] bg-white/82 p-5"
         >
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_11.5rem]">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:items-start">
             <div className="space-y-4">
               <label className="block space-y-2">
                 <span className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
@@ -188,7 +188,7 @@ export function VocabularyAdminPanel() {
                 />
               </label>
             </div>
-            <div className="flex flex-col justify-end gap-2.5 lg:items-end">
+            <div className="flex flex-col gap-2.5 pt-7 lg:items-end">
               <button
                 type="button"
                 onClick={() => void handleCheck()}

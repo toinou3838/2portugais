@@ -147,7 +147,7 @@ export function TranslatorPanel() {
       </div>
 
       <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <label className="flex h-[23rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
+        <label className="flex h-[24rem] flex-col rounded-[1.6rem] border border-[rgba(22,50,41,0.08)] bg-[rgba(255,255,255,0.42)] p-5">
           <p className="text-sm font-semibold text-[rgba(22,50,41,0.6)]">
             {direction === "fr_to_pt" ? "Entrée française" : "Entrée portugaise"}
           </p>
@@ -169,7 +169,7 @@ export function TranslatorPanel() {
           />
         </label>
 
-        <div className="flex h-[23rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
+        <div className="flex h-[24rem] flex-col rounded-[1.6rem] bg-[#163229] p-5 text-white">
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-white/56">
             <Languages className="h-4 w-4" />
             Résultat live
@@ -182,13 +182,14 @@ export function TranslatorPanel() {
                   ? "Traduction en cours..."
                   : "Entrée pour traduire ou appuie sur Entrée"}
             </p>
-            <p className="section-title mt-4 text-3xl font-semibold">
-              {translation?.translated_text ?? "la traduction apparaîtra ici"}
-            </p>
+            {translation?.translated_text ? (
+              <p className="section-title mt-4 text-3xl font-semibold">
+                {translation.translated_text}
+              </p>
+            ) : null}
             {translation ? (
               <p className="mt-auto pt-4 text-sm text-white/64">
-                Confiance {Math.round(translation.confidence * 100)}% ·{" "}
-                {translation.found ? "réponse issue d’un service distant" : "suggestion faible"}
+                Confiance {Math.round(translation.confidence * 100)}%
               </p>
             ) : null}
           </div>
@@ -220,7 +221,7 @@ export function TranslatorPanel() {
                     key={level}
                     type="button"
                     onClick={() => void handleAddPair(level as DifficultyLevel)}
-                    className="rounded-full bg-[#f7efe2] px-4 py-2 text-sm font-semibold text-[#163229] transition hover:bg-white"
+                    className="rounded-full bg-[#f7efe2] px-3 py-2 text-sm font-semibold text-[#163229] transition hover:bg-white"
                   >
                     {getDifficultyLabel(level as DifficultyLevel)}
                   </button>
