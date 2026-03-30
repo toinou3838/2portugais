@@ -199,10 +199,10 @@ export function VocabularyAdminPanel() {
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#163229] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50 lg:w-[11.5rem]"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#163229] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:opacity-50 lg:w-[11.5rem]"
               >
                 <Plus className="h-4 w-4" />
-                Ajouter quand même
+                Ajouter la paire
               </button>
             </div>
           </div>

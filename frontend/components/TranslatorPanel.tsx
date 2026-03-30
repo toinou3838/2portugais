@@ -215,17 +215,26 @@ export function TranslatorPanel() {
               <p className="text-sm font-semibold text-white/82">
                 Choisis une difficulté pour enregistrer la paire
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {[1, 2, 3].map((level) => (
-                  <button
-                    key={level}
-                    type="button"
-                    onClick={() => void handleAddPair(level as DifficultyLevel)}
-                    className="rounded-full bg-[#f7efe2] px-3 py-2 text-sm font-semibold text-[#163229] transition hover:bg-white"
-                  >
-                    {getDifficultyLabel(level as DifficultyLevel)}
-                  </button>
-                ))}
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <select
+                  defaultValue={2}
+                  onChange={(event) => {
+                    const level = Number(event.target.value) as DifficultyLevel;
+                    void handleAddPair(level);
+                  }}
+                  className="rounded-full border border-white/10 bg-[#f7efe2] px-4 py-2 text-sm font-semibold text-[#163229] outline-none"
+                >
+                  <option value={1}>Facile</option>
+                  <option value={2}>Intermédiaire</option>
+                  <option value={3}>Difficile</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => setPendingDifficultyPicker(false)}
+                  className="rounded-full px-3 py-2 text-sm font-semibold text-white/70"
+                >
+                  Annuler
+                </button>
               </div>
             </div>
           ) : null}
