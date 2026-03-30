@@ -80,62 +80,54 @@ def _remote_translate(text: str, direction: str) -> TranslationResult | None:
     source_lang = "fr" if direction == "fr_to_pt" else "pt"
     target_lang = "pt" if direction == "fr_to_pt" else "fr"
 
-    if settings.translation_provider == "openai" and settings.openai_api_key:
+    if settings.translation_provider == "gemini" and settings.gemini_api_key:
         target_label = "portugais brésilien naturel" if direction == "fr_to_pt" else "français naturel"
         response = httpx.post(
-            settings.openai_api_base_url.rstrip("/") + "/responses",
+            settings.gemini_api_base_url.rstrip("/")
+            + f"/models/{settings.gemini_model}:generateContent",
             timeout=15.0,
-            headers={
-                "Authorization": f"Bearer {settings.openai_api_key}",
-                "Content-Type": "application/json",
-            },
+            headers={"Content-Type": "application/json"},
+            params={"key": settings.gemini_api_key},
             json={
-                "model": settings.openai_model,
-                "input": [
+                "contents": [
                     {
-                        "role": "developer",
-                        "content": [
+                        "role": "user",
+                        "parts": [
                             {
-                                "type": "input_text",
                                 "text": (
                                     "Tu es un traducteur strict. Réponds uniquement avec la "
                                     "traduction finale, sans explication, sans guillemets, "
-                                    "sans variantes, sans ponctuation ajoutée."
+                                    "sans variantes et sans ponctuation ajoutée. "
+                                    f"Traduis en {target_label} : {text}"
                                 ),
                             }
                         ],
                     },
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "input_text",
-                                "text": f"Traduis en {target_label} : {text}",
-                            }
-                        ],
-                    },
                 ],
-                "max_output_tokens": 80,
+                "generationConfig": {
+                    "temperature": 0.2,
+                    "maxOutputTokens": 80,
+                },
             },
         )
         response.raise_for_status()
         payload = response.json()
-        translated = str(payload.get("output_text", "")).strip().lower()
-        if not translated:
-            output = payload.get("output") or []
-            for item in output:
-                for content in item.get("content", []):
-                    if content.get("type") == "output_text":
-                        translated = str(content.get("text", "")).strip().lower()
-                        if translated:
-                            break
-                if translated:
+        translated = ""
+        candidates = payload.get("candidates") or []
+        for candidate in candidates:
+            content = candidate.get("content") or {}
+            for part in content.get("parts", []):
+                text_value = str(part.get("text", "")).strip().lower()
+                if text_value:
+                    translated = text_value
                     break
+            if translated:
+                break
         if not translated:
             return None
         return TranslationResult(
             translated_text=translated,
-            provider="openai",
+            provider="gemini",
             confidence=0.95,
             found=True,
         )
@@ -240,15 +232,15 @@ def translate_text(db: Session, text: str, direction: str) -> TranslationResult:
 
 
 def translate_text_strict(text: str, direction: str) -> TranslationResult:
-    if settings.translation_provider != "openai":
+    if settings.translation_provider != "gemini":
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="OpenAI is required for live translation. Set TRANSLATION_PROVIDER=openai.",
+            detail="Gemini is required for live translation. Set TRANSLATION_PROVIDER=gemini.",
         )
-    if not settings.openai_api_key:
+    if not settings.gemini_api_key:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="OPENAI_API_KEY is missing on the backend.",
+            detail="GEMINI_API_KEY is missing on the backend.",
         )
 
     try:
@@ -256,13 +248,13 @@ def translate_text_strict(text: str, direction: str) -> TranslationResult:
     except httpx.HTTPError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="OpenAI request failed.",
+            detail="Gemini request failed.",
         ) from exc
 
-    if not result or result.provider != "openai":
+    if not result or result.provider != "gemini":
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="OpenAI did not return a usable translation.",
+            detail="Gemini did not return a usable translation.",
         )
 
     return result
