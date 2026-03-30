@@ -47,10 +47,22 @@ services:
         value: "true"
       - key: REMINDER_JOB_SECRET
         generateValue: true
+      - key: REMINDER_EMAIL_PROVIDER
+        value: gmail
       - key: RESEND_API_KEY
         sync: false
       - key: REMINDER_FROM_EMAIL
         sync: false
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_STARTTLS
+        value: "true"
       - key: TRANSLATION_PROVIDER
         value: gemini
       - key: GEMINI_API_KEY

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from email.message import EmailMessage
+import smtplib
 from threading import Lock
 from zoneinfo import ZoneInfo
 
@@ -38,6 +40,47 @@ def _send_resend_email(user: User, answered: int) -> None:
         },
         timeout=10.0,
     ).raise_for_status()
+
+
+def _send_smtp_email(user: User, answered: int) -> None:
+    if not settings.smtp_username or not settings.smtp_password or not settings.reminder_from_email:
+        raise RuntimeError("SMTP not configured")
+
+    remaining = max(settings.reminder_goal - answered, 0)
+    message = EmailMessage()
+    message["Subject"] = "Ton streak portugais t’attend"
+    message["From"] = settings.reminder_from_email
+    message["To"] = user.email
+    message.set_content(
+        (
+            f"Il te reste {remaining} questions pour atteindre "
+            "ton objectif quotidien sur O Mestre do Português."
+        )
+    )
+    message.add_alternative(
+        (
+            f"<p>Il te reste <strong>{remaining}</strong> questions pour atteindre "
+            f"ton objectif quotidien sur O Mestre do Português.</p>"
+        ),
+        subtype="html",
+    )
+
+    with smtplib.SMTP(settings.smtp_host, settings.smtp_port, timeout=10) as server:
+        if settings.smtp_starttls:
+            server.starttls()
+        server.login(settings.smtp_username, settings.smtp_password)
+        server.send_message(message)
+
+
+def _send_reminder_email(user: User, answered: int) -> None:
+    provider = settings.reminder_email_provider.strip().lower()
+    if provider == "gmail":
+        _send_smtp_email(user, answered)
+        return
+    if provider == "resend":
+        _send_resend_email(user, answered)
+        return
+    raise RuntimeError("Unsupported REMINDER_EMAIL_PROVIDER")
 
 
 def _is_reminder_window_open() -> bool:
@@ -89,8 +132,17 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
             continue
 
         processed += 1
-        if settings.resend_api_key and settings.reminder_from_email:
-            _send_resend_email(user, progress.answered_questions)
+        if (
+            settings.reminder_email_provider.strip().lower() == "gmail"
+            and settings.smtp_username
+            and settings.smtp_password
+            and settings.reminder_from_email
+        ) or (
+            settings.reminder_email_provider.strip().lower() == "resend"
+            and settings.resend_api_key
+            and settings.reminder_from_email
+        ):
+            _send_reminder_email(user, progress.answered_questions)
             sent += 1
         else:
             dry_run += 1
