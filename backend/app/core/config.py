@@ -40,7 +40,7 @@ class Settings(BaseSettings):
 
     translation_provider: str = Field(default="gemini", alias="TRANSLATION_PROVIDER")
     gemini_api_key: str | None = Field(default=None, alias="GEMINI_API_KEY")
-    gemini_model: str = Field(default="gemini-2.5-flash-lite", alias="GEMINI_MODEL")
+    gemini_model: str = Field(default="gemma-3-27b-it", alias="GEMINI_MODEL")
     gemini_api_base_url: str = Field(
         default="https://generativelanguage.googleapis.com/v1beta",
         alias="GEMINI_API_BASE_URL",
