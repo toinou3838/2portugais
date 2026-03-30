@@ -14,6 +14,12 @@ type QuizSetupProps = {
   onGenerate: () => void;
 };
 
+const levels = ["Facile", "Intermédiaire", "Difficile"] as const;
+type Props = {
+  difficulty: number;
+  onDifficultyChange: (value: number) => void;
+};
+
 export function QuizSetup({
   questionCount,
   conjugationPercentage,
@@ -105,18 +111,18 @@ export function QuizSetup({
               {getDifficultyLabel(difficulty)}
             </span>
           </div>
-          <select
+          <input
+            type="range"
+            min={0}
+            max={2}
+            step={1}
             value={difficulty}
-            onChange={(event) => onDifficultyChange(Number(event.target.value) as DifficultyLevel)}
-            className="mt-6 w-full rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf9] px-4 py-3 outline-none focus:border-[rgba(22,50,41,0.18)]"
-          >
-            <option value={1}>Facile</option>
-            <option value={2}>Intermédiaire</option>
-            <option value={3}>Difficile</option>
-          </select>
-          <p className="mt-4 text-xs uppercase tracking-[0.16em] text-[rgba(22,50,41,0.46)]">
-            Mélange pondéré selon le niveau choisi
-          </p>
+            onChange={(e) => onDifficultyChange(Number(e.target.value) as DifficultyLevel)}            className="mt-6 w-full accent-[#b9773f]"
+          />
+          <div className="mt-4 flex justify-between text-xs uppercase tracking-[0.16em] text-[rgba(22,50,41,0.46)]">
+            <span>Ez</span>
+            <span>Galère</span>
+          </div>
         </label>
       </div>
     </section>
