@@ -113,8 +113,8 @@ export function QuizSetup({
           </div>
           <input
             type="range"
-            min={0}
-            max={2}
+            min={1}
+            max={3}
             step={1}
             value={difficulty}
             onChange={(e) => onDifficultyChange(Number(e.target.value) as DifficultyLevel)}            className="mt-6 w-full accent-[#b9773f]"
