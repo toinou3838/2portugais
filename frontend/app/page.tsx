@@ -16,7 +16,7 @@ export default function HomePage() {
                 O Mestre do Português
               </p>
               <h1 className="section-title text-3xl font-semibold sm:text-4xl">
-                Entraîne toi et perfectionne ton portugais avec des quizzs personnalisés.
+                Perfectionne ton portugais avec des quizzs personnalisés.
               </h1>
             </div>
           </div>
