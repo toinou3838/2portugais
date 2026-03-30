@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth, useUser } from "@clerk/nextjs";
-import { ArrowRightLeft, Languages, Plus } from "lucide-react";
+import { ArrowRightLeft, ChevronDown, ChevronUp, Languages, Plus } from "lucide-react";
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { DifficultyLevel, TranslationDirection, TranslationResponse } from "@/lib/types";
@@ -200,20 +200,27 @@ export function TranslatorPanel() {
                 type="button"
                 onClick={() => setPendingDifficultyPicker((current) => !current)}
                 disabled={!translation?.translated_text || !isSignedIn || adding}
-                className="inline-flex items-center gap-2 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex min-w-[18rem] items-center justify-between gap-3 rounded-full bg-[#f7efe2] px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <Plus className="h-4 w-4" />
-                Ajouter la paire
+                <span className="inline-flex items-center gap-2">
+                  <Plus className="h-4 w-4" />
+                  Ajouter la paire
+                </span>
+                {pendingDifficultyPicker ? (
+                  <ChevronUp className="h-4 w-4" />
+                ) : (
+                  <ChevronDown className="h-4 w-4" />
+                )}
               </button>
               {pendingDifficultyPicker ? (
-                <div className="absolute left-0 top-[calc(100%+0.55rem)] z-20 min-w-[14rem] rounded-[1.1rem] border border-white/10 bg-[#214238] p-2 shadow-soft">
-                  <div className="flex flex-col gap-1">
+                <div className="absolute left-0 top-[calc(100%+0.45rem)] z-20 w-full overflow-hidden rounded-[1.1rem] border border-white/10 bg-[#214238] shadow-soft">
+                  <div className="p-1.5">
                     {[1, 2, 3].map((level) => (
                       <button
                         key={level}
                         type="button"
                         onClick={() => void handleAddPair(level as DifficultyLevel)}
-                        className="w-full rounded-[0.9rem] bg-[#f7efe2] px-4 py-2.5 text-left text-sm font-semibold text-[#163229] transition hover:bg-white"
+                        className="w-full rounded-[0.9rem] px-4 py-3 text-left text-sm font-semibold text-white transition hover:bg-white/10"
                       >
                         {getDifficultyLabel(level as DifficultyLevel)}
                       </button>
