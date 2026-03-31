@@ -76,6 +76,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       conjugations: dashboard.conjugations.length,
     };
   }, [dashboard]);
+  const unlocked = dashboard !== null;
 
   async function loadDashboard(activeCode: string) {
     setLoading(true);
@@ -126,7 +127,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
               Panneau admin
             </p>
             <h2 className="section-title mt-2 text-3xl font-semibold">
-              Vue directe des données et des reminders.
+              {unlocked
+                ? "Vue directe des données et des reminders."
+                : "Interface administrateur verrouillée."}
             </h2>
           </div>
           <button
@@ -220,24 +223,35 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
           </aside>
 
           <section className="grid min-h-[32rem] gap-4">
-            <div className="flex flex-wrap gap-2">
-              {(Object.keys(tabLabels) as AdminTab[]).map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => setTab(item)}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    tab === item
-                      ? "bg-[#163229] text-white"
-                      : "border border-[rgba(22,50,41,0.12)] bg-white/82 text-[#163229] hover:bg-white"
-                  }`}
-                >
-                  {tabLabels[item]}
-                </button>
-              ))}
-            </div>
+            {unlocked ? (
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(tabLabels) as AdminTab[]).map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setTab(item)}
+                    className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      tab === item
+                        ? "bg-[#163229] text-white"
+                        : "border border-[rgba(22,50,41,0.12)] bg-white/82 text-[#163229] hover:bg-white"
+                    }`}
+                  >
+                    {tabLabels[item]}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-10 w-28 rounded-full bg-[rgba(22,50,41,0.08)]"
+                  />
+                ))}
+              </div>
+            )}
 
-            <div className="glass-panel shell-border overflow-hidden rounded-[1.8rem] shadow-soft">
+            <div className="glass-panel shell-border relative overflow-hidden rounded-[1.8rem] shadow-soft">
               {dashboard ? (
                 <>
                   {tab === "reminders" ? (
@@ -364,15 +378,48 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                   ) : null}
                 </>
               ) : (
-                <div className="flex h-full min-h-[26rem] flex-col items-center justify-center px-6 text-center">
-                  <Eye className="h-10 w-10 text-[rgba(22,50,41,0.32)]" />
-                  <p className="mt-4 text-lg font-semibold text-[#163229]">
-                    Entre le code admin pour charger les tableaux.
-                  </p>
-                  <p className="mt-2 max-w-xl text-sm leading-6 text-[rgba(22,50,41,0.56)]">
-                    Le panneau donne accès au vocabulaire, au dataset de conjugaison,
-                    aux profils utilisateur et à la file des reminders.
-                  </p>
+                <div className="relative min-h-[26rem]">
+                  <div className="pointer-events-none select-none blur-[10px]">
+                    <div className="border-b border-[rgba(22,50,41,0.08)] bg-[rgba(22,50,41,0.04)] px-5 py-4">
+                      <div className="grid gap-3 sm:grid-cols-3">
+                        {Array.from({ length: 3 }).map((_, index) => (
+                          <div
+                            key={index}
+                            className="h-20 rounded-[1.3rem] bg-[rgba(22,50,41,0.08)]"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="overflow-hidden px-4 py-4">
+                      <div className="grid gap-3">
+                        {Array.from({ length: 8 }).map((_, rowIndex) => (
+                          <div
+                            key={rowIndex}
+                            className="grid grid-cols-5 gap-3 rounded-[1rem] border border-[rgba(22,50,41,0.08)] bg-white/66 px-4 py-4"
+                          >
+                            {Array.from({ length: 5 }).map((__, cellIndex) => (
+                              <div
+                                key={cellIndex}
+                                className="h-4 rounded-full bg-[rgba(22,50,41,0.09)]"
+                              />
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+                    <div className="rounded-full bg-[rgba(22,50,41,0.08)] p-4">
+                      <Eye className="h-8 w-8 text-[rgba(22,50,41,0.42)]" />
+                    </div>
+                    <p className="mt-5 text-lg font-semibold text-[#163229]">
+                      Entre le code admin pour révéler le panneau.
+                    </p>
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-[rgba(22,50,41,0.56)]">
+                      Tant que le code n’est pas validé, l’interface reste volontairement brouillée.
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
