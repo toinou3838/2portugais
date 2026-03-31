@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Lock, RefreshCcw, Shield, X } from "lucide-react";
+import { createPortal } from "react-dom";
 import { apiFetch } from "@/lib/api";
 import { AdminDashboard } from "@/lib/types";
 
@@ -40,6 +41,7 @@ function formatDate(value: string | null) {
 }
 
 export function AdminPanel({ open, onClose }: AdminPanelProps) {
+  const [mounted, setMounted] = useState(false);
   const [code, setCode] = useState("");
   const [activeCode, setActiveCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -49,6 +51,10 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const [shuffledDigits, setShuffledDigits] = useState<string[]>(() => shuffleDigits());
 
   const unlocked = dashboard !== null && activeCode !== null;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -217,14 +223,15 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     await loadDashboard(activeCode);
   }
 
-  if (!open) {
+  if (!open || !mounted) {
     return null;
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-stretch justify-center overflow-hidden bg-[rgba(12,24,20,0.38)] p-0 backdrop-blur-sm sm:p-3">
-      <div className="glass-panel-strong shell-border relative flex h-full w-full max-w-[92rem] flex-col overflow-hidden rounded-none shadow-card sm:max-h-[calc(100dvh-1.5rem)] sm:rounded-[2.2rem]">
-        <div className="flex items-center justify-between border-b border-[rgba(22,50,41,0.08)] px-6 py-5">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] overflow-hidden bg-[rgba(12,24,20,0.38)] backdrop-blur-sm">
+      <div className="absolute inset-0 p-0 sm:p-3">
+        <div className="glass-panel-strong shell-border relative flex h-full w-full flex-col overflow-hidden rounded-none shadow-card sm:mx-auto sm:max-w-[92rem] sm:rounded-[2.2rem]">
+          <div className="flex items-center justify-between border-b border-[rgba(22,50,41,0.08)] px-6 py-5">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-[rgba(22,50,41,0.42)]">
               Panneau admin
@@ -269,7 +276,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
           </div>
         </div>
 
-        <div className="relative flex-1 overflow-hidden px-4 pb-4 sm:px-6 sm:pb-6">
+        <div className="relative min-h-0 flex-1 overflow-hidden px-4 pb-4 sm:px-6 sm:pb-6">
           {unlocked && dashboard ? (
             <div className="grid h-full gap-5 overflow-y-auto pt-6">
               {stats ? (
@@ -474,91 +481,93 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                 </div>
               </div>
 
-              <div className="absolute inset-0 overflow-y-auto overscroll-contain p-2 sm:p-4">
-                <div className="flex min-h-full items-start justify-center py-1 sm:items-center sm:py-4">
+              <div className="absolute inset-0 overflow-y-auto overscroll-contain touch-pan-y [scrollbar-gutter:stable] p-1 sm:p-4">
+                <div className="flex min-h-full items-start justify-center py-0 sm:items-center sm:py-3">
                   <div className="glass-panel-strong shell-border my-auto w-full max-w-xl rounded-[2rem] p-4 shadow-card sm:rounded-[2.1rem] sm:p-6">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(22,50,41,0.08)] text-[#163229]">
-                    <Shield className="h-8 w-8" />
-                  </div>
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(22,50,41,0.08)] text-[#163229]">
+                      <Shield className="h-8 w-8" />
+                    </div>
 
-                  <p className="mt-4 text-center text-xs uppercase tracking-[0.24em] text-[rgba(22,50,41,0.44)]">
-                    Accès chiffré
-                  </p>
-                  <h3 className="section-title mt-2 text-center text-2xl font-semibold sm:text-3xl">
-                    Déverrouille le panneau administrateur.
-                  </h3>
-                  <p className="mx-auto mt-2 max-w-md text-center text-sm leading-6 text-[rgba(22,50,41,0.6)]">
-                    Le clavier numérique change d’emplacement à chaque ouverture.
-                  </p>
+                    <p className="mt-4 text-center text-xs uppercase tracking-[0.24em] text-[rgba(22,50,41,0.44)]">
+                      Accès chiffré
+                    </p>
+                    <h3 className="section-title mt-2 text-center text-2xl font-semibold sm:text-3xl">
+                      Déverrouille le panneau administrateur.
+                    </h3>
+                    <p className="mx-auto mt-2 max-w-md text-center text-sm leading-6 text-[rgba(22,50,41,0.6)]">
+                      Le clavier numérique change d’emplacement à chaque ouverture.
+                    </p>
 
-                  <div className="mt-4 flex justify-center gap-2 sm:gap-3">
-                    {Array.from({ length: 8 }).map((_, index) => (
-                      <span
-                        key={index}
-                        className={`h-3.5 w-3.5 rounded-full border sm:h-4 sm:w-4 ${
-                          index < code.length
-                            ? "border-[#163229] bg-[#163229]"
-                            : "border-[rgba(22,50,41,0.18)] bg-transparent"
-                        }`}
-                      />
-                    ))}
-                  </div>
+                    <div className="mt-4 flex justify-center gap-2 sm:gap-3">
+                      {Array.from({ length: 8 }).map((_, index) => (
+                        <span
+                          key={index}
+                          className={`h-3.5 w-3.5 rounded-full border sm:h-4 sm:w-4 ${
+                            index < code.length
+                              ? "border-[#163229] bg-[#163229]"
+                              : "border-[rgba(22,50,41,0.18)] bg-transparent"
+                          }`}
+                        />
+                      ))}
+                    </div>
 
-                  <div className="mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
-                    {shuffledDigits.slice(0, 9).map((digit) => (
+                    <div className="mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
+                      {shuffledDigits.slice(0, 9).map((digit) => (
+                        <button
+                          key={digit}
+                          type="button"
+                          onClick={() => appendDigit(digit)}
+                          className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-2.5 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
+                        >
+                          {digit}
+                        </button>
+                      ))}
+
                       <button
-                        key={digit}
                         type="button"
-                        onClick={() => appendDigit(digit)}
+                        onClick={clearCode}
+                        className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
+                      >
+                        Effacer
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => appendDigit(shuffledDigits[9])}
                         className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-2.5 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
                       >
-                        {digit}
+                        {shuffledDigits[9]}
                       </button>
-                    ))}
+                      <button
+                        type="button"
+                        onClick={removeDigit}
+                        className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
+                      >
+                        Retour
+                      </button>
+                    </div>
 
-                    <button
-                      type="button"
-                      onClick={clearCode}
-                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
-                    >
-                      Effacer
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => appendDigit(shuffledDigits[9])}
-                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-2.5 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
-                    >
-                      {shuffledDigits[9]}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={removeDigit}
-                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
-                    >
-                      Retour
-                    </button>
+                    <div className="mt-4 min-h-[2.75rem] text-center">
+                      {loading ? (
+                        <p className="text-sm font-semibold text-[rgba(22,50,41,0.72)]">
+                          Vérification du code…
+                        </p>
+                      ) : error ? (
+                        <p className="text-sm font-semibold text-[#a24d33]">{error}</p>
+                      ) : (
+                        <p className="text-sm text-[rgba(22,50,41,0.56)]">
+                          Entre les 8 chiffres du code backend.
+                        </p>
+                      )}
+                    </div>
                   </div>
-
-                  <div className="mt-4 min-h-[2.75rem] text-center">
-                    {loading ? (
-                      <p className="text-sm font-semibold text-[rgba(22,50,41,0.72)]">
-                        Vérification du code…
-                      </p>
-                    ) : error ? (
-                      <p className="text-sm font-semibold text-[#a24d33]">{error}</p>
-                    ) : (
-                      <p className="text-sm text-[rgba(22,50,41,0.56)]">
-                        Entre les 8 chiffres du code backend.
-                      </p>
-                    )}
-                  </div>
-                </div>
                 </div>
               </div>
             </div>
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </div>,
+    document.body,
   );
 }
