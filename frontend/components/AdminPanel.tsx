@@ -63,6 +63,29 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   }, [open]);
 
   useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousBodyOverscroll = document.body.style.overscrollBehavior;
+    const previousHtmlOverscroll = document.documentElement.style.overscrollBehavior;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "none";
+    document.documentElement.style.overscrollBehavior = "none";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overscrollBehavior = previousBodyOverscroll;
+      document.documentElement.style.overscrollBehavior = previousHtmlOverscroll;
+    };
+  }, [open]);
+
+  useEffect(() => {
     if (!open || unlocked) {
       return;
     }
@@ -199,8 +222,8 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-[rgba(12,24,20,0.38)] px-4 py-6 backdrop-blur-sm">
-      <div className="glass-panel-strong shell-border relative flex max-h-[calc(100vh-3rem)] w-full max-w-[92rem] flex-col overflow-hidden rounded-[2.2rem] shadow-card">
+    <div className="fixed inset-0 z-50 flex items-stretch justify-center overflow-hidden bg-[rgba(12,24,20,0.38)] p-0 backdrop-blur-sm sm:p-3">
+      <div className="glass-panel-strong shell-border relative flex h-full w-full max-w-[92rem] flex-col overflow-hidden rounded-none shadow-card sm:max-h-[calc(100dvh-1.5rem)] sm:rounded-[2.2rem]">
         <div className="flex items-center justify-between border-b border-[rgba(22,50,41,0.08)] px-6 py-5">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-[rgba(22,50,41,0.42)]">
@@ -246,7 +269,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
           </div>
         </div>
 
-        <div className="relative flex-1 overflow-hidden px-6 pb-6">
+        <div className="relative flex-1 overflow-hidden px-4 pb-4 sm:px-6 sm:pb-6">
           {unlocked && dashboard ? (
             <div className="grid h-full gap-5 overflow-y-auto pt-6">
               {stats ? (
@@ -414,7 +437,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
               </div>
             </div>
           ) : (
-            <div className="relative h-full min-h-[34rem] overflow-hidden pt-4 sm:pt-6">
+            <div className="relative h-full min-h-0 overflow-hidden pt-2 sm:pt-4">
               <div className="pointer-events-none select-none blur-[14px] opacity-80">
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
                   {Array.from({ length: 6 }).map((_, index) => (
@@ -451,24 +474,24 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                 </div>
               </div>
 
-              <div className="absolute inset-0 overflow-y-auto p-3 sm:p-4">
-                <div className="flex min-h-full items-start justify-center py-3 sm:items-center sm:py-6">
-                  <div className="glass-panel-strong shell-border w-full max-w-xl rounded-[2.1rem] p-5 shadow-card sm:p-6">
+              <div className="absolute inset-0 overflow-y-auto overscroll-contain p-2 sm:p-4">
+                <div className="flex min-h-full items-start justify-center py-1 sm:items-center sm:py-4">
+                  <div className="glass-panel-strong shell-border my-auto w-full max-w-xl rounded-[2rem] p-4 shadow-card sm:rounded-[2.1rem] sm:p-6">
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(22,50,41,0.08)] text-[#163229]">
                     <Shield className="h-8 w-8" />
                   </div>
 
-                  <p className="mt-5 text-center text-xs uppercase tracking-[0.24em] text-[rgba(22,50,41,0.44)]">
+                  <p className="mt-4 text-center text-xs uppercase tracking-[0.24em] text-[rgba(22,50,41,0.44)]">
                     Accès chiffré
                   </p>
-                  <h3 className="section-title mt-2 text-center text-3xl font-semibold">
+                  <h3 className="section-title mt-2 text-center text-2xl font-semibold sm:text-3xl">
                     Déverrouille le panneau administrateur.
                   </h3>
-                  <p className="mx-auto mt-3 max-w-md text-center text-sm leading-6 text-[rgba(22,50,41,0.6)]">
+                  <p className="mx-auto mt-2 max-w-md text-center text-sm leading-6 text-[rgba(22,50,41,0.6)]">
                     Le clavier numérique change d’emplacement à chaque ouverture.
                   </p>
 
-                  <div className="mt-5 flex justify-center gap-2 sm:gap-3">
+                  <div className="mt-4 flex justify-center gap-2 sm:gap-3">
                     {Array.from({ length: 8 }).map((_, index) => (
                       <span
                         key={index}
@@ -481,13 +504,13 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     ))}
                   </div>
 
-                  <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3">
+                  <div className="mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
                     {shuffledDigits.slice(0, 9).map((digit) => (
                       <button
                         key={digit}
                         type="button"
                         onClick={() => appendDigit(digit)}
-                        className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-3 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
+                        className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-2.5 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
                       >
                         {digit}
                       </button>
@@ -496,27 +519,27 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     <button
                       type="button"
                       onClick={clearCode}
-                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
+                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
                     >
                       Effacer
                     </button>
                     <button
                       type="button"
                       onClick={() => appendDigit(shuffledDigits[9])}
-                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-3 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
+                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-2.5 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
                     >
                       {shuffledDigits[9]}
                     </button>
                     <button
                       type="button"
                       onClick={removeDigit}
-                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
+                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-2.5 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
                     >
                       Retour
                     </button>
                   </div>
 
-                  <div className="mt-5 min-h-[2.75rem] text-center">
+                  <div className="mt-4 min-h-[2.75rem] text-center">
                     {loading ? (
                       <p className="text-sm font-semibold text-[rgba(22,50,41,0.72)]">
                         Vérification du code…
