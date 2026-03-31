@@ -1,4 +1,5 @@
 import { Sparkles } from "lucide-react";
+import { HeaderTitle } from "@/components/HeaderTitle";
 import { ProfileButton } from "@/components/ProfileButton";
 import { QuizStudio } from "@/components/QuizStudio";
 
@@ -11,14 +12,7 @@ export default function HomePage() {
             <div className="mesh-glow relative flex h-12 w-12 items-center justify-center rounded-2xl bg-[#163229] text-white">
               <Sparkles className="h-5 w-5" />
             </div>
-            <div>
-              <p className="text-sm uppercase tracking-[0.25em] text-[rgba(22,50,41,0.52)]">
-                O Mestre do Português
-              </p>
-              <h1 className="section-title text-3xl font-semibold sm:text-4xl">
-                Perfectionne ton portugais avec des quizzs personnalisés.
-              </h1>
-            </div>
+            <HeaderTitle />
           </div>
           <ProfileButton />
         </header>

@@ -45,3 +45,18 @@ def verify_job_secret(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid reminder secret",
         )
+
+
+def verify_admin_code(
+    admin_code: Annotated[str | None, Header(alias="X-Admin-Code")] = None,
+) -> None:
+    if not settings.admin_access_code:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Admin access code not configured",
+        )
+    if admin_code != settings.admin_access_code:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid admin code",
+        )

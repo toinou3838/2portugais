@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     api_prefix: str = ""
     environment: str = "development"
     debug: bool = True
+    admin_access_code: str | None = Field(default=None, alias="ADMIN_ACCESS_CODE")
     database_url: str = Field(alias="DATABASE_URL")
     cors_origins: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: ["http://localhost:3000"]
@@ -105,6 +106,18 @@ class Settings(BaseSettings):
         except ValueError as exc:
             raise ValueError("REMINDER_SEND_TIME must use HH:MM format") from exc
         return parsed
+
+    @field_validator("admin_access_code", mode="before")
+    @classmethod
+    def validate_admin_access_code(cls, value: str | None) -> str | None:
+        if value is None:
+            return value
+        normalized = value.strip()
+        if normalized == "":
+            return None
+        if len(normalized) != 8 or not normalized.isdigit():
+            raise ValueError("ADMIN_ACCESS_CODE must be exactly 8 digits")
+        return normalized
 
 
 @lru_cache(maxsize=1)

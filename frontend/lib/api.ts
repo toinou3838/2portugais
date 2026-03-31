@@ -2,6 +2,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 type ApiOptions = RequestInit & {
   token?: string | null;
+  adminCode?: string | null;
 };
 
 export async function apiFetch<T>(path: string, options: ApiOptions = {}): Promise<T> {
@@ -18,6 +19,10 @@ export async function apiFetch<T>(path: string, options: ApiOptions = {}): Promi
 
   if (options.token) {
     headers.set("Authorization", `Bearer ${options.token}`);
+  }
+
+  if (options.adminCode) {
+    headers.set("X-Admin-Code", options.adminCode);
   }
 
   const response = await fetch(`${API_URL}${path}`, {
@@ -45,4 +50,3 @@ export async function apiFetch<T>(path: string, options: ApiOptions = {}): Promi
 
   return (await response.json()) as T;
 }
-

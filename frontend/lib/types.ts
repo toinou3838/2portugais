@@ -108,3 +108,60 @@ export type VocabularyEntry = {
   source: "vocab";
   created_at: string;
 };
+
+export type AdminConjugationRow = {
+  id: string;
+  fr: string;
+  pt: string;
+  dir: 0 | 1;
+  difficulty: DifficultyLevel;
+  source: "conjugaison" | "vocab";
+};
+
+export type AdminVocabularyRow = {
+  id: number;
+  fr: string;
+  pt: string;
+  dir: 0 | 1;
+  difficulty: DifficultyLevel;
+  source: string;
+  created_by_user_id: number | null;
+  created_at: string;
+};
+
+export type AdminUserRow = {
+  id: number;
+  clerk_user_id: string;
+  email: string;
+  display_name: string | null;
+  reminder_opt_in: boolean;
+  current_streak: number;
+  today_day: string;
+  today_answered_questions: number;
+  today_correct_answers: number;
+  today_quizzes_completed: number;
+  today_goal_reached: boolean;
+  today_reminder_sent_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminReminderRow = {
+  id: number;
+  email: string;
+  display_name: string | null;
+  current_streak: number;
+  answered_questions: number;
+  remaining_questions: number;
+  reminder_opt_in: boolean;
+  reminder_sent_at: string | null;
+  goal_reached: boolean;
+  day: string;
+};
+
+export type AdminDashboard = {
+  conjugations: AdminConjugationRow[];
+  vocabulary: AdminVocabularyRow[];
+  users: AdminUserRow[];
+  pending_reminders: AdminReminderRow[];
+};

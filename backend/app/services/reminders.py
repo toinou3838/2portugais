@@ -14,14 +14,14 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.models.user import User
-from app.services.progress import get_or_create_today_progress
+from app.services.progress import compute_current_streak, get_or_create_today_progress
 
 _attempt_lock = Lock()
 _last_attempt_key: str | None = None
 logger = logging.getLogger("app.reminders")
 
 
-def _send_resend_email(user: User, answered: int) -> None:
+def _send_resend_email(user: User, answered: int, streak: int) -> None:
     if not settings.resend_api_key or not settings.reminder_from_email:
         raise RuntimeError("Resend not configured")
 
@@ -38,6 +38,7 @@ def _send_resend_email(user: User, answered: int) -> None:
             "to": [user.email],
             "subject": "Ton streak portugais t’attend",
             "html": (
+                f"<p>Ne perds pas tes <strong>{streak} streaks</strong> !</p>"
                 f"<p>Il te reste <strong>{remaining}</strong> questions pour atteindre "
                 f"ton objectif quotidien sur O Mestre do Português.</p>"
             ),
@@ -46,7 +47,7 @@ def _send_resend_email(user: User, answered: int) -> None:
     ).raise_for_status()
 
 
-def _send_smtp_email(user: User, answered: int) -> None:
+def _send_smtp_email(user: User, answered: int, streak: int) -> None:
     if not settings.smtp_username or not settings.smtp_password or not settings.reminder_from_email:
         raise RuntimeError("SMTP not configured")
 
@@ -58,12 +59,14 @@ def _send_smtp_email(user: User, answered: int) -> None:
     message["To"] = user.email
     message.set_content(
         (
+            f"Ne perds pas tes {streak} streaks ! "
             f"Il te reste {remaining} questions pour atteindre "
             "ton objectif quotidien sur O Mestre do Português."
         )
     )
     message.add_alternative(
         (
+            f"<p>Ne perds pas tes <strong>{streak} streaks</strong> !</p>"
             f"<p>Il te reste <strong>{remaining}</strong> questions pour atteindre "
             f"ton objectif quotidien sur O Mestre do Português.</p>"
         ),
@@ -77,7 +80,7 @@ def _send_smtp_email(user: User, answered: int) -> None:
         server.send_message(message)
 
 
-def _build_reminder_message(user: User, answered: int) -> tuple[EmailMessage, int]:
+def _build_reminder_message(user: User, answered: int, streak: int) -> tuple[EmailMessage, int]:
     if not settings.reminder_from_email:
         raise RuntimeError("REMINDER_FROM_EMAIL not configured")
 
@@ -88,12 +91,14 @@ def _build_reminder_message(user: User, answered: int) -> tuple[EmailMessage, in
     message["To"] = user.email
     message.set_content(
         (
+            f"Ne perds pas tes {streak} streaks ! "
             f"Il te reste {remaining} questions pour atteindre "
             "ton objectif quotidien sur O Mestre do Português."
         )
     )
     message.add_alternative(
         (
+            f"<p>Ne perds pas tes <strong>{streak} streaks</strong> !</p>"
             f"<p>Il te reste <strong>{remaining}</strong> questions pour atteindre "
             f"ton objectif quotidien sur O Mestre do Português.</p>"
         ),
@@ -128,8 +133,8 @@ def _fetch_gmail_access_token() -> str:
     return access_token
 
 
-def _send_gmail_api_email(user: User, answered: int) -> None:
-    message, remaining = _build_reminder_message(user, answered)
+def _send_gmail_api_email(user: User, answered: int, streak: int) -> None:
+    message, remaining = _build_reminder_message(user, answered, streak)
     logger.info("Sending reminder via Gmail API to %s (remaining=%s)", user.email, remaining)
     raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode("utf-8")
     access_token = _fetch_gmail_access_token()
@@ -147,17 +152,17 @@ def _send_gmail_api_email(user: User, answered: int) -> None:
         response.raise_for_status()
 
 
-def _send_reminder_email(user: User, answered: int) -> None:
+def _send_reminder_email(user: User, answered: int, streak: int) -> None:
     provider = settings.reminder_email_provider.strip().lower()
     logger.info("Reminder dispatch provider=%s user=%s", provider, user.email)
     if provider == "gmail_api":
-        _send_gmail_api_email(user, answered)
+        _send_gmail_api_email(user, answered, streak)
         return
     if provider == "gmail":
-        _send_smtp_email(user, answered)
+        _send_smtp_email(user, answered, streak)
         return
     if provider == "resend":
-        _send_resend_email(user, answered)
+        _send_resend_email(user, answered, streak)
         return
     raise RuntimeError("Unsupported REMINDER_EMAIL_PROVIDER")
 
@@ -235,6 +240,7 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
             continue
 
         processed += 1
+        streak = compute_current_streak(db, user)
         logger.info(
             "User eligible for reminder %s answered=%s goal=%s",
             user.email,
@@ -258,7 +264,7 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
             and settings.reminder_from_email
         ):
             try:
-                _send_reminder_email(user, progress.answered_questions)
+                _send_reminder_email(user, progress.answered_questions, streak)
                 sent += 1
                 logger.info("Reminder email sent to %s", user.email)
             except Exception:
