@@ -14,11 +14,12 @@ export function HeaderTitle() {
           <button
             type="button"
             onClick={() => setAdminOpen(true)}
-            className="inline-flex items-baseline font-normal text-[rgba(22,50,41,0.52)] transition hover:text-[#163229]"
+            className="inline cursor-pointer p-0 transition hover:opacity-100"
             title="Ouvrir le panneau admin"
             aria-label="Ouvrir le panneau admin"
+            style={{ font: "inherit", letterSpacing: "inherit", color: "inherit" }}
           >
-            G
+            g
           </button>
           uês
         </p>
