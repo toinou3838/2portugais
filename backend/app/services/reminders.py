@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from datetime import datetime, timezone
 from email.message import EmailMessage
 import logging
@@ -76,9 +77,82 @@ def _send_smtp_email(user: User, answered: int) -> None:
         server.send_message(message)
 
 
+def _build_reminder_message(user: User, answered: int) -> tuple[EmailMessage, int]:
+    if not settings.reminder_from_email:
+        raise RuntimeError("REMINDER_FROM_EMAIL not configured")
+
+    remaining = max(settings.reminder_goal - answered, 0)
+    message = EmailMessage()
+    message["Subject"] = "Ton streak portugais t’attend"
+    message["From"] = settings.reminder_from_email
+    message["To"] = user.email
+    message.set_content(
+        (
+            f"Il te reste {remaining} questions pour atteindre "
+            "ton objectif quotidien sur O Mestre do Português."
+        )
+    )
+    message.add_alternative(
+        (
+            f"<p>Il te reste <strong>{remaining}</strong> questions pour atteindre "
+            f"ton objectif quotidien sur O Mestre do Português.</p>"
+        ),
+        subtype="html",
+    )
+    return message, remaining
+
+
+def _fetch_gmail_access_token() -> str:
+    if not settings.gmail_client_id or not settings.gmail_client_secret or not settings.gmail_refresh_token:
+        raise RuntimeError("Gmail API OAuth not configured")
+
+    logger.info("Fetching Gmail API access token from Google OAuth endpoint")
+    response = httpx.post(
+        settings.gmail_token_url,
+        data={
+            "client_id": settings.gmail_client_id,
+            "client_secret": settings.gmail_client_secret,
+            "refresh_token": settings.gmail_refresh_token,
+            "grant_type": "refresh_token",
+        },
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        timeout=15.0,
+    )
+    if response.is_error:
+        logger.error("Google OAuth token fetch failed status=%s body=%s", response.status_code, response.text)
+        response.raise_for_status()
+    payload = response.json()
+    access_token = payload.get("access_token")
+    if not access_token:
+        raise RuntimeError("Google OAuth token response missing access_token")
+    return access_token
+
+
+def _send_gmail_api_email(user: User, answered: int) -> None:
+    message, remaining = _build_reminder_message(user, answered)
+    logger.info("Sending reminder via Gmail API to %s (remaining=%s)", user.email, remaining)
+    raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode("utf-8")
+    access_token = _fetch_gmail_access_token()
+    response = httpx.post(
+        "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        headers={
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+        },
+        json={"raw": raw_message},
+        timeout=15.0,
+    )
+    if response.is_error:
+        logger.error("Gmail API send failed status=%s body=%s", response.status_code, response.text)
+        response.raise_for_status()
+
+
 def _send_reminder_email(user: User, answered: int) -> None:
     provider = settings.reminder_email_provider.strip().lower()
     logger.info("Reminder dispatch provider=%s user=%s", provider, user.email)
+    if provider == "gmail_api":
+        _send_gmail_api_email(user, answered)
+        return
     if provider == "gmail":
         _send_smtp_email(user, answered)
         return
@@ -168,6 +242,12 @@ def send_pending_reminders(db: Session) -> dict[str, int | datetime]:
             settings.reminder_goal,
         )
         if (
+            settings.reminder_email_provider.strip().lower() == "gmail_api"
+            and settings.gmail_client_id
+            and settings.gmail_client_secret
+            and settings.gmail_refresh_token
+            and settings.reminder_from_email
+        ) or (
             settings.reminder_email_provider.strip().lower() == "gmail"
             and settings.smtp_username
             and settings.smtp_password

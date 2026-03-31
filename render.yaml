@@ -48,11 +48,19 @@ services:
       - key: REMINDER_JOB_SECRET
         generateValue: true
       - key: REMINDER_EMAIL_PROVIDER
-        value: gmail
+        value: gmail_api
       - key: RESEND_API_KEY
         sync: false
       - key: REMINDER_FROM_EMAIL
         sync: false
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_REFRESH_TOKEN
+        sync: false
+      - key: GMAIL_TOKEN_URL
+        value: https://oauth2.googleapis.com/token
       - key: SMTP_HOST
         value: smtp.gmail.com
       - key: SMTP_PORT
