@@ -19,7 +19,7 @@ export function HeaderTitle() {
             aria-label="Ouvrir le panneau admin"
             style={{ font: "inherit", letterSpacing: "inherit", color: "inherit" }}
           >
-            g
+            G
           </button>
           uês
         </p>

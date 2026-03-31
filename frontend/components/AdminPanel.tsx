@@ -414,7 +414,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
               </div>
             </div>
           ) : (
-            <div className="relative h-full min-h-[42rem] overflow-hidden pt-6">
+            <div className="relative h-full min-h-[34rem] overflow-hidden pt-4 sm:pt-6">
               <div className="pointer-events-none select-none blur-[14px] opacity-80">
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
                   {Array.from({ length: 6 }).map((_, index) => (
@@ -451,8 +451,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                 </div>
               </div>
 
-              <div className="absolute inset-0 flex items-center justify-center p-4">
-                <div className="glass-panel-strong shell-border w-full max-w-xl rounded-[2.3rem] p-6 shadow-card">
+              <div className="absolute inset-0 overflow-y-auto p-3 sm:p-4">
+                <div className="flex min-h-full items-start justify-center py-3 sm:items-center sm:py-6">
+                  <div className="glass-panel-strong shell-border w-full max-w-xl rounded-[2.1rem] p-5 shadow-card sm:p-6">
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(22,50,41,0.08)] text-[#163229]">
                     <Shield className="h-8 w-8" />
                   </div>
@@ -467,11 +468,11 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     Le clavier numérique change d’emplacement à chaque ouverture.
                   </p>
 
-                  <div className="mt-6 flex justify-center gap-3">
+                  <div className="mt-5 flex justify-center gap-2 sm:gap-3">
                     {Array.from({ length: 8 }).map((_, index) => (
                       <span
                         key={index}
-                        className={`h-4 w-4 rounded-full border ${
+                        className={`h-3.5 w-3.5 rounded-full border sm:h-4 sm:w-4 ${
                           index < code.length
                             ? "border-[#163229] bg-[#163229]"
                             : "border-[rgba(22,50,41,0.18)] bg-transparent"
@@ -480,13 +481,13 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     ))}
                   </div>
 
-                  <div className="mt-6 grid grid-cols-3 gap-3">
+                  <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3">
                     {shuffledDigits.slice(0, 9).map((digit) => (
                       <button
                         key={digit}
                         type="button"
                         onClick={() => appendDigit(digit)}
-                        className="rounded-[1.2rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-4 text-2xl font-semibold text-[#163229] transition hover:bg-white"
+                        className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-3 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
                       >
                         {digit}
                       </button>
@@ -495,21 +496,21 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     <button
                       type="button"
                       onClick={clearCode}
-                      className="rounded-[1.2rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-4 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)]"
+                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
                     >
                       Effacer
                     </button>
                     <button
                       type="button"
                       onClick={() => appendDigit(shuffledDigits[9])}
-                      className="rounded-[1.2rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-4 text-2xl font-semibold text-[#163229] transition hover:bg-white"
+                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-white/88 px-4 py-3 text-2xl font-semibold text-[#163229] transition hover:bg-white sm:rounded-[1.2rem] sm:py-4"
                     >
                       {shuffledDigits[9]}
                     </button>
                     <button
                       type="button"
                       onClick={removeDigit}
-                      className="rounded-[1.2rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-4 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)]"
+                      className="rounded-[1.05rem] border border-[rgba(22,50,41,0.1)] bg-[rgba(22,50,41,0.06)] px-4 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[rgba(22,50,41,0.1)] sm:rounded-[1.2rem] sm:py-4"
                     >
                       Retour
                     </button>
@@ -529,6 +530,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     )}
                   </div>
                 </div>
+                </div>
               </div>
             </div>
           )}
@@ -537,4 +539,3 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     </div>
   );
 }
-
