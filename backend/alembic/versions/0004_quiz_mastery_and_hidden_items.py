@@ -1,6 +1,6 @@
 """add quiz mastery and hidden quiz items
 
-Revision ID: 0004_quiz_mastery_and_hidden_items
+Revision ID: 0004_quiz_mastery
 Revises: 0003_vocabulary_difficulty
 Create Date: 2026-04-01 10:00:00.000000
 """
@@ -10,7 +10,7 @@ from alembic import op
 import sqlalchemy as sa
 
 
-revision = "0004_quiz_mastery_and_hidden_items"
+revision = "0004_quiz_mastery"
 down_revision = "0003_vocabulary_difficulty"
 branch_labels = None
 depends_on = None
