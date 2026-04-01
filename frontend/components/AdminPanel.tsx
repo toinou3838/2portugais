@@ -973,7 +973,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                             Résultat d’import
                           </p>
                           {importResult ? (
-                            <div className="mt-3 flex h-full min-h-[14rem] flex-col gap-3">
+                            <div className="mt-3 flex h-full min-h-[10rem] flex-col gap-3">
                               <div className="grid gap-3 sm:grid-cols-2">
                                 <div className="rounded-[1.1rem] bg-[rgba(22,50,41,0.06)] px-4 py-3">
                                   <p className="text-xs uppercase tracking-[0.18em] text-[rgba(22,50,41,0.42)]">
@@ -992,7 +992,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="min-h-0 flex-1 overflow-auto rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf8] p-3 text-sm text-[rgba(22,50,41,0.66)]">
+                              <div className="min-h-0 max-h-[10rem] overflow-auto rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf8] p-3 text-sm text-[rgba(22,50,41,0.66)]">
                                 {importResult.details.length > 0 ? (
                                   <ul className="space-y-2">
                                     {importResult.details.map((detail, index) => (

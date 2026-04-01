@@ -345,6 +345,11 @@ def bulk_import_pairs(
     payload: AdminBulkImportIn,
     db: Annotated[Session, Depends(get_db)],
 ) -> AdminBulkImportOut:
+    def detail_for_row(index: int, fr: str, pt: str, reason: str) -> str:
+        left = fr.strip() or "?"
+        right = pt.strip() or "?"
+        return f"Ligne {index} : {left} = {right} : {reason}"
+
     raw_text = payload.raw_text.strip()
     if not raw_text:
         raise HTTPException(
@@ -385,14 +390,16 @@ def bulk_import_pairs(
         else:
             if len(cleaned) < 3:
                 skipped += 1
-                details.append(f"Ligne {index}: colonnes insuffisantes.")
+                fr = cleaned[0] if len(cleaned) > 0 else ""
+                pt = cleaned[1] if len(cleaned) > 1 else ""
+                details.append(detail_for_row(index, fr, pt, "colonnes insuffisantes"))
                 continue
             fr, pt, target = cleaned[:3]
             difficulty = cleaned[3] if len(cleaned) > 3 else None
 
         if not fr or not pt or not target:
             skipped += 1
-            details.append(f"Ligne {index}: colonnes obligatoires manquantes.")
+            details.append(detail_for_row(index, fr, pt, "colonnes obligatoires manquantes"))
             continue
 
         try:
@@ -400,7 +407,7 @@ def bulk_import_pairs(
             parsed_difficulty = _parse_difficulty(difficulty, fr)
         except ValueError as exc:
             skipped += 1
-            details.append(f"Ligne {index}: {exc}")
+            details.append(detail_for_row(index, fr, pt, str(exc)))
             continue
 
         duplicate = db.scalar(
@@ -412,7 +419,7 @@ def bulk_import_pairs(
         )
         if duplicate is not None:
             skipped += 1
-            details.append(f"Ligne {index}: paire déjà présente.")
+            details.append(detail_for_row(index, fr, pt, "paire déjà présente"))
             continue
 
         create_custom_quiz_entry(
