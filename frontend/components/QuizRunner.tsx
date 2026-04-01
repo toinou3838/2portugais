@@ -86,7 +86,11 @@ export function QuizRunner({
               Tu as répondu : {transientFeedback.answer || "aucune réponse"}
             </p>
             <p className="mt-1 text-sm">
-              {transientFeedback.status === "correct" ? "C’est correct." : "Ce n’est pas correct."}{" "}
+              {transientFeedback.status === "correct"
+                ? "C’est correct."
+                : transientFeedback.status === "skipped"
+                  ? "Question passée."
+                  : "Ce n’est pas correct."}{" "}
               Réponse attendue : {transientFeedback.expected}
             </p>
           </div>

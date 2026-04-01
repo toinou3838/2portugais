@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -22,7 +22,11 @@ from app.schemas.admin import (
     AdminVocabularyRow,
 )
 from app.services.progress import compute_current_streak
-from app.services.quiz import load_conjugation_entries
+from app.services.quiz import (
+    delete_vocabulary_entry_everywhere,
+    hide_conjugation_entry,
+    load_visible_conjugation_entries,
+)
 
 router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[Depends(verify_admin_code)])
 
@@ -45,7 +49,7 @@ def read_admin_dashboard(
             difficulty=int(item.get("difficulty", 2)),
             source=str(item.get("source", "conjugaison")),
         )
-        for item in load_conjugation_entries()
+        for item in load_visible_conjugation_entries(db)
     ]
 
     user_rows = db.scalars(select(User).order_by(User.updated_at.desc(), User.id.desc())).all()
@@ -144,3 +148,28 @@ def read_admin_dashboard(
         users=users,
         pending_reminders=pending_reminders,
     )
+
+
+@router.delete("/vocabulary/{entry_id}")
+def delete_vocabulary_row(
+    entry_id: int,
+    db: Annotated[Session, Depends(get_db)],
+) -> dict[str, bool]:
+    entry = db.get(VocabularyEntry, entry_id)
+    if entry is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Entrée de vocabulaire introuvable.",
+        )
+
+    delete_vocabulary_entry_everywhere(db, entry)
+    return {"ok": True}
+
+
+@router.delete("/conjugations/{entry_id}")
+def delete_conjugation_row(
+    entry_id: str,
+    db: Annotated[Session, Depends(get_db)],
+) -> dict[str, bool]:
+    hide_conjugation_entry(db, entry_id)
+    return {"ok": True}

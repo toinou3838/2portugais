@@ -9,6 +9,8 @@ from app.models.base import Base, TimestampMixin
 
 if TYPE_CHECKING:
     from app.models.daily_progress import DailyProgress
+    from app.models.hidden_quiz_item import HiddenQuizItem
+    from app.models.user_quiz_mastery import UserQuizMastery
     from app.models.vocabulary_entry import VocabularyEntry
 
 
@@ -28,4 +30,7 @@ class User(TimestampMixin, Base):
     created_vocabulary_entries: Mapped[list["VocabularyEntry"]] = relationship(
         back_populates="created_by_user"
     )
-
+    quiz_masteries: Mapped[list["UserQuizMastery"]] = relationship(
+        cascade="all, delete-orphan"
+    )
+    hidden_quiz_items: Mapped[list["HiddenQuizItem"]] = relationship()

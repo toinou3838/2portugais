@@ -1,4 +1,5 @@
 export type DifficultyLevel = 1 | 2 | 3;
+export type QuizMode = "standard" | "review";
 
 export type QuizItem = {
   id: string;
@@ -13,11 +14,13 @@ export type QuizGenerationRequest = {
   question_count: number;
   conjugation_percentage: number;
   difficulty: DifficultyLevel;
+  mode: QuizMode;
 };
 
 export type QuizGenerationResponse = {
   quiz_id: string;
   generated_at: string;
+  mode: QuizMode;
   requested_question_count: number;
   actual_question_count: number;
   source_breakdown: {
@@ -76,6 +79,12 @@ export type ProgressPayload = {
   answered_questions: number;
   correct_answers: number;
   quizzes_completed: number;
+  mastery_update?: {
+    item_id: string;
+    source: "conjugaison" | "vocab";
+    direction: 0 | 1;
+    correct: boolean;
+  } | null;
 };
 
 export type TranslationDirection = "fr_to_pt" | "pt_to_fr";

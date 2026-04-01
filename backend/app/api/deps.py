@@ -32,6 +32,25 @@ def get_current_auth_user(
     return AuthenticatedUser(user=user, claims=claims)
 
 
+def get_optional_auth_user(
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer_scheme)],
+    db: Annotated[Session, Depends(get_db)],
+) -> AuthenticatedUser | None:
+    if credentials is None:
+        return None
+
+    try:
+        claims = token_verifier.verify(credentials.credentials)
+        user = provision_user_from_claims(db, claims)
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Clerk token",
+        ) from exc
+
+    return AuthenticatedUser(user=user, claims=claims)
+
+
 def verify_job_secret(
     reminder_secret: Annotated[str | None, Header(alias="X-Reminder-Secret")] = None,
 ) -> None:

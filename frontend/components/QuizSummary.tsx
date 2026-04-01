@@ -1,11 +1,12 @@
 "use client";
 
 import { RotateCcw, Shuffle, Trophy } from "lucide-react";
-import { QuizGenerationResponse, QuizSummaryStats } from "@/lib/types";
+import { QuizFeedback, QuizGenerationResponse, QuizSummaryStats } from "@/lib/types";
 
 type QuizSummaryProps = {
   summary: QuizSummaryStats;
   quiz: QuizGenerationResponse;
+  lastFeedback?: QuizFeedback | null;
   saving: boolean;
   syncMessage: string | null;
   onNewQuiz: () => void;
@@ -15,6 +16,7 @@ type QuizSummaryProps = {
 export function QuizSummary({
   summary,
   quiz,
+  lastFeedback,
   saving,
   syncMessage,
   onNewQuiz,
@@ -64,6 +66,29 @@ export function QuizSummary({
             Le bouton d’inversion repart du même lot de cartes avec les directions
             retournées. Le bouton nouveau quiz relance un tirage complet.
           </p>
+          {lastFeedback ? (
+            <div
+              className={`rounded-[1.4rem] border px-4 py-3 text-sm ${
+                lastFeedback.status === "correct"
+                  ? "border-[rgba(52,168,83,0.24)] bg-[rgba(52,168,83,0.1)] text-[#1f6e38]"
+                  : lastFeedback.status === "skipped"
+                    ? "border-[rgba(245,158,11,0.24)] bg-[rgba(245,158,11,0.14)] text-[#a16207]"
+                    : "border-[rgba(220,38,38,0.18)] bg-[rgba(220,38,38,0.08)] text-[#b42318]"
+              }`}
+            >
+              <p className="font-semibold">
+                Dernière réponse : {lastFeedback.answer || "aucune réponse"}
+              </p>
+              <p className="mt-1">
+                {lastFeedback.status === "correct"
+                  ? "C’est correct."
+                  : lastFeedback.status === "skipped"
+                    ? "Question passée."
+                    : "Ce n’est pas correct."}{" "}
+                Réponse attendue : {lastFeedback.expected}
+              </p>
+            </div>
+          ) : null}
           <div className="flex flex-wrap gap-3">
             <button
               type="button"
@@ -90,4 +115,3 @@ export function QuizSummary({
     </section>
   );
 }
-

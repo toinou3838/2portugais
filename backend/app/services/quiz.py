@@ -7,13 +7,16 @@ from functools import lru_cache
 from pathlib import Path
 from uuid import uuid4
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
+from app.models.hidden_quiz_item import HiddenQuizItem
+from app.models.user_quiz_mastery import UserQuizMastery
 from app.models.vocabulary_entry import VocabularyEntry
 from app.schemas.quiz import QuizGenerateIn, QuizGenerateOut, QuizItemOut
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+REVIEW_MASTERY_TARGET = 3
 DIFFICULTY_PROFILES: dict[int, dict[int, float]] = {
     1: {1: 0.80, 2: 0.15, 3: 0.05},
     2: {1: 0.10, 2: 0.80, 3: 0.10},
@@ -31,6 +34,60 @@ def load_conjugation_entries() -> list[dict[str, str | int]]:
 def load_seed_vocabulary_entries() -> list[dict[str, str | int]]:
     with (DATA_DIR / "base_vocabulary.json").open("r", encoding="utf-8") as file:
         return json.load(file)
+
+
+def load_hidden_item_keys(db: Session) -> set[tuple[str, str]]:
+    rows = db.scalars(select(HiddenQuizItem)).all()
+    return {(row.item_id, row.source) for row in rows}
+
+
+def load_visible_conjugation_entries(db: Session) -> list[dict[str, str | int]]:
+    hidden_keys = load_hidden_item_keys(db)
+    return [
+        item
+        for item in load_conjugation_entries()
+        if (str(item["id"]), str(item.get("source", "conjugaison"))) not in hidden_keys
+    ]
+
+
+def load_visible_vocabulary_entries(db: Session) -> list[VocabularyEntry]:
+    ensure_default_vocabulary(db)
+    return db.scalars(select(VocabularyEntry).order_by(VocabularyEntry.id)).all()
+
+
+def load_mastered_item_keys(db: Session, user_id: int) -> set[tuple[str, str]]:
+    rows = db.scalars(
+        select(UserQuizMastery).where(UserQuizMastery.user_id == user_id)
+    ).all()
+    return {
+        (row.item_id, row.source)
+        for row in rows
+        if row.correct_fr_to_pt >= REVIEW_MASTERY_TARGET
+        and row.correct_pt_to_fr >= REVIEW_MASTERY_TARGET
+    }
+
+
+def delete_vocabulary_entry_everywhere(db: Session, entry: VocabularyEntry) -> None:
+    db.execute(
+        delete(UserQuizMastery).where(
+            UserQuizMastery.item_id == f"vocab-{entry.id}",
+            UserQuizMastery.source == "vocab",
+        )
+    )
+    db.delete(entry)
+    db.commit()
+
+
+def hide_conjugation_entry(db: Session, entry_id: str) -> None:
+    existing = db.scalar(
+        select(HiddenQuizItem).where(
+            HiddenQuizItem.item_id == entry_id,
+            HiddenQuizItem.source == "conjugaison",
+        )
+    )
+    if existing is None:
+        db.add(HiddenQuizItem(item_id=entry_id, source="conjugaison"))
+        db.commit()
 
 
 def ensure_default_vocabulary(db: Session) -> None:
@@ -120,10 +177,13 @@ def _sample_by_difficulty(
     return sampled
 
 
-def generate_quiz(db: Session, payload: QuizGenerateIn) -> QuizGenerateOut:
-    ensure_default_vocabulary(db)
-
-    vocab_entries = db.scalars(select(VocabularyEntry).order_by(VocabularyEntry.id)).all()
+def generate_quiz(
+    db: Session,
+    payload: QuizGenerateIn,
+    *,
+    user_id: int | None = None,
+) -> QuizGenerateOut:
+    vocab_entries = load_visible_vocabulary_entries(db)
     vocab_pool = [
         {
             "id": f"vocab-{entry.id}",
@@ -135,7 +195,33 @@ def generate_quiz(db: Session, payload: QuizGenerateIn) -> QuizGenerateOut:
         }
         for entry in vocab_entries
     ]
-    conjugation_pool = load_conjugation_entries()
+    conjugation_pool = load_visible_conjugation_entries(db)
+
+    if user_id is not None:
+        mastered_keys = load_mastered_item_keys(db, user_id)
+        if payload.mode == "review":
+            vocab_pool = [
+                item for item in vocab_pool if (str(item["id"]), str(item["source"])) in mastered_keys
+            ]
+            conjugation_pool = [
+                item
+                for item in conjugation_pool
+                if (str(item["id"]), str(item.get("source", "conjugaison"))) in mastered_keys
+            ]
+        else:
+            vocab_pool = [
+                item for item in vocab_pool if (str(item["id"]), str(item["source"])) not in mastered_keys
+            ]
+            conjugation_pool = [
+                item
+                for item in conjugation_pool
+                if (str(item["id"]), str(item.get("source", "conjugaison"))) not in mastered_keys
+            ]
+
+    if not vocab_pool and not conjugation_pool:
+        if payload.mode == "review":
+            raise ValueError("Aucune paire maîtrisée n’est disponible pour un quiz de révision.")
+        raise ValueError("Aucune entrée n’est disponible pour générer un quiz.")
 
     requested = payload.question_count
     desired_conjugation = round(requested * payload.conjugation_percentage / 100)
@@ -172,6 +258,7 @@ def generate_quiz(db: Session, payload: QuizGenerateIn) -> QuizGenerateOut:
     return QuizGenerateOut(
         quiz_id=str(uuid4()),
         generated_at=datetime.now(timezone.utc),
+        mode=payload.mode,
         requested_question_count=requested,
         actual_question_count=len(quiz_items),
         source_breakdown={

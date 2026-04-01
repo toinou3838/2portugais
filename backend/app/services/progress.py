@@ -9,9 +9,11 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.models.daily_progress import DailyProgress
 from app.models.user import User
+from app.models.user_quiz_mastery import UserQuizMastery
 from app.schemas.profile import DailyProgressOut, ProgressIn, UserProfileOut
 
 MAX_STREAK_INTERVAL = timedelta(hours=30)
+REVIEW_MASTERY_TARGET = 3
 
 
 def _next_local_midnight_after(timestamp: datetime) -> datetime:
@@ -106,6 +108,34 @@ def update_progress(db: Session, user: User, payload: ProgressIn) -> UserProfile
     if progress.goal_reached and not previously_reached:
         progress.goal_reached_at = datetime.now(timezone.utc)
     progress.updated_at = datetime.now(timezone.utc)
+
+    mastery_update = payload.mastery_update
+    if mastery_update and mastery_update.correct:
+        mastery_row = db.scalar(
+            select(UserQuizMastery).where(
+                UserQuizMastery.user_id == user.id,
+                UserQuizMastery.item_id == mastery_update.item_id,
+                UserQuizMastery.source == mastery_update.source,
+            )
+        )
+        if mastery_row is None:
+            mastery_row = UserQuizMastery(
+                user_id=user.id,
+                item_id=mastery_update.item_id,
+                source=mastery_update.source,
+            )
+            db.add(mastery_row)
+
+        if mastery_update.direction == 0:
+            mastery_row.correct_fr_to_pt = min(
+                mastery_row.correct_fr_to_pt + 1,
+                REVIEW_MASTERY_TARGET,
+            )
+        else:
+            mastery_row.correct_pt_to_fr = min(
+                mastery_row.correct_pt_to_fr + 1,
+                REVIEW_MASTERY_TARGET,
+            )
 
     db.add(progress)
     db.commit()

@@ -9,6 +9,7 @@ import {
   QuizAnswerState,
   QuizFeedback,
   QuizGenerationResponse,
+  QuizMode,
   UserProfile,
 } from "@/lib/types";
 import {
@@ -46,6 +47,7 @@ export function QuizStudio() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [draftAnswer, setDraftAnswer] = useState("");
   const [loadingQuiz, setLoadingQuiz] = useState(false);
+  const [setupMessage, setSetupMessage] = useState<string | null>(null);
   const [syncingProgress, setSyncingProgress] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(
     "La progression sera synchronisée à la fin du quiz.",
@@ -53,6 +55,7 @@ export function QuizStudio() {
   const [syncedQuizId, setSyncedQuizId] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [transientFeedback, setTransientFeedback] = useState<QuizFeedback | null>(null);
+  const [quizMode, setQuizMode] = useState<QuizMode>("standard");
 
   const summary = computeSummary(answers);
   const quizCompleted = answers.length > 0 && answers.every((item) => item.status !== "pending");
@@ -89,7 +92,10 @@ export function QuizStudio() {
     window.dispatchEvent(new CustomEvent("profile-updated", { detail: data }));
   }
 
-  async function syncAnsweredProgress(correctIncrement: number) {
+  async function syncAnsweredProgress(
+    correctIncrement: number,
+    masteryUpdate: ProgressPayload["mastery_update"] = null,
+  ) {
     if (!isSignedIn) {
       return;
     }
@@ -107,6 +113,7 @@ export function QuizStudio() {
         answered_questions: 1,
         correct_answers: correctIncrement,
         quizzes_completed: 0,
+        mastery_update: masteryUpdate,
       }),
     });
 
@@ -173,17 +180,23 @@ export function QuizStudio() {
     syncingProgress,
   ]);
 
-  async function generateQuiz() {
+  async function generateQuiz(mode: QuizMode) {
     setLoadingQuiz(true);
+    setSetupMessage(null);
     setSyncMessage("La progression sera synchronisée à la fin du quiz.");
 
     try {
+      const token = isSignedIn
+        ? await getToken(getTemplate() ? { template: getTemplate() } : undefined)
+        : null;
       const data = await apiFetch<QuizGenerationResponse>("/quiz/generate", {
         method: "POST",
+        token,
         body: JSON.stringify({
           question_count: questionCount,
           conjugation_percentage: conjugationPercentage,
           difficulty,
+          mode,
         }),
       });
 
@@ -194,9 +207,10 @@ export function QuizStudio() {
         setDraftAnswer("");
         setSyncedQuizId(null);
         setTransientFeedback(null);
+        setQuizMode(mode);
       });
     } catch (error) {
-      setSyncMessage(error instanceof Error ? error.message : "Quiz indisponible.");
+      setSetupMessage(error instanceof Error ? error.message : "Quiz indisponible.");
     } finally {
       setLoadingQuiz(false);
     }
@@ -221,7 +235,8 @@ export function QuizStudio() {
       return;
     }
 
-    const evaluated = evaluateAnswer(quiz.items[currentIndex], draftAnswer);
+    const currentItem = quiz.items[currentIndex];
+    const evaluated = evaluateAnswer(currentItem, draftAnswer);
     const feedbackStatus = evaluated.status === "correct" ? "correct" : "incorrect";
     updateAnswer(currentIndex, evaluated);
     setTransientFeedback({
@@ -230,7 +245,17 @@ export function QuizStudio() {
       expected: evaluated.expected,
       status: feedbackStatus,
     });
-    void syncAnsweredProgress(feedbackStatus === "correct" ? 1 : 0);
+    void syncAnsweredProgress(
+      feedbackStatus === "correct" ? 1 : 0,
+      feedbackStatus === "correct"
+        ? {
+            item_id: currentItem.id,
+            source: currentItem.source,
+            direction: currentItem.dir,
+            correct: true,
+          }
+        : null,
+    );
 
     if (currentIndex < quiz.items.length - 1) {
       setCurrentIndex((value) => value + 1);
@@ -295,10 +320,13 @@ export function QuizStudio() {
         conjugationPercentage={conjugationPercentage}
         difficulty={difficulty}
         loading={loadingQuiz}
+        canGenerateReview={Boolean(isSignedIn)}
+        message={setupMessage}
         onQuestionCountChange={setQuestionCount}
         onConjugationPercentageChange={setConjugationPercentage}
         onDifficultyChange={setDifficulty}
-        onGenerate={() => void generateQuiz()}
+        onGenerateStandard={() => void generateQuiz("standard")}
+        onGenerateReview={() => void generateQuiz("review")}
       />
 
       {todayProgressLabel ? (
@@ -312,10 +340,11 @@ export function QuizStudio() {
           <QuizSummary
             summary={summary}
             quiz={quiz}
+            lastFeedback={transientFeedback}
             saving={syncingProgress}
             syncMessage={syncMessage}
             onFlipDirections={handleFlipDirections}
-            onNewQuiz={() => void generateQuiz()}
+            onNewQuiz={() => void generateQuiz(quizMode)}
           />
         ) : (
           <QuizRunner

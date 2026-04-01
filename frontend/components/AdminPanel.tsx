@@ -10,6 +10,7 @@ import {
   Lock,
   RefreshCcw,
   Shield,
+  Trash2,
   X,
 } from "lucide-react";
 import { createPortal } from "react-dom";
@@ -44,6 +45,7 @@ type ColumnDefinition<Row> = {
 type PaginationState = Record<AdminTab, number>;
 type PageSizeState = Record<AdminTab, number>;
 type SortStateMap = Record<AdminTab, SortState | null>;
+type SearchState = Record<AdminTab, string>;
 
 const tabLabels: Record<AdminTab, string> = {
   reminders: "Reminders",
@@ -73,6 +75,13 @@ const INITIAL_SORTS: SortStateMap = {
   conjugations: null,
 };
 
+const INITIAL_SEARCHES: SearchState = {
+  reminders: "",
+  users: "",
+  vocabulary: "",
+  conjugations: "",
+};
+
 const PAGE_SIZE_OPTIONS = [20, 50, 100];
 
 function shuffleDigits(): string[] {
@@ -93,6 +102,14 @@ function formatDate(value: string | null) {
     return "—";
   }
   return new Date(value).toLocaleString();
+}
+
+function normalizeSearchValue(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
 }
 
 function parseDate(value: string | null) {
@@ -277,6 +294,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const [pageByTab, setPageByTab] = useState<PaginationState>(INITIAL_PAGES);
   const [pageSizeByTab, setPageSizeByTab] = useState<PageSizeState>(INITIAL_PAGE_SIZES);
   const [sortByTab, setSortByTab] = useState<SortStateMap>(INITIAL_SORTS);
+  const [searchByTab, setSearchByTab] = useState<SearchState>(INITIAL_SEARCHES);
+  const [pendingDeleteKey, setPendingDeleteKey] = useState<string | null>(null);
+  const [deletingDeleteKey, setDeletingDeleteKey] = useState<string | null>(null);
 
   const unlocked = dashboard !== null && activeCode !== null;
 
@@ -297,6 +317,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setPageByTab(INITIAL_PAGES);
     setPageSizeByTab(INITIAL_PAGE_SIZES);
     setSortByTab(INITIAL_SORTS);
+    setSearchByTab(INITIAL_SEARCHES);
+    setPendingDeleteKey(null);
+    setDeletingDeleteKey(null);
   }, [open]);
 
   useEffect(() => {
@@ -354,6 +377,10 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     void loadDashboard(code);
   }, [code, loading, open, unlocked]);
 
+  useEffect(() => {
+    setPendingDeleteKey(null);
+  }, [tab, pageByTab, searchByTab]);
+
   const stats = useMemo(() => {
     if (!dashboard) {
       return null;
@@ -384,7 +411,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     ];
   }, [dashboard]);
 
-  async function loadDashboard(nextCode: string) {
+  async function loadDashboard(nextCode: string, options?: { preserveView?: boolean }) {
     setLoading(true);
     setError(null);
     try {
@@ -395,9 +422,14 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       setDashboard(data);
       setActiveCode(nextCode);
       setCode("");
-      setTab("reminders");
-      setPageByTab(INITIAL_PAGES);
-      setSortByTab(INITIAL_SORTS);
+      setPendingDeleteKey(null);
+      setDeletingDeleteKey(null);
+      if (!options?.preserveView) {
+        setTab("reminders");
+        setPageByTab(INITIAL_PAGES);
+        setSortByTab(INITIAL_SORTS);
+        setSearchByTab(INITIAL_SEARCHES);
+      }
     } catch (requestError) {
       setDashboard(null);
       setActiveCode(null);
@@ -445,6 +477,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setShuffledDigits(shuffleDigits());
     setPageByTab(INITIAL_PAGES);
     setSortByTab(INITIAL_SORTS);
+    setSearchByTab(INITIAL_SEARCHES);
+    setPendingDeleteKey(null);
+    setDeletingDeleteKey(null);
   }
 
   function closePanel() {
@@ -456,7 +491,38 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     if (!activeCode) {
       return;
     }
-    await loadDashboard(activeCode);
+    await loadDashboard(activeCode, { preserveView: true });
+  }
+
+  async function deletePendingRow() {
+    if (!activeCode || !pendingDeleteKey) {
+      return;
+    }
+
+    setDeletingDeleteKey(pendingDeleteKey);
+    setError(null);
+    try {
+      if (pendingDeleteKey.startsWith("vocabulary:")) {
+        const entryId = pendingDeleteKey.replace("vocabulary:", "");
+        await apiFetch<{ ok: boolean }>(`/admin/vocabulary/${entryId}`, {
+          method: "DELETE",
+          adminCode: activeCode,
+        });
+      } else if (pendingDeleteKey.startsWith("conjugations:")) {
+        const entryId = pendingDeleteKey.replace("conjugations:", "");
+        await apiFetch<{ ok: boolean }>(`/admin/conjugations/${encodeURIComponent(entryId)}`, {
+          method: "DELETE",
+          adminCode: activeCode,
+        });
+      }
+      await refreshDashboard();
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error ? requestError.message : "Suppression impossible.",
+      );
+    } finally {
+      setDeletingDeleteKey(null);
+    }
   }
 
   function toggleSort(columnKey: string) {
@@ -528,8 +594,22 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     }
   }, [dashboard, tab]);
 
+  const filteredRows = useMemo(() => {
+    const query = normalizeSearchValue(searchByTab[tab]);
+    if (!query || (tab !== "vocabulary" && tab !== "conjugations")) {
+      return currentRows;
+    }
+
+    return currentRows.filter((row) => {
+      const candidate = row as AdminVocabularyRow | AdminConjugationRow;
+      return [candidate.fr, candidate.pt].some((value) =>
+        normalizeSearchValue(value).includes(query),
+      );
+    });
+  }, [currentRows, searchByTab, tab]);
+
   const sortedRows = useMemo(() => {
-    const rows = [...currentRows];
+    const rows = [...filteredRows];
     const sort = sortByTab[tab];
     if (!sort) {
       return rows;
@@ -545,7 +625,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       return sort.direction === "asc" ? comparison : -comparison;
     });
     return rows;
-  }, [currentColumns, currentRows, sortByTab, tab]);
+  }, [currentColumns, filteredRows, sortByTab, tab]);
 
   const totalRows = sortedRows.length;
   const currentPageSize = pageSizeByTab[tab];
@@ -555,6 +635,19 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const endIndex = startIndex + currentPageSize;
   const paginatedRows = sortedRows.slice(startIndex, endIndex);
   const pageItems = buildPageItems(currentPage, totalPages);
+  const showDeleteActions = tab === "vocabulary" || tab === "conjugations";
+
+  function getRowDeleteKey(
+    row: AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow,
+  ) {
+    if (tab === "vocabulary") {
+      return `vocabulary:${String((row as AdminVocabularyRow).id)}`;
+    }
+    if (tab === "conjugations") {
+      return `conjugations:${String((row as AdminConjugationRow).id)}`;
+    }
+    return null;
+  }
 
   function renderSortIcon(columnKey: string) {
     const sort = sortByTab[tab];
@@ -647,7 +740,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                       key={item}
                       type="button"
                       onClick={() => setTab(item)}
-                      className={`inline-flex h-12 w-[11rem] shrink-0 items-center justify-center rounded-full px-5 py-2 text-sm font-semibold transition ${
+                      className={`inline-flex h-12 w-[11rem] min-w-[11rem] max-w-[11rem] shrink-0 basis-[11rem] items-center justify-center rounded-full px-5 py-2 text-sm font-semibold transition ${
                         tab === item
                           ? "bg-[#163229] text-white"
                           : "border border-[rgba(22,50,41,0.12)] bg-white/82 text-[#163229] hover:bg-white"
@@ -660,11 +753,36 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
 
                 <div className="glass-panel shell-border min-h-0 flex-1 overflow-hidden rounded-[1.8rem] shadow-soft">
                   <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(22,50,41,0.08)] px-4 py-3">
-                    <p className="text-sm font-medium text-[rgba(22,50,41,0.62)]">
-                      {totalRows} entrées, page {currentPage} / {totalPages}
-                    </p>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-[rgba(22,50,41,0.62)]">
+                        {totalRows} entrées, page {currentPage} / {totalPages}
+                      </p>
+                      {tab === "users" ? (
+                        <p className="text-xs text-[rgba(22,50,41,0.48)]">
+                          Répondues, Correctes, Quiz, Objectif et Reminder envoyé correspondent à aujourd’hui.
+                        </p>
+                      ) : null}
+                    </div>
 
                     <div className="flex flex-wrap items-center gap-3">
+                      {tab === "vocabulary" || tab === "conjugations" ? (
+                        <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
+                          <span>Recherche</span>
+                          <input
+                            value={searchByTab[tab]}
+                            onChange={(event) => {
+                              setSearchByTab((current) => ({
+                                ...current,
+                                [tab]: event.target.value,
+                              }));
+                              setPageByTab((current) => ({ ...current, [tab]: 1 }));
+                            }}
+                            placeholder="Français ou portugais"
+                            className="w-56 rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-4 py-2 text-sm text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.38)]"
+                          />
+                        </label>
+                      ) : null}
+
                       <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
                         <span>Par page</span>
                         <select
@@ -726,12 +844,12 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     </div>
                   </div>
 
-                  <div className="h-full max-h-[32rem] overflow-auto">
+                  <div className="h-full max-h-[32rem] overflow-auto overscroll-contain">
                     <table className="min-w-full text-sm">
-                      <thead className="sticky top-0 z-[1] bg-[rgba(22,50,41,0.06)] text-left text-[rgba(22,50,41,0.66)]">
+                      <thead className="sticky top-0 z-[2] bg-[#f4efe6] text-left text-[rgba(22,50,41,0.66)] shadow-[0_1px_0_rgba(22,50,41,0.08)]">
                         <tr>
                           {currentColumns.map((column) => (
-                            <th key={column.key} className="px-4 py-3">
+                            <th key={column.key} className="bg-[#f4efe6] px-4 py-3">
                               <button
                                 type="button"
                                 onClick={() => toggleSort(column.key)}
@@ -742,6 +860,11 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                               </button>
                             </th>
                           ))}
+                          {showDeleteActions ? (
+                            <th className="bg-[#f4efe6] px-4 py-3 text-right font-semibold">
+                              Actions
+                            </th>
+                          ) : null}
                         </tr>
                       </thead>
                       <tbody>
@@ -755,6 +878,52 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                                 {column.render ? column.render(row as never) : String(column.accessor(row as never) ?? "—")}
                               </td>
                             ))}
+                            {showDeleteActions ? (
+                              <td className="px-4 py-3">
+                                {(() => {
+                                  const deleteKey = getRowDeleteKey(row);
+                                  if (!deleteKey) {
+                                    return null;
+                                  }
+
+                                  if (pendingDeleteKey === deleteKey) {
+                                    const busy = deletingDeleteKey === deleteKey;
+                                    return (
+                                      <div className="flex justify-end gap-2">
+                                        <button
+                                          type="button"
+                                          onClick={() => void deletePendingRow()}
+                                          disabled={busy}
+                                          className="rounded-full bg-[#163229] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#21453a] disabled:cursor-not-allowed disabled:opacity-60"
+                                        >
+                                          Oui
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => setPendingDeleteKey(null)}
+                                          disabled={busy}
+                                          className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-3 py-1.5 text-xs font-semibold text-[#163229] transition hover:bg-[#f8f3eb] disabled:cursor-not-allowed disabled:opacity-60"
+                                        >
+                                          Non
+                                        </button>
+                                      </div>
+                                    );
+                                  }
+
+                                  return (
+                                    <div className="flex justify-end">
+                                      <button
+                                        type="button"
+                                        onClick={() => setPendingDeleteKey(deleteKey)}
+                                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(220,38,38,0.16)] bg-[rgba(220,38,38,0.06)] text-[#b42318] transition hover:bg-[rgba(220,38,38,0.12)]"
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </button>
+                                    </div>
+                                  );
+                                })()}
+                              </td>
+                            ) : null}
                           </tr>
                         ))}
                       </tbody>
@@ -817,7 +986,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                         Accès chiffré
                       </p>
 
-                      <div className="mt-5 flex justify-center gap-2 sm:gap-3">
+                      <div className="mt-4 flex justify-center gap-2 sm:gap-3">
                         {Array.from({ length: 8 }).map((_, index) => (
                           <span
                             key={index}
@@ -830,7 +999,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                         ))}
                       </div>
 
-                      <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3">
+                      <div className="mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
                         {shuffledDigits.slice(0, 9).map((digit) => (
                           <button
                             key={digit}
