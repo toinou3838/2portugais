@@ -943,7 +943,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                           placeholder={
                             "prendre;pegar;vocabulaire;1\nje mangerai;eu comerei;conjugaison;2"
                           }
-                          className="mt-4 h-[15rem] w-full rounded-[1.35rem] border border-[rgba(22,50,41,0.12)] bg-[#fffdf8] px-4 py-4 text-sm leading-6 text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.34)]"
+                          className="mt-4 h-[11rem] w-full rounded-[1.35rem] border border-[rgba(22,50,41,0.12)] bg-[#fffdf8] px-4 py-4 text-sm leading-6 text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.34)]"
                         />
                         <div className="mt-4 flex flex-wrap items-center gap-3">
                           <button
