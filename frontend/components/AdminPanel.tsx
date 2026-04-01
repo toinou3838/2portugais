@@ -20,6 +20,7 @@ import type {
   AdminConjugationRow,
   AdminBulkImportResult,
   AdminDashboard,
+  AdminPeriodStats,
   AdminReminderRow,
   AdminUserRow,
   AdminVocabularyRow,
@@ -36,6 +37,7 @@ type SortState = {
   key: string;
   direction: SortDirection;
 };
+type ProfilePeriod = "day" | "week" | "month";
 type EditDraft = {
   fr: string;
   pt: string;
@@ -204,49 +206,76 @@ const reminderColumns: ColumnDefinition<AdminReminderRow>[] = [
   { key: "day", label: "Jour", accessor: (row) => row.day },
 ];
 
-const userColumns: ColumnDefinition<AdminUserRow>[] = [
-  { key: "email", label: "Email", accessor: (row) => row.email },
-  {
-    key: "display_name",
-    label: "Nom",
-    accessor: (row) => row.display_name ?? "",
-    render: (row) => row.display_name ?? "—",
-  },
-  {
-    key: "reminder_opt_in",
-    label: "Rappels",
-    accessor: (row) => row.reminder_opt_in,
-    render: (row) => (row.reminder_opt_in ? "Oui" : "Non"),
-  },
-  { key: "current_streak", label: "Streak", accessor: (row) => row.current_streak },
-  {
-    key: "today_answered_questions",
-    label: "Répondues",
-    accessor: (row) => row.today_answered_questions,
-  },
-  {
-    key: "today_correct_answers",
-    label: "Correctes",
-    accessor: (row) => row.today_correct_answers,
-  },
-  {
-    key: "today_quizzes_completed",
-    label: "Quiz",
-    accessor: (row) => row.today_quizzes_completed,
-  },
-  {
-    key: "today_goal_reached",
-    label: "Objectif",
-    accessor: (row) => row.today_goal_reached,
-    render: (row) => (row.today_goal_reached ? "Atteint" : "En cours"),
-  },
-  {
-    key: "today_reminder_sent_at",
-    label: "Reminder envoyé",
-    accessor: (row) => parseDate(row.today_reminder_sent_at),
-    render: (row) => formatDate(row.today_reminder_sent_at),
-  },
-];
+function getPeriodStats(row: AdminUserRow, period: ProfilePeriod): AdminPeriodStats {
+  switch (period) {
+    case "week":
+      return row.week_stats;
+    case "month":
+      return row.month_stats;
+    default:
+      return row.day_stats;
+  }
+}
+
+function getUserColumns(period: ProfilePeriod): ColumnDefinition<AdminUserRow>[] {
+  return [
+    { key: "email", label: "Email", accessor: (row) => row.email },
+    {
+      key: "display_name",
+      label: "Nom",
+      accessor: (row) => row.display_name ?? "",
+      render: (row) => row.display_name ?? "—",
+    },
+    {
+      key: "reminder_opt_in",
+      label: "Rappels",
+      accessor: (row) => row.reminder_opt_in,
+      render: (row) => (row.reminder_opt_in ? "Oui" : "Non"),
+    },
+    { key: "current_streak", label: "Streak", accessor: (row) => row.current_streak },
+    {
+      key: "answered_questions",
+      label: "Répondues",
+      accessor: (row) => getPeriodStats(row, period).answered_questions,
+      render: (row) => getPeriodStats(row, period).answered_questions,
+    },
+    {
+      key: "correct_answers",
+      label: "Correctes",
+      accessor: (row) => getPeriodStats(row, period).correct_answers,
+      render: (row) => getPeriodStats(row, period).correct_answers,
+    },
+    {
+      key: "quizzes_completed",
+      label: "Quiz",
+      accessor: (row) => getPeriodStats(row, period).quizzes_completed,
+      render: (row) => getPeriodStats(row, period).quizzes_completed,
+    },
+    {
+      key: "goal_reached_count",
+      label: period === "day" ? "Objectif" : "Jours validés",
+      accessor: (row) => getPeriodStats(row, period).goal_reached_count,
+      render: (row) =>
+        period === "day"
+          ? getPeriodStats(row, period).goal_reached_count > 0
+            ? "Atteint"
+            : "En cours"
+          : `${getPeriodStats(row, period).goal_reached_count}`,
+    },
+    {
+      key: "reminders_sent_count",
+      label: period === "day" ? "Reminder envoyé" : "Reminders",
+      accessor: (row) =>
+        period === "day"
+          ? parseDate(row.today_reminder_sent_at)
+          : getPeriodStats(row, period).reminders_sent_count,
+      render: (row) =>
+        period === "day"
+          ? formatDate(row.today_reminder_sent_at)
+          : `${getPeriodStats(row, period).reminders_sent_count}`,
+    },
+  ];
+}
 
 const vocabularyColumns: ColumnDefinition<AdminVocabularyRow>[] = [
   { key: "id", label: "ID", accessor: (row) => row.id },
@@ -314,6 +343,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const [importText, setImportText] = useState("");
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState<AdminBulkImportResult | null>(null);
+  const [profilePeriod, setProfilePeriod] = useState<ProfilePeriod>("day");
 
   const unlocked = dashboard !== null && activeCode !== null;
 
@@ -342,6 +372,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setEditDraft(null);
     setImportText("");
     setImportResult(null);
+    setProfilePeriod("day");
   }, [open]);
 
   useEffect(() => {
@@ -458,6 +489,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
         setPageByTab(INITIAL_PAGES);
         setSortByTab(INITIAL_SORTS);
         setSearchByTab(INITIAL_SEARCHES);
+        setProfilePeriod("day");
       }
     } catch (requestError) {
       setDashboard(null);
@@ -512,6 +544,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setPendingEditKey(null);
     setSavingEditKey(null);
     setEditDraft(null);
+    setProfilePeriod("day");
   }
 
   function closePanel() {
@@ -690,7 +723,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
           AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
         >[];
       case "users":
-        return userColumns as ColumnDefinition<
+        return getUserColumns(profilePeriod) as ColumnDefinition<
           AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
         >[];
       case "vocabulary":
@@ -704,7 +737,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       default:
         return [];
     }
-  }, [tab]);
+  }, [profilePeriod, tab]);
 
   const currentRows = useMemo(() => {
     if (!dashboard) {
@@ -850,20 +883,22 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
             {unlocked && dashboard ? (
               <div className="flex h-full min-h-0 flex-col gap-5 overflow-hidden pt-6">
                 {stats ? (
-                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-                    {stats.map((item) => (
-                      <div
-                        key={item.label}
-                        className="rounded-[1.15rem] border border-[rgba(22,50,41,0.08)] bg-white/80 px-3 py-3 shadow-soft"
-                      >
-                        <p className="text-[10px] uppercase tracking-[0.18em] text-[rgba(22,50,41,0.42)]">
-                          {item.label}
-                        </p>
-                        <p className="mt-1.5 text-2xl font-semibold text-[#163229]">
-                          {item.value}
-                        </p>
-                      </div>
-                    ))}
+                  <div className="overflow-x-auto pb-1">
+                    <div className="grid min-w-[56rem] grid-cols-6 gap-2">
+                      {stats.map((item) => (
+                        <div
+                          key={item.label}
+                          className="rounded-[0.9rem] border border-[rgba(22,50,41,0.08)] bg-white/80 px-3 py-2 shadow-soft"
+                        >
+                          <p className="text-[9px] uppercase tracking-[0.16em] text-[rgba(22,50,41,0.42)]">
+                            {item.label}
+                          </p>
+                          <p className="mt-1 text-[1.5rem] font-semibold leading-none text-[#163229]">
+                            {item.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ) : null}
 
@@ -886,7 +921,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
 
                 <div className="glass-panel shell-border min-h-0 flex-1 overflow-hidden rounded-[1.8rem] shadow-soft">
                   {tab === "import" ? (
-                    <div className="grid h-full min-h-0 gap-5 overflow-hidden p-5 xl:grid-cols-[1.2fr_0.8fr]">
+                    <div className="grid h-full min-h-0 gap-5 overflow-hidden p-5 xl:grid-cols-[1.1fr_0.9fr]">
                       <div className="min-h-0 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
                         <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.42)]">
                           Collage CSV
@@ -894,24 +929,13 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                         <h3 className="mt-2 text-2xl font-semibold text-[#163229]">
                           Importe plusieurs paires d’un coup.
                         </h3>
-                        <p className="mt-2 text-sm leading-6 text-[rgba(22,50,41,0.62)]">
-                          Colonnes conseillées : <span className="font-semibold">français</span>,
-                          <span className="font-semibold"> portugais</span>,
-                          <span className="font-semibold"> emplacement</span>, et en option
-                          <span className="font-semibold"> difficulté</span>. La direction est
-                          tirée aléatoirement. Les emplacements acceptés sont{" "}
-                          <span className="font-semibold">vocabulaire</span>,{" "}
-                          <span className="font-semibold">conjugaison</span>,{" "}
-                          <span className="font-semibold">verbe</span> et{" "}
-                          <span className="font-semibold">verbes</span>.
-                        </p>
                         <textarea
                           value={importText}
                           onChange={(event) => setImportText(event.target.value)}
                           placeholder={
-                            "français;portugais;emplacement;difficulté\nprendre;pegar;vocabulaire;1\nje mangerai;eu comerei;conjugaison;2"
+                            "prendre;pegar;vocabulaire;1\nje mangerai;eu comerei;conjugaison;2"
                           }
-                          className="mt-4 h-[20rem] w-full rounded-[1.35rem] border border-[rgba(22,50,41,0.12)] bg-[#fffdf8] px-4 py-4 text-sm leading-6 text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.34)]"
+                          className="mt-4 h-[22rem] w-full rounded-[1.35rem] border border-[rgba(22,50,41,0.12)] bg-[#fffdf8] px-4 py-4 text-sm leading-6 text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.34)]"
                         />
                         <div className="mt-4 flex flex-wrap items-center gap-3">
                           <button
@@ -936,19 +960,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                         </div>
                       </div>
 
-                      <div className="grid min-h-0 gap-4">
-                        <div className="rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
-                          <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.42)]">
-                            Format attendu
-                          </p>
-                          <div className="mt-3 space-y-3 text-sm leading-6 text-[rgba(22,50,41,0.66)]">
-                            <p>Le séparateur peut être une virgule, un point-virgule ou une tabulation.</p>
-                            <p>Si la colonne difficulté est absente, elle sera estimée automatiquement.</p>
-                            <p>Pour les verbes, utilise simplement l’emplacement <span className="font-semibold">conjugaison</span> ou <span className="font-semibold">verbe</span>.</p>
-                          </div>
-                        </div>
-
-                        <div className="min-h-0 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
+                      <div className="min-h-0 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
                           <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.42)]">
                             Résultat d’import
                           </p>
@@ -986,10 +998,10 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                             </div>
                           ) : (
                             <div className="mt-3 rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf8] px-4 py-5 text-sm text-[rgba(22,50,41,0.58)]">
-                              Colle un bloc de lignes et lance l’import pour voir ici le détail des lignes acceptées ou ignorées.
+                              Le header est optionnel. Tu peux coller directement des lignes au format{" "}
+                              <span className="font-semibold">fr;pt;emplacement;difficulté</span>.
                             </div>
                           )}
-                        </div>
                       </div>
                     </div>
                   ) : (
@@ -1001,12 +1013,42 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                           </p>
                           {tab === "users" ? (
                             <p className="text-xs text-[rgba(22,50,41,0.48)]">
-                              Répondues, Correctes, Quiz, Objectif et Reminder envoyé correspondent à aujourd’hui.
+                              {profilePeriod === "day"
+                                ? "Statistiques du jour en cours."
+                                : profilePeriod === "week"
+                                  ? "Cumul glissant sur les 7 derniers jours."
+                                  : "Cumul glissant sur les 30 derniers jours."}
                             </p>
                           ) : null}
                         </div>
 
                         <div className="flex flex-wrap items-center gap-3">
+                          {tab === "users" ? (
+                            <div className="flex items-center gap-2 rounded-full border border-[rgba(22,50,41,0.1)] bg-white/80 p-1">
+                              {([
+                                ["day", "Jour"],
+                                ["week", "Semaine"],
+                                ["month", "Mois"],
+                              ] as const).map(([value, label]) => (
+                                <button
+                                  key={value}
+                                  type="button"
+                                  onClick={() => {
+                                    setProfilePeriod(value);
+                                    setPage(1);
+                                  }}
+                                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                                    profilePeriod === value
+                                      ? "bg-[#163229] text-white"
+                                      : "text-[#163229] hover:bg-[#f5efe4]"
+                                  }`}
+                                >
+                                  {label}
+                                </button>
+                              ))}
+                            </div>
+                          ) : null}
+
                           {tab === "vocabulary" || tab === "conjugations" ? (
                             <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
                               <span>Recherche</span>

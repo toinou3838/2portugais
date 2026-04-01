@@ -157,6 +157,19 @@ export type AdminUserRow = {
   today_reminder_sent_at: string | null;
   created_at: string;
   updated_at: string;
+  day_stats: AdminPeriodStats;
+  week_stats: AdminPeriodStats;
+  month_stats: AdminPeriodStats;
+};
+
+export type AdminPeriodStats = {
+  period_start: string;
+  period_end: string;
+  answered_questions: number;
+  correct_answers: number;
+  quizzes_completed: number;
+  goal_reached_count: number;
+  reminders_sent_count: number;
 };
 
 export type AdminReminderRow = {

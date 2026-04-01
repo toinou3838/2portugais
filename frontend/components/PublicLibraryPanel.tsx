@@ -6,8 +6,10 @@ import {
   ArrowUp,
   ArrowUpDown,
   BookOpen,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import type { AdminConjugationRow, AdminVocabularyRow, PublicLibrary } from "@/lib/types";
@@ -146,6 +148,7 @@ export function PublicLibraryPanel() {
   const [data, setData] = useState<PublicLibrary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const [tab, setTab] = useState<LibraryTab>("vocabulary");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
@@ -249,7 +252,7 @@ export function PublicLibraryPanel() {
 
   return (
     <section className="glass-panel shell-border rounded-[2rem] p-6 shadow-soft">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.48)]">
             Bibliothèque ouverte
@@ -257,18 +260,32 @@ export function PublicLibraryPanel() {
           <h2 className="section-title mt-2 text-3xl font-semibold">
             Parcours la base avant de te lancer.
           </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-[rgba(22,50,41,0.66)]">
-            Lis rapidement les paires en diagonale, trie-les par difficulté ou par
-            direction, puis lance un quiz pour consolider ce que tu viens de voir.
-          </p>
+          {expanded ? (
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-[rgba(22,50,41,0.66)]">
+              Lis rapidement les paires en diagonale, trie-les par difficulté ou par
+              direction, puis lance un quiz pour consolider ce que tu viens de voir.
+            </p>
+          ) : null}
         </div>
 
-        <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(22,50,41,0.08)] bg-white/85 px-4 py-2 text-sm font-medium text-[rgba(22,50,41,0.66)]">
-          <BookOpen className="h-4 w-4 text-[#163229]" />
-          Accès libre au vocabulaire et à la conjugaison
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(22,50,41,0.08)] bg-white/85 px-4 py-2 text-sm font-medium text-[rgba(22,50,41,0.66)]">
+            <BookOpen className="h-4 w-4 text-[#163229]" />
+            Accès libre au vocabulaire et à la conjugaison
+          </div>
+          <button
+            type="button"
+            onClick={() => setExpanded((current) => !current)}
+            className="inline-flex items-center gap-2 rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-4 py-2 text-sm font-semibold text-[#163229] transition hover:bg-white"
+          >
+            {expanded ? "Réduire" : "Étendre"}
+            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
         </div>
       </div>
 
+      {expanded ? (
+        <>
       <div className="mt-6 flex flex-wrap gap-3">
         {([
           ["vocabulary", "Vocabulaire"],
@@ -422,6 +439,12 @@ export function PublicLibraryPanel() {
           ) : null}
         </div>
       </div>
+        </>
+      ) : (
+        <div className="mt-4 text-sm text-[rgba(22,50,41,0.58)]">
+          Ouvre ce module avec le chevron pour parcourir la base avant de lancer un quiz.
+        </div>
+      )}
     </section>
   );
 }

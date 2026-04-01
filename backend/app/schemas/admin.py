@@ -33,6 +33,16 @@ class AdminVocabularyRow(BaseModel):
     created_at: datetime
 
 
+class AdminPeriodStats(BaseModel):
+    period_start: date
+    period_end: date
+    answered_questions: int
+    correct_answers: int
+    quizzes_completed: int
+    goal_reached_count: int
+    reminders_sent_count: int
+
+
 class AdminUserRow(BaseModel):
     id: int
     clerk_user_id: str
@@ -48,6 +58,9 @@ class AdminUserRow(BaseModel):
     today_reminder_sent_at: datetime | None
     created_at: datetime
     updated_at: datetime
+    day_stats: AdminPeriodStats
+    week_stats: AdminPeriodStats
+    month_stats: AdminPeriodStats
 
 
 class AdminReminderRow(BaseModel):

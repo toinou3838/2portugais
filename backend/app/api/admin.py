@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 from io import StringIO
 from typing import Annotated
 
@@ -21,6 +21,7 @@ from app.schemas.admin import (
     AdminConjugationRow,
     AdminDashboardOut,
     AdminPairUpdateIn,
+    AdminPeriodStats,
     AdminReminderRow,
     AdminUserRow,
     AdminVerifyOut,
@@ -38,6 +39,24 @@ from app.services.quiz import (
 )
 
 router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[Depends(verify_admin_code)])
+
+
+def _build_period_stats(
+    entries: list[DailyProgress],
+    *,
+    period_start,
+    period_end,
+) -> AdminPeriodStats:
+    relevant_entries = [entry for entry in entries if period_start <= entry.day <= period_end]
+    return AdminPeriodStats(
+        period_start=period_start,
+        period_end=period_end,
+        answered_questions=sum(entry.answered_questions for entry in relevant_entries),
+        correct_answers=sum(entry.correct_answers for entry in relevant_entries),
+        quizzes_completed=sum(entry.quizzes_completed for entry in relevant_entries),
+        goal_reached_count=sum(1 for entry in relevant_entries if entry.goal_reached),
+        reminders_sent_count=sum(1 for entry in relevant_entries if entry.reminder_sent_at is not None),
+    )
 
 
 @router.get("/verify", response_model=AdminVerifyOut)
@@ -100,27 +119,43 @@ def read_admin_dashboard(
     users: list[AdminUserRow] = []
     pending_reminders: list[AdminReminderRow] = []
     today = datetime.now().date()
+    week_start = today - timedelta(days=6)
+    month_start = today - timedelta(days=29)
+    progress_rows = db.scalars(
+        select(DailyProgress).where(DailyProgress.day >= month_start)
+    ).all()
+    progress_by_user: dict[int, list[DailyProgress]] = {}
+    for progress in progress_rows:
+        progress_by_user.setdefault(progress.user_id, []).append(progress)
+
     for user in user_rows:
-        today_progress = db.scalar(
-            select(DailyProgress).where(
-                DailyProgress.user_id == user.id,
-                DailyProgress.day == today,
-            )
+        user_progress_entries = progress_by_user.get(user.id, [])
+        day_stats = _build_period_stats(
+            user_progress_entries,
+            period_start=today,
+            period_end=today,
         )
-        if today_progress is None:
-            today_answered_questions = 0
-            today_correct_answers = 0
-            today_quizzes_completed = 0
-            today_goal_reached = False
-            today_reminder_sent_at = None
-            today_day = today
-        else:
-            today_answered_questions = today_progress.answered_questions
-            today_correct_answers = today_progress.correct_answers
-            today_quizzes_completed = today_progress.quizzes_completed
-            today_goal_reached = today_progress.goal_reached
-            today_reminder_sent_at = today_progress.reminder_sent_at
-            today_day = today_progress.day
+        week_stats = _build_period_stats(
+            user_progress_entries,
+            period_start=week_start,
+            period_end=today,
+        )
+        month_stats = _build_period_stats(
+            user_progress_entries,
+            period_start=month_start,
+            period_end=today,
+        )
+
+        day_entries = [entry for entry in user_progress_entries if entry.day == today]
+        today_answered_questions = day_stats.answered_questions
+        today_correct_answers = day_stats.correct_answers
+        today_quizzes_completed = day_stats.quizzes_completed
+        today_goal_reached = day_stats.goal_reached_count > 0
+        today_reminder_sent_at = max(
+            (entry.reminder_sent_at for entry in day_entries if entry.reminder_sent_at is not None),
+            default=None,
+        )
+        today_day = today
         streak = compute_current_streak(db, user)
         users.append(
             AdminUserRow(
@@ -138,6 +173,9 @@ def read_admin_dashboard(
                 today_reminder_sent_at=today_reminder_sent_at,
                 created_at=user.created_at,
                 updated_at=user.updated_at,
+                day_stats=day_stats,
+                week_stats=week_stats,
+                month_stats=month_stats,
             )
         )
 
@@ -165,6 +203,8 @@ def read_admin_dashboard(
         users=users,
         pending_reminders=pending_reminders,
     )
+
+
 @router.delete("/vocabulary/{entry_id}")
 def delete_vocabulary_row(
     entry_id: int,
