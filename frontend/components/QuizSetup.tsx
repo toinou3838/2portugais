@@ -40,6 +40,10 @@ export function QuizSetup({
           <h2 className="section-title mt-2 text-3xl font-semibold">
             Compose une série sur mesure.
           </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-[rgba(22,50,41,0.64)]">
+            Le quiz de révision reprend les paires déjà réussies plusieurs fois, une
+            fois que tu en maîtrises suffisamment dans les deux sens.
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-3">

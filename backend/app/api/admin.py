@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import csv
 from datetime import datetime
+from io import StringIO
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.api.deps import verify_admin_code
@@ -14,8 +16,11 @@ from app.models.daily_progress import DailyProgress
 from app.models.user import User
 from app.models.vocabulary_entry import VocabularyEntry
 from app.schemas.admin import (
+    AdminBulkImportIn,
+    AdminBulkImportOut,
     AdminConjugationRow,
     AdminDashboardOut,
+    AdminPairUpdateIn,
     AdminReminderRow,
     AdminUserRow,
     AdminVerifyOut,
@@ -23,9 +28,13 @@ from app.schemas.admin import (
 )
 from app.services.progress import compute_current_streak
 from app.services.quiz import (
+    create_custom_quiz_entry,
     delete_vocabulary_entry_everywhere,
     hide_conjugation_entry,
+    infer_difficulty_from_text,
     load_visible_conjugation_entries,
+    load_visible_vocabulary_entries,
+    update_custom_quiz_entry,
 )
 
 router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[Depends(verify_admin_code)])
@@ -48,6 +57,13 @@ def read_admin_dashboard(
             dir=int(item["dir"]),
             difficulty=int(item.get("difficulty", 2)),
             source=str(item.get("source", "conjugaison")),
+            record_type=str(item.get("record_type", "bundled")),
+            linked_entry_id=(
+                int(item["linked_entry_id"]) if item.get("linked_entry_id") is not None else None
+            ),
+            created_at=datetime.fromisoformat(str(item["created_at"]))
+            if item.get("created_at")
+            else None,
         )
         for item in load_visible_conjugation_entries(db)
     ]
@@ -59,6 +75,7 @@ def read_admin_dashboard(
 
     vocabulary_entries = db.scalars(
         select(VocabularyEntry)
+        .where(VocabularyEntry.source == "vocab")
         .order_by(VocabularyEntry.created_at.desc(), VocabularyEntry.id.desc())
     ).all()
     vocabulary = [
@@ -148,8 +165,6 @@ def read_admin_dashboard(
         users=users,
         pending_reminders=pending_reminders,
     )
-
-
 @router.delete("/vocabulary/{entry_id}")
 def delete_vocabulary_row(
     entry_id: int,
@@ -166,6 +181,38 @@ def delete_vocabulary_row(
     return {"ok": True}
 
 
+@router.patch("/vocabulary/{entry_id}")
+def update_vocabulary_row(
+    entry_id: int,
+    payload: AdminPairUpdateIn,
+    db: Annotated[Session, Depends(get_db)],
+) -> dict[str, bool]:
+    entry = db.get(VocabularyEntry, entry_id)
+    if entry is None or entry.source != "vocab":
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Entrée de vocabulaire introuvable.",
+        )
+
+    duplicate = db.scalar(
+        select(VocabularyEntry).where(
+            VocabularyEntry.id != entry.id,
+            VocabularyEntry.source == "vocab",
+            func.lower(VocabularyEntry.fr) == payload.fr.strip().lower(),
+            func.lower(VocabularyEntry.pt) == payload.pt.strip().lower(),
+        )
+    )
+    if duplicate is not None:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Cette paire existe déjà dans la base de vocabulaire.",
+        )
+
+    update_custom_quiz_entry(db, entry, fr=payload.fr, pt=payload.pt)
+    db.commit()
+    return {"ok": True}
+
+
 @router.delete("/conjugations/{entry_id}")
 def delete_conjugation_row(
     entry_id: str,
@@ -173,3 +220,170 @@ def delete_conjugation_row(
 ) -> dict[str, bool]:
     hide_conjugation_entry(db, entry_id)
     return {"ok": True}
+
+
+@router.patch("/conjugations/{entry_id}")
+def update_conjugation_row(
+    entry_id: str,
+    payload: AdminPairUpdateIn,
+    db: Annotated[Session, Depends(get_db)],
+) -> dict[str, bool]:
+    if payload.dir is None or payload.difficulty is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La direction et la difficulté sont requises pour modifier une conjugaison.",
+        )
+
+    if entry_id.startswith("conjdb-"):
+        custom_id = int(entry_id.replace("conjdb-", ""))
+        entry = db.get(VocabularyEntry, custom_id)
+        if entry is None or entry.source != "conjugaison":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Entrée de conjugaison introuvable.",
+            )
+        update_custom_quiz_entry(db, entry, fr=payload.fr, pt=payload.pt)
+        entry.dir = payload.dir
+        entry.difficulty = payload.difficulty
+        db.add(entry)
+        db.commit()
+        return {"ok": True}
+
+    hide_conjugation_entry(db, entry_id)
+    create_custom_quiz_entry(
+        db,
+        fr=payload.fr,
+        pt=payload.pt,
+        source="conjugaison",
+        difficulty=payload.difficulty,
+        dir=payload.dir,
+    )
+    db.commit()
+    return {"ok": True}
+
+
+def _normalize_target(raw_value: str) -> str:
+    normalized = raw_value.strip().lower()
+    mapping = {
+        "vocab": "vocab",
+        "vocabulaire": "vocab",
+        "vocabulary": "vocab",
+        "conjugaison": "conjugaison",
+        "conjugation": "conjugaison",
+        "verbe": "conjugaison",
+        "verbes": "conjugaison",
+    }
+    if normalized not in mapping:
+        raise ValueError(f"Emplacement inconnu: {raw_value}")
+    return mapping[normalized]
+
+
+def _parse_difficulty(value: str | None, fr: str) -> int:
+    if not value:
+        return infer_difficulty_from_text(fr)
+
+    normalized = value.strip().lower()
+    mapping = {
+        "1": 1,
+        "facile": 1,
+        "easy": 1,
+        "2": 2,
+        "intermediaire": 2,
+        "intermédiaire": 2,
+        "medium": 2,
+        "3": 3,
+        "difficile": 3,
+        "hard": 3,
+    }
+    if normalized not in mapping:
+        return infer_difficulty_from_text(fr)
+    return mapping[normalized]
+
+
+@router.post("/import", response_model=AdminBulkImportOut)
+def bulk_import_pairs(
+    payload: AdminBulkImportIn,
+    db: Annotated[Session, Depends(get_db)],
+) -> AdminBulkImportOut:
+    raw_text = payload.raw_text.strip()
+    if not raw_text:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Le bloc CSV est vide.",
+        )
+
+    try:
+        dialect = csv.Sniffer().sniff(raw_text[:1024], delimiters=",;\t")
+    except csv.Error:
+        dialect = csv.excel
+        dialect.delimiter = ";"
+
+    reader = csv.reader(StringIO(raw_text), dialect)
+    rows = [row for row in reader if any(cell.strip() for cell in row)]
+    if not rows:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Aucune ligne exploitable n’a été détectée.",
+        )
+
+    header = [cell.strip().lower() for cell in rows[0]]
+    has_header = "francais" in header or "français" in header or "portugais" in header
+    data_rows = rows[1:] if has_header else rows
+
+    imported = 0
+    skipped = 0
+    details: list[str] = []
+
+    for index, row in enumerate(data_rows, start=2 if has_header else 1):
+        cleaned = [cell.strip() for cell in row]
+        if has_header:
+            row_map = {header[col_index]: cleaned[col_index] for col_index in range(min(len(header), len(cleaned)))}
+            fr = row_map.get("français") or row_map.get("francais") or ""
+            pt = row_map.get("portugais") or ""
+            target = row_map.get("emplacement") or row_map.get("source") or ""
+            difficulty = row_map.get("difficulté") or row_map.get("difficulte")
+        else:
+            if len(cleaned) < 3:
+                skipped += 1
+                details.append(f"Ligne {index}: colonnes insuffisantes.")
+                continue
+            fr, pt, target = cleaned[:3]
+            difficulty = cleaned[3] if len(cleaned) > 3 else None
+
+        if not fr or not pt or not target:
+            skipped += 1
+            details.append(f"Ligne {index}: colonnes obligatoires manquantes.")
+            continue
+
+        try:
+            normalized_target = _normalize_target(target)
+            parsed_difficulty = _parse_difficulty(difficulty, fr)
+        except ValueError as exc:
+            skipped += 1
+            details.append(f"Ligne {index}: {exc}")
+            continue
+
+        duplicate = db.scalar(
+            select(VocabularyEntry).where(
+                VocabularyEntry.source == normalized_target,
+                func.lower(VocabularyEntry.fr) == fr.strip().lower(),
+                func.lower(VocabularyEntry.pt) == pt.strip().lower(),
+            )
+        )
+        if duplicate is not None:
+            skipped += 1
+            details.append(f"Ligne {index}: paire déjà présente.")
+            continue
+
+        create_custom_quiz_entry(
+            db,
+            fr=fr,
+            pt=pt,
+            source=normalized_target,
+            difficulty=parsed_difficulty,
+            dir=None,
+        )
+        imported += 1
+
+    db.commit()
+    return AdminBulkImportOut(imported=imported, skipped=skipped, details=details[:20])

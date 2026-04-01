@@ -125,6 +125,9 @@ export type AdminConjugationRow = {
   dir: 0 | 1;
   difficulty: DifficultyLevel;
   source: "conjugaison" | "vocab";
+  record_type: "bundled" | "custom";
+  linked_entry_id: number | null;
+  created_at: string | null;
 };
 
 export type AdminVocabularyRow = {
@@ -174,4 +177,15 @@ export type AdminDashboard = {
   vocabulary: AdminVocabularyRow[];
   users: AdminUserRow[];
   pending_reminders: AdminReminderRow[];
+};
+
+export type PublicLibrary = {
+  conjugations: AdminConjugationRow[];
+  vocabulary: AdminVocabularyRow[];
+};
+
+export type AdminBulkImportResult = {
+  imported: number;
+  skipped: number;
+  details: string[];
 };

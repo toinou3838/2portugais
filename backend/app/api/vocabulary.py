@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated
 
+from datetime import datetime
 import random
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -10,7 +11,9 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_auth_user
 from app.db.session import get_db
+from app.models.user import User
 from app.models.vocabulary_entry import VocabularyEntry
+from app.schemas.admin import AdminConjugationRow, AdminVocabularyRow, PublicLibraryOut
 from app.schemas.vocabulary import (
     VocabularyCheckIn,
     VocabularyCheckOut,
@@ -18,9 +21,60 @@ from app.schemas.vocabulary import (
     VocabularyEntryOut,
 )
 from app.services.clerk import AuthenticatedUser
+from app.services.quiz import load_visible_conjugation_entries, load_visible_vocabulary_entries
 from app.services.translation import check_vocabulary_consistency
 
 router = APIRouter(tags=["vocabulary"])
+
+
+@router.get("/library", response_model=PublicLibraryOut)
+def read_public_library(
+    db: Annotated[Session, Depends(get_db)],
+) -> PublicLibraryOut:
+    user_rows = db.scalars(select(User)).all()
+    user_display_names = {
+        user.id: user.display_name or user.email or f"Utilisateur #{user.id}" for user in user_rows
+    }
+    vocabulary_entries = load_visible_vocabulary_entries(db)
+    conjugation_entries = load_visible_conjugation_entries(db)
+
+    vocabulary = [
+        AdminVocabularyRow(
+            id=entry.id,
+            fr=entry.fr,
+            pt=entry.pt,
+            dir=entry.dir,
+            difficulty=entry.difficulty,
+            source=entry.source,
+            created_by_user_id=entry.created_by_user_id,
+            created_by_display_name=(
+                "Système"
+                if entry.created_by_user_id is None
+                else user_display_names.get(entry.created_by_user_id, "Utilisateur inconnu")
+            ),
+            created_at=entry.created_at,
+        )
+        for entry in vocabulary_entries
+    ]
+    conjugations = [
+        AdminConjugationRow(
+            id=str(item["id"]),
+            fr=str(item["fr"]),
+            pt=str(item["pt"]),
+            dir=int(item["dir"]),
+            difficulty=int(item.get("difficulty", 2)),
+            source=str(item.get("source", "conjugaison")),
+            record_type=str(item.get("record_type", "bundled")),
+            linked_entry_id=(
+                int(item["linked_entry_id"]) if item.get("linked_entry_id") is not None else None
+            ),
+            created_at=datetime.fromisoformat(str(item["created_at"]))
+            if item.get("created_at")
+            else None,
+        )
+        for item in conjugation_entries
+    ]
+    return PublicLibraryOut(conjugations=conjugations, vocabulary=vocabulary)
 
 
 @router.get("/vocabulary", response_model=list[VocabularyEntryOut])

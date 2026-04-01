@@ -16,6 +16,9 @@ class AdminConjugationRow(BaseModel):
     dir: int
     difficulty: int
     source: str
+    record_type: str = "bundled"
+    linked_entry_id: int | None = None
+    created_at: datetime | None = None
 
 
 class AdminVocabularyRow(BaseModel):
@@ -65,3 +68,25 @@ class AdminDashboardOut(BaseModel):
     vocabulary: list[AdminVocabularyRow]
     users: list[AdminUserRow]
     pending_reminders: list[AdminReminderRow]
+
+
+class AdminPairUpdateIn(BaseModel):
+    fr: str
+    pt: str
+    dir: int | None = None
+    difficulty: int | None = None
+
+
+class AdminBulkImportIn(BaseModel):
+    raw_text: str
+
+
+class AdminBulkImportOut(BaseModel):
+    imported: int
+    skipped: int
+    details: list[str]
+
+
+class PublicLibraryOut(BaseModel):
+    conjugations: list[AdminConjugationRow]
+    vocabulary: list[AdminVocabularyRow]

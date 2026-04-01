@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Lock,
+  Pencil,
   RefreshCcw,
   Shield,
   Trash2,
@@ -17,6 +18,7 @@ import { createPortal } from "react-dom";
 import { apiFetch } from "@/lib/api";
 import type {
   AdminConjugationRow,
+  AdminBulkImportResult,
   AdminDashboard,
   AdminReminderRow,
   AdminUserRow,
@@ -28,11 +30,15 @@ type AdminPanelProps = {
   onClose: () => void;
 };
 
-type AdminTab = "reminders" | "users" | "vocabulary" | "conjugations";
+type AdminTab = "reminders" | "users" | "vocabulary" | "conjugations" | "import";
 type SortDirection = "asc" | "desc";
 type SortState = {
   key: string;
   direction: SortDirection;
+};
+type EditDraft = {
+  fr: string;
+  pt: string;
 };
 
 type ColumnDefinition<Row> = {
@@ -52,6 +58,7 @@ const tabLabels: Record<AdminTab, string> = {
   users: "Profils",
   vocabulary: "Vocabulaire",
   conjugations: "Conjugaison",
+  import: "Import",
 };
 
 const INITIAL_PAGES: PaginationState = {
@@ -59,6 +66,7 @@ const INITIAL_PAGES: PaginationState = {
   users: 1,
   vocabulary: 1,
   conjugations: 1,
+  import: 1,
 };
 
 const INITIAL_PAGE_SIZES: PageSizeState = {
@@ -66,6 +74,7 @@ const INITIAL_PAGE_SIZES: PageSizeState = {
   users: 20,
   vocabulary: 20,
   conjugations: 20,
+  import: 20,
 };
 
 const INITIAL_SORTS: SortStateMap = {
@@ -73,6 +82,7 @@ const INITIAL_SORTS: SortStateMap = {
   users: null,
   vocabulary: { key: "created_at", direction: "desc" },
   conjugations: null,
+  import: null,
 };
 
 const INITIAL_SEARCHES: SearchState = {
@@ -80,6 +90,7 @@ const INITIAL_SEARCHES: SearchState = {
   users: "",
   vocabulary: "",
   conjugations: "",
+  import: "",
 };
 
 const PAGE_SIZE_OPTIONS = [20, 50, 100];
@@ -297,6 +308,12 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const [searchByTab, setSearchByTab] = useState<SearchState>(INITIAL_SEARCHES);
   const [pendingDeleteKey, setPendingDeleteKey] = useState<string | null>(null);
   const [deletingDeleteKey, setDeletingDeleteKey] = useState<string | null>(null);
+  const [pendingEditKey, setPendingEditKey] = useState<string | null>(null);
+  const [savingEditKey, setSavingEditKey] = useState<string | null>(null);
+  const [editDraft, setEditDraft] = useState<EditDraft | null>(null);
+  const [importText, setImportText] = useState("");
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<AdminBulkImportResult | null>(null);
 
   const unlocked = dashboard !== null && activeCode !== null;
 
@@ -320,6 +337,11 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setSearchByTab(INITIAL_SEARCHES);
     setPendingDeleteKey(null);
     setDeletingDeleteKey(null);
+    setPendingEditKey(null);
+    setSavingEditKey(null);
+    setEditDraft(null);
+    setImportText("");
+    setImportResult(null);
   }, [open]);
 
   useEffect(() => {
@@ -379,6 +401,10 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
 
   useEffect(() => {
     setPendingDeleteKey(null);
+    setDeletingDeleteKey(null);
+    setPendingEditKey(null);
+    setSavingEditKey(null);
+    setEditDraft(null);
   }, [tab, pageByTab, searchByTab]);
 
   const stats = useMemo(() => {
@@ -424,6 +450,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       setCode("");
       setPendingDeleteKey(null);
       setDeletingDeleteKey(null);
+      setPendingEditKey(null);
+      setSavingEditKey(null);
+      setEditDraft(null);
       if (!options?.preserveView) {
         setTab("reminders");
         setPageByTab(INITIAL_PAGES);
@@ -480,6 +509,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setSearchByTab(INITIAL_SEARCHES);
     setPendingDeleteKey(null);
     setDeletingDeleteKey(null);
+    setPendingEditKey(null);
+    setSavingEditKey(null);
+    setEditDraft(null);
   }
 
   function closePanel() {
@@ -522,6 +554,107 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       );
     } finally {
       setDeletingDeleteKey(null);
+    }
+  }
+
+  function startEditingRow(
+    row: AdminVocabularyRow | AdminConjugationRow,
+    rowKey: string,
+  ) {
+    setPendingDeleteKey(null);
+    setError(null);
+    setPendingEditKey(rowKey);
+    setEditDraft({
+      fr: row.fr,
+      pt: row.pt,
+    });
+  }
+
+  function cancelEditingRow() {
+    setPendingEditKey(null);
+    setSavingEditKey(null);
+    setEditDraft(null);
+  }
+
+  async function saveEditedRow() {
+    if (!activeCode || !pendingEditKey || !editDraft) {
+      return;
+    }
+
+    const normalizedFr = editDraft.fr.trim();
+    const normalizedPt = editDraft.pt.trim();
+    if (!normalizedFr || !normalizedPt) {
+      setError("Les champs Français et Portugais sont obligatoires.");
+      return;
+    }
+
+    setSavingEditKey(pendingEditKey);
+    setError(null);
+    try {
+      if (pendingEditKey.startsWith("vocabulary:")) {
+        const entryId = pendingEditKey.replace("vocabulary:", "");
+        await apiFetch<{ ok: boolean }>(`/admin/vocabulary/${entryId}`, {
+          method: "PATCH",
+          adminCode: activeCode,
+          body: JSON.stringify({
+            fr: normalizedFr,
+            pt: normalizedPt,
+          }),
+        });
+      } else if (pendingEditKey.startsWith("conjugations:")) {
+        const entryId = pendingEditKey.replace("conjugations:", "");
+        const originalRow = currentRows.find((row) => getRowActionKey(row) === pendingEditKey) as
+          | AdminConjugationRow
+          | undefined;
+        if (!originalRow) {
+          throw new Error("Entrée de conjugaison introuvable.");
+        }
+        await apiFetch<{ ok: boolean }>(
+          `/admin/conjugations/${encodeURIComponent(entryId)}`,
+          {
+            method: "PATCH",
+            adminCode: activeCode,
+            body: JSON.stringify({
+              fr: normalizedFr,
+              pt: normalizedPt,
+              dir: originalRow.dir,
+              difficulty: originalRow.difficulty,
+            }),
+          },
+        );
+      }
+
+      await refreshDashboard();
+      cancelEditingRow();
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : "Modification impossible.");
+    } finally {
+      setSavingEditKey(null);
+    }
+  }
+
+  async function handleImport() {
+    if (!activeCode || !importText.trim()) {
+      setError("Colle d’abord un bloc CSV à importer.");
+      return;
+    }
+
+    setImporting(true);
+    setError(null);
+    try {
+      const result = await apiFetch<AdminBulkImportResult>("/admin/import", {
+        method: "POST",
+        adminCode: activeCode,
+        body: JSON.stringify({
+          raw_text: importText,
+        }),
+      });
+      setImportResult(result);
+      await refreshDashboard();
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : "Import impossible.");
+    } finally {
+      setImporting(false);
     }
   }
 
@@ -635,9 +768,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const endIndex = startIndex + currentPageSize;
   const paginatedRows = sortedRows.slice(startIndex, endIndex);
   const pageItems = buildPageItems(currentPage, totalPages);
-  const showDeleteActions = tab === "vocabulary" || tab === "conjugations";
+  const showRowActions = tab === "vocabulary" || tab === "conjugations";
 
-  function getRowDeleteKey(
+  function getRowActionKey(
     row: AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow,
   ) {
     if (tab === "vocabulary") {
@@ -721,12 +854,12 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                     {stats.map((item) => (
                       <div
                         key={item.label}
-                        className="rounded-[1.35rem] border border-[rgba(22,50,41,0.08)] bg-white/80 px-4 py-4 shadow-soft"
+                        className="rounded-[1.15rem] border border-[rgba(22,50,41,0.08)] bg-white/80 px-3 py-3 shadow-soft"
                       >
-                        <p className="text-xs uppercase tracking-[0.18em] text-[rgba(22,50,41,0.42)]">
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-[rgba(22,50,41,0.42)]">
                           {item.label}
                         </p>
-                        <p className="mt-2 text-3xl font-semibold text-[#163229]">
+                        <p className="mt-1.5 text-2xl font-semibold text-[#163229]">
                           {item.value}
                         </p>
                       </div>
@@ -740,7 +873,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                       key={item}
                       type="button"
                       onClick={() => setTab(item)}
-                      className={`inline-flex h-12 w-[11rem] min-w-[11rem] max-w-[11rem] shrink-0 basis-[11rem] items-center justify-center rounded-full px-5 py-2 text-sm font-semibold transition ${
+                      className={`inline-flex h-11 w-[10.5rem] min-w-[10.5rem] max-w-[10.5rem] shrink-0 basis-[10.5rem] items-center justify-center rounded-full px-5 py-2 text-sm font-semibold transition ${
                         tab === item
                           ? "bg-[#163229] text-white"
                           : "border border-[rgba(22,50,41,0.12)] bg-white/82 text-[#163229] hover:bg-white"
@@ -752,189 +885,357 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                 </div>
 
                 <div className="glass-panel shell-border min-h-0 flex-1 overflow-hidden rounded-[1.8rem] shadow-soft">
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(22,50,41,0.08)] px-4 py-3">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-[rgba(22,50,41,0.62)]">
-                        {totalRows} entrées, page {currentPage} / {totalPages}
-                      </p>
-                      {tab === "users" ? (
-                        <p className="text-xs text-[rgba(22,50,41,0.48)]">
-                          Répondues, Correctes, Quiz, Objectif et Reminder envoyé correspondent à aujourd’hui.
+                  {tab === "import" ? (
+                    <div className="grid h-full min-h-0 gap-5 overflow-hidden p-5 xl:grid-cols-[1.2fr_0.8fr]">
+                      <div className="min-h-0 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
+                        <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.42)]">
+                          Collage CSV
                         </p>
-                      ) : null}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3">
-                      {tab === "vocabulary" || tab === "conjugations" ? (
-                        <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
-                          <span>Recherche</span>
-                          <input
-                            value={searchByTab[tab]}
-                            onChange={(event) => {
-                              setSearchByTab((current) => ({
-                                ...current,
-                                [tab]: event.target.value,
-                              }));
-                              setPageByTab((current) => ({ ...current, [tab]: 1 }));
-                            }}
-                            placeholder="Français ou portugais"
-                            className="w-56 rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-4 py-2 text-sm text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.38)]"
-                          />
-                        </label>
-                      ) : null}
-
-                      <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
-                        <span>Par page</span>
-                        <select
-                          value={currentPageSize}
-                          onChange={(event) => setPageSize(Number(event.target.value))}
-                          className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-3 py-2 text-sm font-semibold text-[#163229] outline-none"
-                        >
-                          {PAGE_SIZE_OPTIONS.map((size) => (
-                            <option key={size} value={size}>
-                              {size}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-
-                      <div className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          onClick={() => setPage(currentPage - 1)}
-                          disabled={currentPage <= 1}
-                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          <ChevronLeft className="h-4 w-4" />
-                        </button>
-
-                        {pageItems.map((item, index) =>
-                          typeof item === "number" ? (
-                            <button
-                              key={item}
-                              type="button"
-                              onClick={() => setPage(item)}
-                              className={`flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-semibold transition ${
-                                item === currentPage
-                                  ? "bg-[#163229] text-white"
-                                  : "border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] hover:bg-white"
-                              }`}
-                            >
-                              {item}
-                            </button>
-                          ) : (
-                            <span
-                              key={`${item}-${index}`}
-                              className="px-2 text-sm text-[rgba(22,50,41,0.4)]"
-                            >
-                              …
-                            </span>
-                          ),
-                        )}
-
-                        <button
-                          type="button"
-                          onClick={() => setPage(currentPage + 1)}
-                          disabled={currentPage >= totalPages}
-                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="h-full max-h-[32rem] overflow-auto overscroll-contain">
-                    <table className="min-w-full text-sm">
-                      <thead className="sticky top-0 z-[2] bg-[#f4efe6] text-left text-[rgba(22,50,41,0.66)] shadow-[0_1px_0_rgba(22,50,41,0.08)]">
-                        <tr>
-                          {currentColumns.map((column) => (
-                            <th key={column.key} className="bg-[#f4efe6] px-4 py-3">
-                              <button
-                                type="button"
-                                onClick={() => toggleSort(column.key)}
-                                className="inline-flex items-center gap-1 font-semibold transition hover:text-[#163229]"
-                              >
-                                <span>{column.label}</span>
-                                {renderSortIcon(column.key)}
-                              </button>
-                            </th>
-                          ))}
-                          {showDeleteActions ? (
-                            <th className="bg-[#f4efe6] px-4 py-3 text-right font-semibold">
-                              Actions
-                            </th>
-                          ) : null}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {paginatedRows.map((row, index) => (
-                          <tr
-                            key={`row-${tab}-${startIndex + index}`}
-                            className="border-t border-[rgba(22,50,41,0.08)]"
+                        <h3 className="mt-2 text-2xl font-semibold text-[#163229]">
+                          Importe plusieurs paires d’un coup.
+                        </h3>
+                        <p className="mt-2 text-sm leading-6 text-[rgba(22,50,41,0.62)]">
+                          Colonnes conseillées : <span className="font-semibold">français</span>,
+                          <span className="font-semibold"> portugais</span>,
+                          <span className="font-semibold"> emplacement</span>, et en option
+                          <span className="font-semibold"> difficulté</span>. La direction est
+                          tirée aléatoirement. Les emplacements acceptés sont{" "}
+                          <span className="font-semibold">vocabulaire</span>,{" "}
+                          <span className="font-semibold">conjugaison</span>,{" "}
+                          <span className="font-semibold">verbe</span> et{" "}
+                          <span className="font-semibold">verbes</span>.
+                        </p>
+                        <textarea
+                          value={importText}
+                          onChange={(event) => setImportText(event.target.value)}
+                          placeholder={
+                            "français;portugais;emplacement;difficulté\nprendre;pegar;vocabulaire;1\nje mangerai;eu comerei;conjugaison;2"
+                          }
+                          className="mt-4 h-[20rem] w-full rounded-[1.35rem] border border-[rgba(22,50,41,0.12)] bg-[#fffdf8] px-4 py-4 text-sm leading-6 text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.34)]"
+                        />
+                        <div className="mt-4 flex flex-wrap items-center gap-3">
+                          <button
+                            type="button"
+                            onClick={() => void handleImport()}
+                            disabled={importing}
+                            className="rounded-full bg-[#163229] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#21453a] disabled:cursor-not-allowed disabled:opacity-60"
                           >
-                            {currentColumns.map((column) => (
-                              <td key={column.key} className="px-4 py-3">
-                                {column.render ? column.render(row as never) : String(column.accessor(row as never) ?? "—")}
-                              </td>
-                            ))}
-                            {showDeleteActions ? (
-                              <td className="px-4 py-3">
-                                {(() => {
-                                  const deleteKey = getRowDeleteKey(row);
-                                  if (!deleteKey) {
-                                    return null;
-                                  }
-
-                                  if (pendingDeleteKey === deleteKey) {
-                                    const busy = deletingDeleteKey === deleteKey;
-                                    return (
-                                      <div className="flex justify-end gap-2">
-                                        <button
-                                          type="button"
-                                          onClick={() => void deletePendingRow()}
-                                          disabled={busy}
-                                          className="rounded-full bg-[#163229] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#21453a] disabled:cursor-not-allowed disabled:opacity-60"
-                                        >
-                                          Oui
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => setPendingDeleteKey(null)}
-                                          disabled={busy}
-                                          className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-3 py-1.5 text-xs font-semibold text-[#163229] transition hover:bg-[#f8f3eb] disabled:cursor-not-allowed disabled:opacity-60"
-                                        >
-                                          Non
-                                        </button>
-                                      </div>
-                                    );
-                                  }
-
-                                  return (
-                                    <div className="flex justify-end">
-                                      <button
-                                        type="button"
-                                        onClick={() => setPendingDeleteKey(deleteKey)}
-                                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(220,38,38,0.16)] bg-[rgba(220,38,38,0.06)] text-[#b42318] transition hover:bg-[rgba(220,38,38,0.12)]"
-                                      >
-                                        <Trash2 className="h-4 w-4" />
-                                      </button>
-                                    </div>
-                                  );
-                                })()}
-                              </td>
-                            ) : null}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-
-                    {paginatedRows.length === 0 ? (
-                      <div className="px-4 py-6 text-sm text-[rgba(22,50,41,0.56)]">
-                        Aucune donnée sur cette page.
+                            {importing ? "Import en cours..." : "Importer dans la base"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setImportText("");
+                              setImportResult(null);
+                            }}
+                            disabled={importing}
+                            className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-5 py-3 text-sm font-semibold text-[#163229] transition hover:bg-[#f8f3eb] disabled:cursor-not-allowed disabled:opacity-60"
+                          >
+                            Réinitialiser
+                          </button>
+                        </div>
                       </div>
-                    ) : null}
-                  </div>
+
+                      <div className="grid min-h-0 gap-4">
+                        <div className="rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
+                          <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.42)]">
+                            Format attendu
+                          </p>
+                          <div className="mt-3 space-y-3 text-sm leading-6 text-[rgba(22,50,41,0.66)]">
+                            <p>Le séparateur peut être une virgule, un point-virgule ou une tabulation.</p>
+                            <p>Si la colonne difficulté est absente, elle sera estimée automatiquement.</p>
+                            <p>Pour les verbes, utilise simplement l’emplacement <span className="font-semibold">conjugaison</span> ou <span className="font-semibold">verbe</span>.</p>
+                          </div>
+                        </div>
+
+                        <div className="min-h-0 rounded-[1.5rem] border border-[rgba(22,50,41,0.08)] bg-white/86 p-4 shadow-soft">
+                          <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.42)]">
+                            Résultat d’import
+                          </p>
+                          {importResult ? (
+                            <div className="mt-3 flex h-full min-h-[14rem] flex-col gap-3">
+                              <div className="grid gap-3 sm:grid-cols-2">
+                                <div className="rounded-[1.1rem] bg-[rgba(22,50,41,0.06)] px-4 py-3">
+                                  <p className="text-xs uppercase tracking-[0.18em] text-[rgba(22,50,41,0.42)]">
+                                    Importées
+                                  </p>
+                                  <p className="mt-1 text-2xl font-semibold text-[#163229]">
+                                    {importResult.imported}
+                                  </p>
+                                </div>
+                                <div className="rounded-[1.1rem] bg-[rgba(185,119,63,0.1)] px-4 py-3">
+                                  <p className="text-xs uppercase tracking-[0.18em] text-[rgba(22,50,41,0.42)]">
+                                    Ignorées
+                                  </p>
+                                  <p className="mt-1 text-2xl font-semibold text-[#9e6230]">
+                                    {importResult.skipped}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="min-h-0 flex-1 overflow-auto rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf8] p-3 text-sm text-[rgba(22,50,41,0.66)]">
+                                {importResult.details.length > 0 ? (
+                                  <ul className="space-y-2">
+                                    {importResult.details.map((detail, index) => (
+                                      <li key={`${detail}-${index}`}>{detail}</li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p>Aucun avertissement sur ce dernier import.</p>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="mt-3 rounded-[1.1rem] border border-[rgba(22,50,41,0.08)] bg-[#fffdf8] px-4 py-5 text-sm text-[rgba(22,50,41,0.58)]">
+                              Colle un bloc de lignes et lance l’import pour voir ici le détail des lignes acceptées ou ignorées.
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(22,50,41,0.08)] px-4 py-3">
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium text-[rgba(22,50,41,0.62)]">
+                            {totalRows} entrées, page {currentPage} / {totalPages}
+                          </p>
+                          {tab === "users" ? (
+                            <p className="text-xs text-[rgba(22,50,41,0.48)]">
+                              Répondues, Correctes, Quiz, Objectif et Reminder envoyé correspondent à aujourd’hui.
+                            </p>
+                          ) : null}
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3">
+                          {tab === "vocabulary" || tab === "conjugations" ? (
+                            <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
+                              <span>Recherche</span>
+                              <input
+                                value={searchByTab[tab]}
+                                onChange={(event) => {
+                                  setSearchByTab((current) => ({
+                                    ...current,
+                                    [tab]: event.target.value,
+                                  }));
+                                  setPageByTab((current) => ({ ...current, [tab]: 1 }));
+                                }}
+                                placeholder="Français ou portugais"
+                                className="w-56 rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-4 py-2 text-sm text-[#163229] outline-none placeholder:text-[rgba(22,50,41,0.38)]"
+                              />
+                            </label>
+                          ) : null}
+
+                          <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
+                            <span>Par page</span>
+                            <select
+                              value={currentPageSize}
+                              onChange={(event) => setPageSize(Number(event.target.value))}
+                              className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-3 py-2 text-sm font-semibold text-[#163229] outline-none"
+                            >
+                              {PAGE_SIZE_OPTIONS.map((size) => (
+                                <option key={size} value={size}>
+                                  {size}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => setPage(currentPage - 1)}
+                              disabled={currentPage <= 1}
+                              className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              <ChevronLeft className="h-4 w-4" />
+                            </button>
+
+                            {pageItems.map((item, index) =>
+                              typeof item === "number" ? (
+                                <button
+                                  key={item}
+                                  type="button"
+                                  onClick={() => setPage(item)}
+                                  className={`flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-semibold transition ${
+                                    item === currentPage
+                                      ? "bg-[#163229] text-white"
+                                      : "border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] hover:bg-white"
+                                  }`}
+                                >
+                                  {item}
+                                </button>
+                              ) : (
+                                <span
+                                  key={`${item}-${index}`}
+                                  className="px-2 text-sm text-[rgba(22,50,41,0.4)]"
+                                >
+                                  …
+                                </span>
+                              ),
+                            )}
+
+                            <button
+                              type="button"
+                              onClick={() => setPage(currentPage + 1)}
+                              disabled={currentPage >= totalPages}
+                              className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              <ChevronRight className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="h-full max-h-[34rem] overflow-auto overscroll-contain">
+                        <table className="min-w-full text-sm">
+                          <thead className="sticky top-0 z-[2] bg-[#f1ebdf] text-left text-[rgba(22,50,41,0.66)] shadow-[0_1px_0_rgba(22,50,41,0.08)]">
+                            <tr>
+                              {currentColumns.map((column) => (
+                                <th key={column.key} className="bg-[#f1ebdf] px-4 py-3">
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleSort(column.key)}
+                                    className="inline-flex items-center gap-1 font-semibold transition hover:text-[#163229]"
+                                  >
+                                    <span>{column.label}</span>
+                                    {renderSortIcon(column.key)}
+                                  </button>
+                                </th>
+                              ))}
+                              {showRowActions ? (
+                                <th className="bg-[#f1ebdf] px-4 py-3 text-right font-semibold">
+                                  Actions
+                                </th>
+                              ) : null}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {paginatedRows.map((row, index) => {
+                                  const rowActionKey = getRowActionKey(row);
+                                  const isEditing = rowActionKey !== null && pendingEditKey === rowActionKey;
+                                  const isDeleting = rowActionKey !== null && pendingDeleteKey === rowActionKey;
+                                  const busy = rowActionKey !== null && (savingEditKey === rowActionKey || deletingDeleteKey === rowActionKey);
+
+                              return (
+                                <tr
+                                  key={`row-${tab}-${startIndex + index}`}
+                                  className="border-t border-[rgba(22,50,41,0.08)]"
+                                >
+                                  {currentColumns.map((column) => {
+                                    const editableField =
+                                      isEditing && editDraft && (column.key === "fr" || column.key === "pt")
+                                        ? (column.key as keyof EditDraft)
+                                        : null;
+                                    return (
+                                      <td key={column.key} className="px-4 py-3">
+                                        {editableField ? (
+                                          <input
+                                            value={editDraft?.[editableField] ?? ""}
+                                            onChange={(event) =>
+                                              setEditDraft((current) =>
+                                                current
+                                                  ? {
+                                                      ...current,
+                                                      [editableField]: event.target.value,
+                                                    }
+                                                  : current,
+                                              )
+                                            }
+                                            className="w-full rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-4 py-2 text-sm text-[#163229] outline-none"
+                                          />
+                                        ) : column.render ? (
+                                          column.render(row as never)
+                                        ) : (
+                                          String(column.accessor(row as never) ?? "—")
+                                        )}
+                                      </td>
+                                    );
+                                  })}
+                                  {showRowActions ? (
+                                    <td className="px-4 py-3">
+                                      {rowActionKey ? (
+                                        isDeleting ? (
+                                          <div className="flex justify-end gap-2">
+                                            <button
+                                              type="button"
+                                              onClick={() => void deletePendingRow()}
+                                              disabled={busy}
+                                              className="rounded-full bg-[#163229] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#21453a] disabled:cursor-not-allowed disabled:opacity-60"
+                                            >
+                                              Oui
+                                            </button>
+                                            <button
+                                              type="button"
+                                              onClick={() => setPendingDeleteKey(null)}
+                                              disabled={busy}
+                                              className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-3 py-1.5 text-xs font-semibold text-[#163229] transition hover:bg-[#f8f3eb] disabled:cursor-not-allowed disabled:opacity-60"
+                                            >
+                                              Non
+                                            </button>
+                                          </div>
+                                        ) : isEditing ? (
+                                          <div className="flex justify-end gap-2">
+                                            <button
+                                              type="button"
+                                              onClick={() => void saveEditedRow()}
+                                              disabled={busy}
+                                              className="rounded-full bg-[#163229] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#21453a] disabled:cursor-not-allowed disabled:opacity-60"
+                                            >
+                                              Oui
+                                            </button>
+                                            <button
+                                              type="button"
+                                              onClick={cancelEditingRow}
+                                              disabled={busy}
+                                              className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white px-3 py-1.5 text-xs font-semibold text-[#163229] transition hover:bg-[#f8f3eb] disabled:cursor-not-allowed disabled:opacity-60"
+                                            >
+                                              Non
+                                            </button>
+                                          </div>
+                                        ) : (
+                                          <div className="flex justify-end gap-2">
+                                            <button
+                                              type="button"
+                                              onClick={() =>
+                                                startEditingRow(
+                                                  row as AdminVocabularyRow | AdminConjugationRow,
+                                                  rowActionKey,
+                                                )
+                                              }
+                                              className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white text-[#163229] transition hover:bg-[#f8f3eb]"
+                                            >
+                                              <Pencil className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                setPendingEditKey(null);
+                                                setEditDraft(null);
+                                                setPendingDeleteKey(rowActionKey);
+                                              }}
+                                              className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(220,38,38,0.16)] bg-[rgba(220,38,38,0.06)] text-[#b42318] transition hover:bg-[rgba(220,38,38,0.12)]"
+                                            >
+                                              <Trash2 className="h-4 w-4" />
+                                            </button>
+                                          </div>
+                                        )
+                                      ) : null}
+                                    </td>
+                                  ) : null}
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+
+                        {paginatedRows.length === 0 ? (
+                          <div className="px-4 py-6 text-sm text-[rgba(22,50,41,0.56)]">
+                            Aucune donnée sur cette page.
+                          </div>
+                        ) : null}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             ) : (

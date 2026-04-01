@@ -21,6 +21,7 @@ import {
 import { QuizRunner } from "@/components/QuizRunner";
 import { QuizSetup } from "@/components/QuizSetup";
 import { QuizSummary } from "@/components/QuizSummary";
+import { PublicLibraryPanel } from "@/components/PublicLibraryPanel";
 import { TranslatorPanel } from "@/components/TranslatorPanel";
 import { VocabularyAdminPanel } from "@/components/VocabularyAdminPanel";
 
@@ -378,6 +379,8 @@ export function QuizStudio() {
           </p>
         </section>
       )}
+
+      <PublicLibraryPanel />
 
       <div className="grid items-start gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <TranslatorPanel />

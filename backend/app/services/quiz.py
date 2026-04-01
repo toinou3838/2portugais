@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import random
+import re
 from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
@@ -43,16 +44,42 @@ def load_hidden_item_keys(db: Session) -> set[tuple[str, str]]:
 
 def load_visible_conjugation_entries(db: Session) -> list[dict[str, str | int]]:
     hidden_keys = load_hidden_item_keys(db)
-    return [
+    bundled_entries = [
         item
         for item in load_conjugation_entries()
         if (str(item["id"]), str(item.get("source", "conjugaison"))) not in hidden_keys
+    ]
+    custom_entries = db.scalars(
+        select(VocabularyEntry)
+        .where(VocabularyEntry.source == "conjugaison")
+        .order_by(VocabularyEntry.created_at.desc(), VocabularyEntry.id.desc())
+    ).all()
+    return [
+        *bundled_entries,
+        *[
+            {
+                "id": f"conjdb-{entry.id}",
+                "fr": entry.fr,
+                "pt": entry.pt,
+                "dir": entry.dir,
+                "difficulty": entry.difficulty,
+                "source": "conjugaison",
+                "record_type": "custom",
+                "linked_entry_id": entry.id,
+                "created_at": entry.created_at.isoformat() if entry.created_at else None,
+            }
+            for entry in custom_entries
+        ],
     ]
 
 
 def load_visible_vocabulary_entries(db: Session) -> list[VocabularyEntry]:
     ensure_default_vocabulary(db)
-    return db.scalars(select(VocabularyEntry).order_by(VocabularyEntry.id)).all()
+    return db.scalars(
+        select(VocabularyEntry)
+        .where(VocabularyEntry.source == "vocab")
+        .order_by(VocabularyEntry.id)
+    ).all()
 
 
 def load_mastered_item_keys(db: Session, user_id: int) -> set[tuple[str, str]]:
@@ -79,6 +106,20 @@ def delete_vocabulary_entry_everywhere(db: Session, entry: VocabularyEntry) -> N
 
 
 def hide_conjugation_entry(db: Session, entry_id: str) -> None:
+    if entry_id.startswith("conjdb-"):
+        custom_id = int(entry_id.replace("conjdb-", ""))
+        custom_entry = db.get(VocabularyEntry, custom_id)
+        if custom_entry is not None:
+            db.execute(
+                delete(UserQuizMastery).where(
+                    UserQuizMastery.item_id == entry_id,
+                    UserQuizMastery.source == "conjugaison",
+                )
+            )
+            db.delete(custom_entry)
+            db.commit()
+        return
+
     existing = db.scalar(
         select(HiddenQuizItem).where(
             HiddenQuizItem.item_id == entry_id,
@@ -91,7 +132,9 @@ def hide_conjugation_entry(db: Session, entry_id: str) -> None:
 
 
 def ensure_default_vocabulary(db: Session) -> None:
-    existing = db.scalar(select(func.count(VocabularyEntry.id)))
+    existing = db.scalar(
+        select(func.count(VocabularyEntry.id)).where(VocabularyEntry.source == "vocab")
+    )
     if existing and existing > 0:
         return
 
@@ -107,6 +150,53 @@ def ensure_default_vocabulary(db: Session) -> None:
             )
         )
     db.commit()
+
+
+def infer_difficulty_from_text(text: str) -> int:
+    normalized = text.strip().lower()
+    words = [word for word in re.split(r"\s+", normalized) if word]
+    if any(marker in normalized for marker in ["/", "...", "?", "(", ")"]) or len(words) >= 3:
+        return 3
+    if len(words) == 1:
+        return 1
+    return 2
+
+
+def create_custom_quiz_entry(
+    db: Session,
+    *,
+    fr: str,
+    pt: str,
+    source: str,
+    difficulty: int,
+    dir: int | None = None,
+    created_by_user_id: int | None = None,
+) -> VocabularyEntry:
+    entry = VocabularyEntry(
+        fr=fr.strip().lower(),
+        pt=pt.strip().lower(),
+        dir=random.choice([0, 1]) if dir is None else dir,
+        difficulty=difficulty,
+        source=source,
+        created_by_user_id=created_by_user_id,
+    )
+    db.add(entry)
+    db.flush()
+    return entry
+
+
+def update_custom_quiz_entry(
+    db: Session,
+    entry: VocabularyEntry,
+    *,
+    fr: str,
+    pt: str,
+) -> VocabularyEntry:
+    entry.fr = fr.strip().lower()
+    entry.pt = pt.strip().lower()
+    db.add(entry)
+    db.flush()
+    return entry
 
 
 def _sample(pool: list[dict[str, str | int]], count: int) -> list[dict[str, str | int]]:
