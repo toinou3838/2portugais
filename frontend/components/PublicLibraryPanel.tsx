@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -145,6 +145,7 @@ const conjugationColumns: ColumnDefinition<AdminConjugationRow>[] = [
 ];
 
 export function PublicLibraryPanel() {
+  const tableScrollRef = useRef<HTMLDivElement | null>(null);
   const [data, setData] = useState<PublicLibrary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -226,6 +227,10 @@ export function PublicLibraryPanel() {
     setSearch("");
     setSort({ key: "difficulty", direction: "asc" });
   }, [tab]);
+
+  useEffect(() => {
+    tableScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [currentPage, tab, pageSize, sort, search]);
 
   function toggleSort(columnKey: string) {
     setSort((current) => {
@@ -388,7 +393,10 @@ export function PublicLibraryPanel() {
           </div>
         </div>
 
-        <div className="h-full max-h-[30rem] overflow-auto overscroll-contain">
+        <div
+          ref={tableScrollRef}
+          className="h-full max-h-[30rem] overflow-auto overscroll-contain"
+        >
           {loading ? (
             <div className="px-4 py-6 text-sm text-[rgba(22,50,41,0.56)]">
               Chargement de la bibliothèque…

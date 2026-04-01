@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -323,6 +323,7 @@ const conjugationColumns: ColumnDefinition<AdminConjugationRow>[] = [
 ];
 
 export function AdminPanel({ open, onClose }: AdminPanelProps) {
+  const tableScrollRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   const [code, setCode] = useState("");
   const [activeCode, setActiveCode] = useState<string | null>(null);
@@ -803,6 +804,13 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const pageItems = buildPageItems(currentPage, totalPages);
   const showRowActions = tab === "vocabulary" || tab === "conjugations";
 
+  useEffect(() => {
+    if (tab === "import") {
+      return;
+    }
+    tableScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [currentPage, currentPageSize, searchByTab, sortByTab, tab, profilePeriod]);
+
   function getRowActionKey(
     row: AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow,
   ) {
@@ -1128,7 +1136,10 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                         </div>
                       </div>
 
-                      <div className="min-h-0 flex-1 overflow-auto overscroll-contain [scrollbar-gutter:stable]">
+                      <div
+                        ref={tableScrollRef}
+                        className="min-h-0 flex-1 overflow-auto overscroll-contain [scrollbar-gutter:stable]"
+                      >
                         <table className="min-w-full text-sm">
                           <thead className="sticky top-0 z-[2] bg-[#f1ebdf] text-left text-[rgba(22,50,41,0.66)] shadow-[0_1px_0_rgba(22,50,41,0.08)]">
                             <tr>
