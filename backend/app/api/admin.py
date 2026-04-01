@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -35,9 +35,6 @@ def verify_admin_access() -> AdminVerifyOut:
 @router.get("/dashboard", response_model=AdminDashboardOut)
 def read_admin_dashboard(
     db: Annotated[Session, Depends(get_db)],
-    conjugation_limit: int = Query(default=200, ge=1, le=1000),
-    vocabulary_limit: int = Query(default=200, ge=1, le=1000),
-    user_limit: int = Query(default=200, ge=1, le=1000),
 ) -> AdminDashboardOut:
     conjugations = [
         AdminConjugationRow(
@@ -48,13 +45,17 @@ def read_admin_dashboard(
             difficulty=int(item.get("difficulty", 2)),
             source=str(item.get("source", "conjugaison")),
         )
-        for item in load_conjugation_entries()[:conjugation_limit]
+        for item in load_conjugation_entries()
     ]
+
+    user_rows = db.scalars(select(User).order_by(User.updated_at.desc(), User.id.desc())).all()
+    user_display_names = {
+        user.id: user.display_name or user.email or f"Utilisateur #{user.id}" for user in user_rows
+    }
 
     vocabulary_entries = db.scalars(
         select(VocabularyEntry)
         .order_by(VocabularyEntry.created_at.desc(), VocabularyEntry.id.desc())
-        .limit(vocabulary_limit)
     ).all()
     vocabulary = [
         AdminVocabularyRow(
@@ -65,12 +66,16 @@ def read_admin_dashboard(
             difficulty=entry.difficulty,
             source=entry.source,
             created_by_user_id=entry.created_by_user_id,
+            created_by_display_name=(
+                "Système"
+                if entry.created_by_user_id is None
+                else user_display_names.get(entry.created_by_user_id, "Utilisateur inconnu")
+            ),
             created_at=entry.created_at,
         )
         for entry in vocabulary_entries
     ]
 
-    user_rows = db.scalars(select(User).order_by(User.updated_at.desc(), User.id.desc()).limit(user_limit)).all()
     users: list[AdminUserRow] = []
     pending_reminders: list[AdminReminderRow] = []
     today = datetime.now().date()

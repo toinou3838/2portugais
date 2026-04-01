@@ -26,6 +26,7 @@ class AdminVocabularyRow(BaseModel):
     difficulty: int
     source: str
     created_by_user_id: int | None
+    created_by_display_name: str | None
     created_at: datetime
 
 
@@ -64,4 +65,3 @@ class AdminDashboardOut(BaseModel):
     vocabulary: list[AdminVocabularyRow]
     users: list[AdminUserRow]
     pending_reminders: list[AdminReminderRow]
-

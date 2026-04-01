@@ -126,6 +126,7 @@ export type AdminVocabularyRow = {
   difficulty: DifficultyLevel;
   source: string;
   created_by_user_id: number | null;
+  created_by_display_name: string | null;
   created_at: string;
 };
 

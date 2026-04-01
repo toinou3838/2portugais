@@ -1,10 +1,26 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Lock, RefreshCcw, Shield, X } from "lucide-react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  ChevronLeft,
+  ChevronRight,
+  Lock,
+  RefreshCcw,
+  Shield,
+  X,
+} from "lucide-react";
 import { createPortal } from "react-dom";
 import { apiFetch } from "@/lib/api";
-import { AdminDashboard } from "@/lib/types";
+import type {
+  AdminConjugationRow,
+  AdminDashboard,
+  AdminReminderRow,
+  AdminUserRow,
+  AdminVocabularyRow,
+} from "@/lib/types";
 
 type AdminPanelProps = {
   open: boolean;
@@ -12,6 +28,22 @@ type AdminPanelProps = {
 };
 
 type AdminTab = "reminders" | "users" | "vocabulary" | "conjugations";
+type SortDirection = "asc" | "desc";
+type SortState = {
+  key: string;
+  direction: SortDirection;
+};
+
+type ColumnDefinition<Row> = {
+  key: string;
+  label: string;
+  accessor: (row: Row) => string | number | boolean | null;
+  render?: (row: Row) => ReactNode;
+};
+
+type PaginationState = Record<AdminTab, number>;
+type PageSizeState = Record<AdminTab, number>;
+type SortStateMap = Record<AdminTab, SortState | null>;
 
 const tabLabels: Record<AdminTab, string> = {
   reminders: "Reminders",
@@ -19,6 +51,29 @@ const tabLabels: Record<AdminTab, string> = {
   vocabulary: "Vocabulaire",
   conjugations: "Conjugaison",
 };
+
+const INITIAL_PAGES: PaginationState = {
+  reminders: 1,
+  users: 1,
+  vocabulary: 1,
+  conjugations: 1,
+};
+
+const INITIAL_PAGE_SIZES: PageSizeState = {
+  reminders: 20,
+  users: 20,
+  vocabulary: 20,
+  conjugations: 20,
+};
+
+const INITIAL_SORTS: SortStateMap = {
+  reminders: { key: "remaining_questions", direction: "asc" },
+  users: null,
+  vocabulary: { key: "created_at", direction: "desc" },
+  conjugations: null,
+};
+
+const PAGE_SIZE_OPTIONS = [20, 50, 100];
 
 function shuffleDigits(): string[] {
   const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -40,6 +95,176 @@ function formatDate(value: string | null) {
   return new Date(value).toLocaleString();
 }
 
+function parseDate(value: string | null) {
+  if (!value) {
+    return null;
+  }
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+function compareValues(
+  left: string | number | boolean | null,
+  right: string | number | boolean | null,
+) {
+  const leftMissing = left === null || left === undefined || left === "";
+  const rightMissing = right === null || right === undefined || right === "";
+
+  if (leftMissing && rightMissing) {
+    return 0;
+  }
+  if (leftMissing) {
+    return 1;
+  }
+  if (rightMissing) {
+    return -1;
+  }
+
+  if (typeof left === "string" && typeof right === "string") {
+    return left.localeCompare(right, "fr", { numeric: true, sensitivity: "base" });
+  }
+
+  if (typeof left === "boolean" && typeof right === "boolean") {
+    return Number(left) - Number(right);
+  }
+
+  if (left < right) {
+    return -1;
+  }
+  if (left > right) {
+    return 1;
+  }
+  return 0;
+}
+
+function buildPageItems(currentPage: number, totalPages: number): Array<number | string> {
+  if (totalPages <= 5) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages: Array<number | string> = [1];
+  const start = Math.max(2, currentPage - 1);
+  const end = Math.min(totalPages - 1, currentPage + 1);
+
+  if (start > 2) {
+    pages.push("start-ellipsis");
+  }
+
+  for (let page = start; page <= end; page += 1) {
+    pages.push(page);
+  }
+
+  if (end < totalPages - 1) {
+    pages.push("end-ellipsis");
+  }
+
+  pages.push(totalPages);
+  return pages;
+}
+
+const reminderColumns: ColumnDefinition<AdminReminderRow>[] = [
+  { key: "email", label: "Email", accessor: (row) => row.email },
+  {
+    key: "display_name",
+    label: "Nom",
+    accessor: (row) => row.display_name ?? "",
+    render: (row) => row.display_name ?? "—",
+  },
+  { key: "current_streak", label: "Streak", accessor: (row) => row.current_streak },
+  { key: "answered_questions", label: "Répondues", accessor: (row) => row.answered_questions },
+  { key: "remaining_questions", label: "Restantes", accessor: (row) => row.remaining_questions },
+  { key: "day", label: "Jour", accessor: (row) => row.day },
+];
+
+const userColumns: ColumnDefinition<AdminUserRow>[] = [
+  { key: "email", label: "Email", accessor: (row) => row.email },
+  {
+    key: "display_name",
+    label: "Nom",
+    accessor: (row) => row.display_name ?? "",
+    render: (row) => row.display_name ?? "—",
+  },
+  {
+    key: "reminder_opt_in",
+    label: "Rappels",
+    accessor: (row) => row.reminder_opt_in,
+    render: (row) => (row.reminder_opt_in ? "Oui" : "Non"),
+  },
+  { key: "current_streak", label: "Streak", accessor: (row) => row.current_streak },
+  {
+    key: "today_answered_questions",
+    label: "Répondues",
+    accessor: (row) => row.today_answered_questions,
+  },
+  {
+    key: "today_correct_answers",
+    label: "Correctes",
+    accessor: (row) => row.today_correct_answers,
+  },
+  {
+    key: "today_quizzes_completed",
+    label: "Quiz",
+    accessor: (row) => row.today_quizzes_completed,
+  },
+  {
+    key: "today_goal_reached",
+    label: "Objectif",
+    accessor: (row) => row.today_goal_reached,
+    render: (row) => (row.today_goal_reached ? "Atteint" : "En cours"),
+  },
+  {
+    key: "today_reminder_sent_at",
+    label: "Reminder envoyé",
+    accessor: (row) => parseDate(row.today_reminder_sent_at),
+    render: (row) => formatDate(row.today_reminder_sent_at),
+  },
+];
+
+const vocabularyColumns: ColumnDefinition<AdminVocabularyRow>[] = [
+  { key: "id", label: "ID", accessor: (row) => row.id },
+  { key: "fr", label: "Français", accessor: (row) => row.fr },
+  { key: "pt", label: "Portugais", accessor: (row) => row.pt },
+  {
+    key: "dir",
+    label: "Direction",
+    accessor: (row) => formatDirection(row.dir),
+    render: (row) => formatDirection(row.dir),
+  },
+  { key: "difficulty", label: "Difficulté", accessor: (row) => row.difficulty },
+  {
+    key: "created_by_display_name",
+    label: "Créé par",
+    accessor: (row) => row.created_by_display_name ?? "",
+    render: (row) => row.created_by_display_name ?? "—",
+  },
+  {
+    key: "created_at",
+    label: "Créé le",
+    accessor: (row) => parseDate(row.created_at),
+    render: (row) => formatDate(row.created_at),
+  },
+];
+
+const conjugationColumns: ColumnDefinition<AdminConjugationRow>[] = [
+  {
+    key: "id",
+    label: "ID",
+    accessor: (row) => {
+      const numeric = Number(row.id);
+      return Number.isNaN(numeric) ? row.id : numeric;
+    },
+  },
+  { key: "fr", label: "Français", accessor: (row) => row.fr },
+  { key: "pt", label: "Portugais", accessor: (row) => row.pt },
+  {
+    key: "dir",
+    label: "Direction",
+    accessor: (row) => formatDirection(row.dir),
+    render: (row) => formatDirection(row.dir),
+  },
+  { key: "difficulty", label: "Difficulté", accessor: (row) => row.difficulty },
+];
+
 export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const [mounted, setMounted] = useState(false);
   const [code, setCode] = useState("");
@@ -49,6 +274,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<AdminTab>("reminders");
   const [shuffledDigits, setShuffledDigits] = useState<string[]>(() => shuffleDigits());
+  const [pageByTab, setPageByTab] = useState<PaginationState>(INITIAL_PAGES);
+  const [pageSizeByTab, setPageSizeByTab] = useState<PageSizeState>(INITIAL_PAGE_SIZES);
+  const [sortByTab, setSortByTab] = useState<SortStateMap>(INITIAL_SORTS);
 
   const unlocked = dashboard !== null && activeCode !== null;
 
@@ -66,6 +294,9 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setError(null);
     setTab("reminders");
     setShuffledDigits(shuffleDigits());
+    setPageByTab(INITIAL_PAGES);
+    setPageSizeByTab(INITIAL_PAGE_SIZES);
+    setSortByTab(INITIAL_SORTS);
   }, [open]);
 
   useEffect(() => {
@@ -165,6 +396,8 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       setActiveCode(nextCode);
       setCode("");
       setTab("reminders");
+      setPageByTab(INITIAL_PAGES);
+      setSortByTab(INITIAL_SORTS);
     } catch (requestError) {
       setDashboard(null);
       setActiveCode(null);
@@ -210,6 +443,8 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
     setError(null);
     setTab("reminders");
     setShuffledDigits(shuffleDigits());
+    setPageByTab(INITIAL_PAGES);
+    setSortByTab(INITIAL_SORTS);
   }
 
   function closePanel() {
@@ -222,6 +457,114 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
       return;
     }
     await loadDashboard(activeCode);
+  }
+
+  function toggleSort(columnKey: string) {
+    setSortByTab((current) => {
+      const previous = current[tab];
+      let next: SortState | null;
+      if (!previous || previous.key !== columnKey) {
+        next = { key: columnKey, direction: "asc" };
+      } else if (previous.direction === "asc") {
+        next = { key: columnKey, direction: "desc" };
+      } else {
+        next = null;
+      }
+      return { ...current, [tab]: next };
+    });
+    setPageByTab((current) => ({ ...current, [tab]: 1 }));
+  }
+
+  function setPage(page: number) {
+    setPageByTab((current) => ({ ...current, [tab]: Math.max(1, page) }));
+  }
+
+  function setPageSize(nextValue: number) {
+    setPageSizeByTab((current) => ({ ...current, [tab]: nextValue }));
+    setPageByTab((current) => ({ ...current, [tab]: 1 }));
+  }
+
+  const currentColumns = useMemo(() => {
+    switch (tab) {
+      case "reminders":
+        return reminderColumns as ColumnDefinition<
+          AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
+        >[];
+      case "users":
+        return userColumns as ColumnDefinition<
+          AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
+        >[];
+      case "vocabulary":
+        return vocabularyColumns as ColumnDefinition<
+          AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
+        >[];
+      case "conjugations":
+        return conjugationColumns as ColumnDefinition<
+          AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
+        >[];
+      default:
+        return [];
+    }
+  }, [tab]);
+
+  const currentRows = useMemo(() => {
+    if (!dashboard) {
+      return [] as Array<
+        AdminReminderRow | AdminUserRow | AdminVocabularyRow | AdminConjugationRow
+      >;
+    }
+
+    switch (tab) {
+      case "reminders":
+        return dashboard.pending_reminders;
+      case "users":
+        return dashboard.users;
+      case "vocabulary":
+        return dashboard.vocabulary;
+      case "conjugations":
+        return dashboard.conjugations;
+      default:
+        return [];
+    }
+  }, [dashboard, tab]);
+
+  const sortedRows = useMemo(() => {
+    const rows = [...currentRows];
+    const sort = sortByTab[tab];
+    if (!sort) {
+      return rows;
+    }
+
+    const column = currentColumns.find((item) => item.key === sort.key);
+    if (!column) {
+      return rows;
+    }
+
+    rows.sort((left, right) => {
+      const comparison = compareValues(column.accessor(left), column.accessor(right));
+      return sort.direction === "asc" ? comparison : -comparison;
+    });
+    return rows;
+  }, [currentColumns, currentRows, sortByTab, tab]);
+
+  const totalRows = sortedRows.length;
+  const currentPageSize = pageSizeByTab[tab];
+  const totalPages = Math.max(1, Math.ceil(totalRows / currentPageSize));
+  const currentPage = Math.min(pageByTab[tab], totalPages);
+  const startIndex = (currentPage - 1) * currentPageSize;
+  const endIndex = startIndex + currentPageSize;
+  const paginatedRows = sortedRows.slice(startIndex, endIndex);
+  const pageItems = buildPageItems(currentPage, totalPages);
+
+  function renderSortIcon(columnKey: string) {
+    const sort = sortByTab[tab];
+    if (!sort || sort.key !== columnKey) {
+      return <ArrowUpDown className="h-3.5 w-3.5 opacity-35" />;
+    }
+    if (sort.direction === "asc") {
+      return <ArrowUp className="h-3.5 w-3.5" />;
+    }
+    return <ArrowDown className="h-3.5 w-3.5" />;
   }
 
   if (!open || !mounted) {
@@ -316,134 +659,113 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                 </div>
 
                 <div className="glass-panel shell-border min-h-0 flex-1 overflow-hidden rounded-[1.8rem] shadow-soft">
-                  {tab === "reminders" ? (
-                    <div className="h-full max-h-[32rem] overflow-auto">
-                      <table className="min-w-full text-sm">
-                        <thead className="sticky top-0 bg-[rgba(22,50,41,0.06)] text-left text-[rgba(22,50,41,0.66)]">
-                          <tr>
-                            <th className="px-4 py-3">Email</th>
-                            <th className="px-4 py-3">Nom</th>
-                            <th className="px-4 py-3">Streak</th>
-                            <th className="px-4 py-3">Répondues</th>
-                            <th className="px-4 py-3">Restantes</th>
-                            <th className="px-4 py-3">Jour</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dashboard.pending_reminders.map((row) => (
-                            <tr key={row.id} className="border-t border-[rgba(22,50,41,0.08)]">
-                              <td className="px-4 py-3">{row.email}</td>
-                              <td className="px-4 py-3">{row.display_name ?? "—"}</td>
-                              <td className="px-4 py-3">{row.current_streak}</td>
-                              <td className="px-4 py-3">{row.answered_questions}</td>
-                              <td className="px-4 py-3">{row.remaining_questions}</td>
-                              <td className="px-4 py-3">{row.day}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                      {dashboard.pending_reminders.length === 0 ? (
-                        <div className="px-4 py-6 text-sm text-[rgba(22,50,41,0.56)]">
-                          Aucun utilisateur en attente de reminder.
-                        </div>
-                      ) : null}
-                    </div>
-                  ) : null}
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(22,50,41,0.08)] px-4 py-3">
+                    <p className="text-sm font-medium text-[rgba(22,50,41,0.62)]">
+                      {totalRows} entrées, page {currentPage} / {totalPages}
+                    </p>
 
-                  {tab === "users" ? (
-                    <div className="h-full max-h-[32rem] overflow-auto">
-                      <table className="min-w-full text-sm">
-                        <thead className="sticky top-0 bg-[rgba(22,50,41,0.06)] text-left text-[rgba(22,50,41,0.66)]">
-                          <tr>
-                            <th className="px-4 py-3">Email</th>
-                            <th className="px-4 py-3">Nom</th>
-                            <th className="px-4 py-3">Rappels</th>
-                            <th className="px-4 py-3">Streak</th>
-                            <th className="px-4 py-3">Répondues</th>
-                            <th className="px-4 py-3">Correctes</th>
-                            <th className="px-4 py-3">Quiz</th>
-                            <th className="px-4 py-3">Objectif</th>
-                            <th className="px-4 py-3">Reminder envoyé</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dashboard.users.map((row) => (
-                            <tr key={row.id} className="border-t border-[rgba(22,50,41,0.08)]">
-                              <td className="px-4 py-3">{row.email}</td>
-                              <td className="px-4 py-3">{row.display_name ?? "—"}</td>
-                              <td className="px-4 py-3">{row.reminder_opt_in ? "Oui" : "Non"}</td>
-                              <td className="px-4 py-3">{row.current_streak}</td>
-                              <td className="px-4 py-3">{row.today_answered_questions}</td>
-                              <td className="px-4 py-3">{row.today_correct_answers}</td>
-                              <td className="px-4 py-3">{row.today_quizzes_completed}</td>
-                              <td className="px-4 py-3">
-                                {row.today_goal_reached ? "Atteint" : "En cours"}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <label className="flex items-center gap-2 text-sm text-[rgba(22,50,41,0.62)]">
+                        <span>Par page</span>
+                        <select
+                          value={currentPageSize}
+                          onChange={(event) => setPageSize(Number(event.target.value))}
+                          className="rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 px-3 py-2 text-sm font-semibold text-[#163229] outline-none"
+                        >
+                          {PAGE_SIZE_OPTIONS.map((size) => (
+                            <option key={size} value={size}>
+                              {size}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setPage(currentPage - 1)}
+                          disabled={currentPage <= 1}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </button>
+
+                        {pageItems.map((item, index) =>
+                          typeof item === "number" ? (
+                            <button
+                              key={item}
+                              type="button"
+                              onClick={() => setPage(item)}
+                              className={`flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-semibold transition ${
+                                item === currentPage
+                                  ? "bg-[#163229] text-white"
+                                  : "border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] hover:bg-white"
+                              }`}
+                            >
+                              {item}
+                            </button>
+                          ) : (
+                            <span
+                              key={`${item}-${index}`}
+                              className="px-2 text-sm text-[rgba(22,50,41,0.4)]"
+                            >
+                              …
+                            </span>
+                          ),
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => setPage(currentPage + 1)}
+                          disabled={currentPage >= totalPages}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(22,50,41,0.12)] bg-white/88 text-[#163229] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="h-full max-h-[32rem] overflow-auto">
+                    <table className="min-w-full text-sm">
+                      <thead className="sticky top-0 z-[1] bg-[rgba(22,50,41,0.06)] text-left text-[rgba(22,50,41,0.66)]">
+                        <tr>
+                          {currentColumns.map((column) => (
+                            <th key={column.key} className="px-4 py-3">
+                              <button
+                                type="button"
+                                onClick={() => toggleSort(column.key)}
+                                className="inline-flex items-center gap-1 font-semibold transition hover:text-[#163229]"
+                              >
+                                <span>{column.label}</span>
+                                {renderSortIcon(column.key)}
+                              </button>
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {paginatedRows.map((row, index) => (
+                          <tr
+                            key={`row-${tab}-${startIndex + index}`}
+                            className="border-t border-[rgba(22,50,41,0.08)]"
+                          >
+                            {currentColumns.map((column) => (
+                              <td key={column.key} className="px-4 py-3">
+                                {column.render ? column.render(row as never) : String(column.accessor(row as never) ?? "—")}
                               </td>
-                              <td className="px-4 py-3">{formatDate(row.today_reminder_sent_at)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : null}
-
-                  {tab === "vocabulary" ? (
-                    <div className="h-full max-h-[32rem] overflow-auto">
-                      <table className="min-w-full text-sm">
-                        <thead className="sticky top-0 bg-[rgba(22,50,41,0.06)] text-left text-[rgba(22,50,41,0.66)]">
-                          <tr>
-                            <th className="px-4 py-3">ID</th>
-                            <th className="px-4 py-3">Français</th>
-                            <th className="px-4 py-3">Portugais</th>
-                            <th className="px-4 py-3">Direction</th>
-                            <th className="px-4 py-3">Difficulté</th>
-                            <th className="px-4 py-3">Créé par</th>
-                            <th className="px-4 py-3">Créé le</th>
+                            ))}
                           </tr>
-                        </thead>
-                        <tbody>
-                          {dashboard.vocabulary.map((row) => (
-                            <tr key={row.id} className="border-t border-[rgba(22,50,41,0.08)]">
-                              <td className="px-4 py-3">{row.id}</td>
-                              <td className="px-4 py-3">{row.fr}</td>
-                              <td className="px-4 py-3">{row.pt}</td>
-                              <td className="px-4 py-3">{formatDirection(row.dir)}</td>
-                              <td className="px-4 py-3">{row.difficulty}</td>
-                              <td className="px-4 py-3">{row.created_by_user_id ?? "—"}</td>
-                              <td className="px-4 py-3">{formatDate(row.created_at)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : null}
+                        ))}
+                      </tbody>
+                    </table>
 
-                  {tab === "conjugations" ? (
-                    <div className="h-full max-h-[32rem] overflow-auto">
-                      <table className="min-w-full text-sm">
-                        <thead className="sticky top-0 bg-[rgba(22,50,41,0.06)] text-left text-[rgba(22,50,41,0.66)]">
-                          <tr>
-                            <th className="px-4 py-3">ID</th>
-                            <th className="px-4 py-3">Français</th>
-                            <th className="px-4 py-3">Portugais</th>
-                            <th className="px-4 py-3">Direction</th>
-                            <th className="px-4 py-3">Difficulté</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dashboard.conjugations.map((row) => (
-                            <tr key={row.id} className="border-t border-[rgba(22,50,41,0.08)]">
-                              <td className="px-4 py-3">{row.id}</td>
-                              <td className="px-4 py-3">{row.fr}</td>
-                              <td className="px-4 py-3">{row.pt}</td>
-                              <td className="px-4 py-3">{formatDirection(row.dir)}</td>
-                              <td className="px-4 py-3">{row.difficulty}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : null}
+                    {paginatedRows.length === 0 ? (
+                      <div className="px-4 py-6 text-sm text-[rgba(22,50,41,0.56)]">
+                        Aucune donnée sur cette page.
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             ) : (
