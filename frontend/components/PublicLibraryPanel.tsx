@@ -252,8 +252,8 @@ export function PublicLibraryPanel() {
 
   return (
     <section className="glass-panel shell-border rounded-[2rem] p-6 shadow-soft">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div className="min-w-0 flex-1">
           <p className="text-sm uppercase tracking-[0.22em] text-[rgba(22,50,41,0.48)]">
             Bibliothèque ouverte
           </p>
@@ -268,7 +268,7 @@ export function PublicLibraryPanel() {
           ) : null}
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex shrink-0 flex-wrap items-center gap-3 xl:justify-end xl:self-start">
           <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(22,50,41,0.08)] bg-white/85 px-4 py-2 text-sm font-medium text-[rgba(22,50,41,0.66)]">
             <BookOpen className="h-4 w-4 text-[#163229]" />
             Accès libre au vocabulaire et à la conjugaison

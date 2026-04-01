@@ -1005,7 +1005,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                       </div>
                     </div>
                   ) : (
-                    <>
+                    <div className="flex h-full min-h-0 flex-col">
                       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(22,50,41,0.08)] px-4 py-3">
                         <div className="space-y-1">
                           <p className="text-sm font-medium text-[rgba(22,50,41,0.62)]">
@@ -1128,7 +1128,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                         </div>
                       </div>
 
-                      <div className="h-full max-h-[34rem] overflow-auto overscroll-contain">
+                      <div className="min-h-0 flex-1 overflow-auto overscroll-contain [scrollbar-gutter:stable]">
                         <table className="min-w-full text-sm">
                           <thead className="sticky top-0 z-[2] bg-[#f1ebdf] text-left text-[rgba(22,50,41,0.66)] shadow-[0_1px_0_rgba(22,50,41,0.08)]">
                             <tr>
@@ -1276,7 +1276,7 @@ export function AdminPanel({ open, onClose }: AdminPanelProps) {
                           </div>
                         ) : null}
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
